@@ -255,7 +255,9 @@ result.to_sql('eonet_nasa_api', engine, if_exists='replace', index=False)
  
 Переходим в директорию
 `cd superset`
- 
+
+![image](https://github.com/user-attachments/assets/d931b628-bcb0-4731-b12e-8e542936ef1a)
+
 Переключаемся на ветку релиза 2.1.0
 `git checkout 2.1.0`
  
@@ -263,6 +265,8 @@ result.to_sql('eonet_nasa_api', engine, if_exists='replace', index=False)
 `git status`
 
 Вводим команду чтобы открылся vscode `code .`
+
+![image](https://github.com/user-attachments/assets/9fa38c3b-2d07-4c4c-bc5d-b8253353fb5f)
 
 Открываем в vscode файл `docker-compose-non-dev.yml` меняем версию образа, который нужно использовать при развертывании. Делается это в 17 строке, вместо  `x-superset-image: &superset-image apache/superset:${TAG:-latest-dev}` пишем `x-superset-image: &superset-image apache/superset:2.1.0`
 
