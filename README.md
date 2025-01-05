@@ -1,4 +1,12 @@
-# Data-Engineer
+# Data-Engineer(ETL project)
+
+Инструкция по настройке Postgresql, Clickhouse, Superset. 
+
+А так же пример извлечения данных из открытого API NASA в виде JSON.
+
+Преобразовании этих данных в pandas dataframe и загрузке данных в БД postgre.
+
+После чего можно сделать визуализацию в superset с необходиммыми показателями.
 
 **Запуск и настройка Postgresql и Clickhouse**
 
