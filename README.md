@@ -1,4 +1,4 @@
-# Data-Engineer(ETL project)
+# Data-Engineer (ETL project)
 
 Инструкция по настройке Postgresql, Clickhouse, Superset. 
 
