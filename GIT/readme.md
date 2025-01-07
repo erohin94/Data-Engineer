@@ -37,6 +37,30 @@ The key's randomart image is:
    +----[SHA256]-----+
 ```
 
+Дальше нам нужно открыть файл, где создался этот ключ (просто шифр из многобукв). Username у вас свой!
+
+Переходим в папку с ключом: ```cd .ssh```
+
+Проверяем содержимое папки: ```dir```. Находим публичный ключ, копируем его название и открываем.
+
+```type id_ed28871.pub```
+
+Копируем ключ:
+
+```ssh-ed28871 AAAAC3ЬzaC1lZDI1NTslvlsfvdvl9951891vfvskns.s+z5HFG erohi@LAPTOP-4CD9HV6A```
+
+Заходим в настройки SSH and GPG keys. Нажимаем New SSH key.
+
+![image](https://github.com/user-attachments/assets/d3c38a86-ca74-44c4-827f-7afa85b1d855)
+
+Вставляем скопированный ключ.
+
+![image](https://github.com/user-attachments/assets/5281c965-a78d-410c-8b09-3d61a4afbcce)
+
+Теперь можно скачивать и загружать на git
+
+![sds](https://github.com/user-attachments/assets/1ddce372-0d53-41ee-9226-db0444354c7f)
+
 
 Чтобы добавить файлы или папки в репозиторий на GitHub, выполнить следующие шаги:
 
