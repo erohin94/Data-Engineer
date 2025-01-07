@@ -1,6 +1,44 @@
 # Команды GIT
 
-Репозиторий - в простонародье это просто папка
+**Github** - это обычный сайт, куда можно загрузить cвой код или скачать его оттуда. 
+
+**Репозиторий** - в простонародье это просто папка.
+
+Сначала подключимся к Github чтобы постоянно не вводить логин и пароль. Для этого нам нужно создать ключ (ссылку), который свяжет наш компьютер с Github. 
+
+Заходим в terminal или командную строку. Пишем:
+
+```ssh-keygen```
+
+Нажимаем везде Enter. В Overwrite (y/n)? нажать y, так как у меня уже был ключ, поэтому чтобы пересоздать нажимаем y.
+
+```C:\Users\erohi>ssh-keygen
+Generating public/private ed25519 key pair.
+Enter file in which to save the key (C:\Users\erohi/.ssh/id_ed25519):
+C:\Users\erohi/.ssh/id_ed25519 already exists.
+Overwrite (y/n)? y
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in C:\Users\erohi/.ssh/id_ed25519
+Your public key has been saved in C:\Users\erohi/.ssh/id_ed25519.pub
+The key fingerprint is:
+SHA256:PjS/4ivgfjMW/PMYkzvafhjjhxOoAU3FWjhhjleAvzftktczcTKMTIERFN9805 erohi@LAPTOP-4CD5HV7A
+The key's randomart image is:
++--[ED25519 256]--+
+|   ...ooooo         |
+|    .+ .        |
+|  . o  o . .   |
+|   o . ofd = . E  |
+|    o  .Sdf+ . .   |
+|   o+. =.+o o .  |
+|  .. == Bdfd .oooo . . |
+|    ..+=.= .. +  |
+|     oo=Bodoof.  . oo |
++----[SHA256]-----+```
+
+
+
+
 
 Чтобы добавить файлы или папки в репозиторий на GitHub, выполнить следующие шаги:
 
