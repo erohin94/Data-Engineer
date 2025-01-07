@@ -24,20 +24,18 @@ Your public key has been saved in C:\Users\erohi/.ssh/id_ed25519.pub
 The key fingerprint is:
 SHA256:PjS/4ivgfjMW/PMYkzvafhjjhxOoAU3FWjhhjleAvzftktczcTKMTIERFN9805 erohi@LAPTOP-4CD5HV7A
 The key's randomart image is:
-+--[ED25519 256]--+
-|   ...ooooo         |
-|    .+ .        |
-|  . o  o . .   |
-|   o . ofd = . E  |
-|    o  .Sdf+ . .   |
-|   o+. =.+o o .  |
-|  .. == Bdfd .oooo . . |
-|    ..+=.= .. +  |
+   +--[ED25519 256]--+
+|   ...ooooo           |
+|    .+ .              |
+|  . o  o . .          |
+|   o . ofd = . E      |
+|    o  .Sdf+ . .      |
+|   o+. =.+o o .       |
+|  .. == Bdfd .oooo . .|
+|    ..+=.= .. +       |
 |     oo=Bodoof.  . oo |
-+----[SHA256]-----+```
-
-
-
+   +----[SHA256]-----+
+```
 
 
 Чтобы добавить файлы или папки в репозиторий на GitHub, выполнить следующие шаги:
