@@ -18,7 +18,7 @@
 
 **2. Создание переменных с использованием API:** 
 
-Также можно использовать API для программного создания переменных. [Вот пример](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/Variables%2C%20Connections%2C%20and%20XCom/main.py) использования API Python для создания переменной.
+Также можно использовать API для программного создания переменных. [Вот пример](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/Variables%2C%20Connections%2C%20and%20XCom/main_variables.py) использования API Python для создания переменной.
 
 В моем конфиге airflow указано ```AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'``` это значит что используется несколько методов аутентификации, а именно:
 
