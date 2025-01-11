@@ -68,5 +68,11 @@ DAG должен быть доступен при импорте модуля/п
 
 ![image](https://github.com/user-attachments/assets/d906ae43-109f-4eca-9701-d2ea495a8984)
 
+**Про start_date и execution_date**
 
+В Apache Airflow есть 2 ключевые даты, которые нужно понимать.
+
+*Start Date* ```start_date```
+
+*Execution Date* ```execution_date```
 
