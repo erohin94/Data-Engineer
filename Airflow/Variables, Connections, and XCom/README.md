@@ -34,7 +34,7 @@
 
 ![image](https://github.com/user-attachments/assets/18942d4b-b3d8-45fc-9b17-96d467ced70c)
 
-И если перейти через браузер по [адресу](http://127.0.0.1:8080/api/v1/variables)
+И если перейти через браузер по адресу http://127.0.0.1:8080/api/v1/variables.
 
 ![image](https://github.com/user-attachments/assets/30211898-cad8-40c2-afff-bf0ade86a165)
 
