@@ -1,16 +1,16 @@
 # **Основные компоненты пользовательского интерфейса**
 
-В адресной строке браузере введите http://127.0.0.1:8080.
+В адресной строке браузере ввеcти http://127.0.0.1:8080.
 
 ![image](https://github.com/user-attachments/assets/8de383d3-e46a-4a6b-bfe9-260711923061)
 
+Пользователь airflow/пароль airflow.
 
-В предыдущем разделе мы создали пользователя airflow с паролем airflow. Необходимо войти в систему под этими данными.
+![image](https://github.com/user-attachments/assets/f0cbdb49-04e0-44a4-bc77-9e828d818922)
 
+Красной рамкой выделено сообщение от Airflow, что ещё не запущен Планировщик.
 
-Красной рамкой я выделил сообщение от Airflow, что ещё не запущен Планировщик. Что это за компонент я расскажу далее по тексту.
-
-The scheduler does not appear to be running. The DAGs list may not update, and new tasks will not be scheduled.
+```The scheduler does not appear to be running. The DAGs list may not update, and new tasks will not be scheduled.```
 
 На главном экране синей рамкой я выделил список примеров, которые Airflow грузит в панель по умолчанию. Чтобы отключить их загрузку необходимо в airflow.cfg поменять параметр:
 
