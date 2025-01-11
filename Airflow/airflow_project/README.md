@@ -39,3 +39,10 @@ DAG должен быть доступен при импорте модуля/п
 ![image](https://github.com/user-attachments/assets/cbfae9e5-1e38-46d5-a04a-2a2e61366d8a)
 
 Так же можно проверить через: Логи контейнера, Веб-интерфейс Airflow и тд.
+
+Если всё прошло без ошибок, то в панели управления должны увидеть свой первый DAG:
+
+![image](https://github.com/user-attachments/assets/23cb4e40-9cae-4494-90ea-cc68da4f8aa1)
+
+
+
