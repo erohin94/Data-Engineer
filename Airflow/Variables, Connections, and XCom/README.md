@@ -38,3 +38,18 @@
 
 ![image](https://github.com/user-attachments/assets/30211898-cad8-40c2-afff-bf0ade86a165)
 
+В этом примере мы отправляем POST-запрос на URL /api/v1/variables с указанием имени переменной (Key) и ее значения (Value) в формате JSON. Если ответ имеет код состояния 200, значит переменная была успешно создана.
+
+Когда переменная создана, вы можете использовать ее в коде ваших задач с помощью объекта Variable модуля airflow.models. Вот пример использования переменной в коде - в этом примере мы получаем значение переменной с помощью Variable.get() и выводим его в задаче с помощью функции my_task().:
+
+```from airflow import DAG
+from airflow.operators.python_operator import PythonOperator
+from airflow.models import Variable
+from datetime import datetime
+
+def my_task():
+    my_variable = Variable.get("my_variable")
+    print(my_variable)
+
+with DAG('my_dag', schedule_interval='@daily', start_date=datetime(2024, 1, 1)) as dag:
+    task = PythonOperator(task_id='my_task', python_callable=my_task)```
