@@ -44,5 +44,10 @@ DAG должен быть доступен при импорте модуля/п
 
 ![image](https://github.com/user-attachments/assets/23cb4e40-9cae-4494-90ea-cc68da4f8aa1)
 
+**Запуск DAG**
 
+Мы указали:
+
+```schedule_interval = daily
+   start_date = 2021-01-20```
 
