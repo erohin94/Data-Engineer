@@ -76,3 +76,8 @@ DAG должен быть доступен при импорте модуля/п
 
 *Execution Date* ```execution_date```
 
+*Start Date* это дата начала от которой следует начинать запускать DAG согласно расписания schedule_interval.
+
+*Execution Date* это дата выполнения конкретного запуска. В примере выше у меня было 18 запусков. 18 запусков, а значит 18 execution_date, а именно:
+
+Execution date можно получить, обратившись к контексту выполнения. Контекст можно получить, вызвав функцию ```get_current_context```. Для примера работы с ```execution_date``` я создал новый [https://github.com/erohin94/Data-Engineer/blob/main/Airflow/airflow_project/dags/first_dag_execution_date.py](DAG) по аналогии с предыдущим, но немного модифицировал код оператора:
