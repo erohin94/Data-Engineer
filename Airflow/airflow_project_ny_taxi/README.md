@@ -116,3 +116,18 @@
 
 ![image](https://github.com/user-attachments/assets/a450783e-a9bd-4e85-8ab8-89419ea4f829)
 
+**Тест**
+
+Попробуем загрузить что нибудь.
+
+Создаем бакет
+
+![image](https://github.com/user-attachments/assets/e3a7459e-d8a6-4d0f-8599-95ca3adc4fb2)
+
+![image](https://github.com/user-attachments/assets/3491654a-350d-4eab-aaed-62db82fc3f6d)
+
+![image](https://github.com/user-attachments/assets/8ee7028c-b61b-48b0-b335-e404d4cff3d2)
+
+Бакета сделаем два, один для сырых данных, второй для данных в формате parquet
+
+
