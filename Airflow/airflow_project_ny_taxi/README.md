@@ -144,7 +144,7 @@
 
 ![image](https://github.com/user-attachments/assets/fa9cced5-6f32-4f66-b9cf-d3f1b111e86c)
 
-Убедимся что все работает и загружено.
+Убедимся что все работает и загружено. Открываем новый терминал.
 
 Переходим в директорию
 
@@ -153,4 +153,12 @@
 Вводим команды и видим 
 
 ![image](https://github.com/user-attachments/assets/30d4968d-1f81-4d88-b6dd-b9643d31d67e)
+
+Теперь проделываем шаги чтобы указать данные для доступа к этому файловому хранилищу.
+
+Для этого переходим в уже запущенный Airflow -> Admin -> Connections нажимаем на плюсик (+ Add a new record)
+
+Вводим параметры
+
+![image](https://github.com/user-attachments/assets/d0fcd82e-30b5-4209-ac28-70538f64af86)
 
