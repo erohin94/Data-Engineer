@@ -53,6 +53,7 @@ def my_task():
 
 with DAG('my_dag', schedule_interval='@daily', start_date=datetime(2024, 1, 1)) as dag:
     task = PythonOperator(task_id='my_task', python_callable=my_task)```
+```
 
 # Подключения
 
