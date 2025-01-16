@@ -140,9 +140,17 @@
 
 ![image](https://github.com/user-attachments/assets/84aa32d8-083c-40b9-8338-868249af9dd6)
 
-И загружаем лого
+И загружаем лого Airflow
 
 ![image](https://github.com/user-attachments/assets/fa9cced5-6f32-4f66-b9cf-d3f1b111e86c)
 
+Убедимся что все работает и загружено.
 
+Переходим в директорию
+
+![image](https://github.com/user-attachments/assets/95173b47-948b-4392-b41f-349b2bcb681a)
+
+Вводим команды и видим 
+
+![image](https://github.com/user-attachments/assets/30d4968d-1f81-4d88-b6dd-b9643d31d67e)
 
