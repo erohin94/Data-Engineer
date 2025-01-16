@@ -126,8 +126,23 @@
 
 ![image](https://github.com/user-attachments/assets/3491654a-350d-4eab-aaed-62db82fc3f6d)
 
-![image](https://github.com/user-attachments/assets/8ee7028c-b61b-48b0-b335-e404d4cff3d2)
+![image](https://github.com/user-attachments/assets/e4639fa8-552c-4b65-8c06-424cbdf741d3)
 
-Бакета сделаем два, один для сырых данных, второй для данных в формате parquet
+Бакета сделали два, один для сырых данных, второй для данных в формате parquet.
+
+И тестовый для проверки работоспособности
+
+![image](https://github.com/user-attachments/assets/c713a632-4d82-4ee5-be04-88afde36d05e)
+
+Кликаем на бакет и нажимаем иконку Browse Bucket
+
+![image](https://github.com/user-attachments/assets/e392ecfa-cbe7-4e94-b745-52eca3a97942)
+
+![image](https://github.com/user-attachments/assets/84aa32d8-083c-40b9-8338-868249af9dd6)
+
+И загружаем лого
+
+![image](https://github.com/user-attachments/assets/fa9cced5-6f32-4f66-b9cf-d3f1b111e86c)
+
 
 
