@@ -63,6 +63,8 @@
 
 [Ссылка на скачивание](https://min.io/open-source/download?platform=windows) 
 
+[Дока с установкой](https://min.io/docs/minio/windows/index.html)
+
 Чтобы запустить minio необходимо выполнить инструкции:
 
 ![image](https://github.com/user-attachments/assets/35c0b57b-4dd7-4f76-b995-f9b170730326)
