@@ -48,4 +48,4 @@ FROM t1
 ![image](https://github.com/user-attachments/assets/a1b39934-713c-4158-b067-b9a5a47d34e6)
 
 
-🔗 [Ссылка](https://postgrespro.ru/docs/postgrespro/9.5/functions-json)на доку по работе с JSON, много полезных штук
+🔗 [Ссылка](https://postgrespro.ru/docs/postgrespro/9.5/functions-json) на доку по работе с JSON, много полезных штук
