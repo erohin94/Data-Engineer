@@ -131,14 +131,14 @@ PythonOperator принимает объект типа callable, который
 ```
 def download_dataset(year_month: str):
     url = (
-        f'https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_{year_month}.csv'
+        f'https://data.cityofnewyork.us/resource/t29m-gskq.csv'
     )
     response = requests.get(url, stream=True)
     response.raise_for_status()
 
     s3 = S3Hook('aws_connection_id')
 
-    s3_path = f's3://nyc-yellow-taxi-raw-data/yellow_tripdata_{year_month}.csv.gz'
+    s3_path = f's3://nyc-yellow-taxi-raw-data/t29m-gskq.csv.gz'
     bucket, key = s3.parse_s3_url(s3_path)
 
     with NamedTemporaryFile('w', encoding='utf-8', delete=False) as f:
