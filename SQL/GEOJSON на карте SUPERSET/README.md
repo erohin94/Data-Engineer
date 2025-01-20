@@ -1,3 +1,5 @@
+# Построение Полигонов на графике "GeoJSON на карте"
+
 💼 Пример реального рабочего кейса: Работа с JSON в SQL
 
 В нашей базе данных🛢️ есть таблица, в которой данные хранятся в формате JSON. 
@@ -49,3 +51,23 @@ FROM t1
 
 
 🔗 [Ссылка](https://postgrespro.ru/docs/postgrespro/9.5/functions-json) на доку по работе с JSON, много полезных штук
+
+# Тестовое построение точки на графике "GeoJSON на карте" 
+
+SQL запрос преобразования координат точки в GEOJSON
+
+```
+WITH t1 AS (SELECT 
+public.st_astext(public.ST_GeomFromText('POINT(37.694243 55.789314)'))  AS coordinates
+FROM ps.documents psd
+LIMIT 1)
+
+SELECT jsonb_pretty(
+        jsonb_build_object(
+        'type', 'FeatureCollection',
+        'features', jsonb_agg(
+        jsonb_build_object(
+        'type', 'Feature',
+        'geometry', public.ST_AsGeoJSON(coordinates)::jsonb,  'properties', '{}'  )))) AS geojson 
+FROM t1
+```
