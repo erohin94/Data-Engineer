@@ -204,6 +204,8 @@ S3Hook даёт разработчику высокоуровневый инте
 
 ![image](https://github.com/user-attachments/assets/78cd3343-0935-41a1-a5a7-b00783d4b025)
 
+```minio.exe server C:\Users\erohi\Desktop\fs --console-address ":9001"```
+
 Процесс выводит свой вывод на системную консоль, примерно так:minio server
 
 ![image](https://github.com/user-attachments/assets/c9a8ad9a-e696-4cc8-bcf8-27fa47a7c8a2)
