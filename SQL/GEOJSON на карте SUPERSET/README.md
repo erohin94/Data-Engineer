@@ -84,5 +84,94 @@ FROM t1
 
 ![image](https://github.com/user-attachments/assets/1d17b399-2020-4369-a104-06b2ae0ceaa5)
 
+# Тестовое построение точки и полигона на графике "GeoJSON на карте"
 
+**SQL запрос**
 
+```
+WITH t1 AS (SELECT 
+public.st_astext(public.ST_GeomFromText('POINT(37.694243 55.789314)'))  AS coordinates_cam
+FROM ps.documents psd
+LIMIT 1),
+
+t2 AS (SELECT 
+public.st_astext(public.ST_GeomFromText('POLYGON((37.3918300780615 55.9132220292071,37.3918308785058 55.9129346227716,37.392342607063 55.9129350712649,37.3923418104038 55.9132224777052,37.3918300780615 55.9132220292071))'))  AS coordinates_oks
+FROM ps.documents psd
+LIMIT 1
+)
+
+SELECT jsonb_pretty(
+        jsonb_build_object(
+        'type', 'FeatureCollection',
+        'features', jsonb_agg(
+        jsonb_build_object(
+        'type', 'Feature',
+        'geometry', public.ST_AsGeoJSON(coordinates_cam)::jsonb,  'properties', '{}'  )))) AS geojson 
+FROM t1
+
+UNION
+
+SELECT jsonb_pretty(
+        jsonb_build_object(
+        'type', 'FeatureCollection',
+        'features', jsonb_agg(
+        jsonb_build_object(
+        'type', 'Feature',
+        'geometry', public.ST_AsGeoJSON(coordinates_oks)::jsonb,  'properties', '{}'  )))) AS geojson 
+FROM t2
+```
+
+**Результат**
+
+```
+{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[37.694243,55.789314]},"properties":"{}"}]}
+
+{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[["37.3918300780615","55.9132220292071"],["37.3918308785058","55.9129346227716"],[37.392342607063,"55.9129350712649"],["37.3923418104038","55.9132224777052"],["37.3918300780615","55.9132220292071"]]]},"properties":"{}"}]}
+```
+
+**Построение графика**
+
+![image](https://github.com/user-attachments/assets/e4345c6e-d4e5-455c-a8bb-d9a6c12fae51)
+
+![image](https://github.com/user-attachments/assets/76c09fde-5f03-4c47-b6de-5e0b7aeeb602)
+
+# Подсчет расстояния между полигоном и точкой
+
+```
+--SRID 3857 единица измерения координат — метры.
+--Это считает не корректно, так как 
+--Сначала создаёт точку с координатами в градусах в SRID 4326, 
+--Затем переводит координаты точек в SRID 3857 — проекцию с измерением в метрах, а только после этого считает расстояние.
+--SRID 3857 считает не точно на больших расстояниях, вдали от экватора. 
+--Вдобавок мы считаем расстояние на плоской карте, хотя для таких расстояний, как между Питером и Москвой, уже нужно учитывать изгиб земного шара.
+
+SELECT public.ST_Distance(
+    public.ST_Transform(public.ST_GeomFromText('POINT(37.6942 55.7893)', 4326), 3857),
+    public.ST_Transform(public.ST_GeomFromText('POLYGON((37.3918300780615 55.9132220292071,37.3918308785058 55.9129346227716,37.392342607063 55.9129350712649,37.3923418104038 55.9132224777052,37.3918300780615 55.9132220292071))', 4326), 3857)
+)
+```
+
+Результат
+
+```
+st_distance, метров
+
+41596.4295638437
+```
+
+```
+--Чтобы посчитать расстояние с хорошей точностью и получить результат в удобных единицах, необходимо использовать тип данных geography.
+--сейчас выводит расстояние 23386.41046105 метров или 23,38 км
+--Если проверить расстояние по прямой на яндекс карте то все совпадет
+SELECT (public.ST_Distance(
+    'POINT(37.6942 55.7893)'::public.geography,
+    'POLYGON((37.3918300780615 55.9132220292071,37.3918308785058 55.9129346227716,37.392342607063 55.9129350712649,37.3923418104038 55.9132224777052,37.3918300780615 55.9132220292071))'::public.geography
+))/1000 AS dlina_km
+```
+
+Результат
+
+```
+dlina_km
+23.38641046105
+```
