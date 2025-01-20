@@ -54,7 +54,7 @@ FROM t1
 
 # Тестовое построение точки на графике "GeoJSON на карте" 
 
-SQL запрос преобразования координат точки в GEOJSON
+**SQL запрос преобразования координат точки в GEOJSON**
 
 ```
 WITH t1 AS (SELECT 
@@ -71,3 +71,18 @@ SELECT jsonb_pretty(
         'geometry', public.ST_AsGeoJSON(coordinates)::jsonb,  'properties', '{}'  )))) AS geojson 
 FROM t1
 ```
+
+**Получаем результат**
+
+```
+{ "type": "FeatureCollection", "features": [ { "type": "Feature", "geometry": { "type": "Point", "coordinates": [ 37.694243, 55.789314 ] }, "properties": "{}" } ] }
+```
+
+**Настройки графика**
+
+![image](https://github.com/user-attachments/assets/9d1b7a8a-f695-4a8b-9268-d4b29d87d950)
+
+![image](https://github.com/user-attachments/assets/1d17b399-2020-4369-a104-06b2ae0ceaa5)
+
+
+
