@@ -101,15 +101,22 @@ FROM Orders
 SELECT sale_amount AS median
 FROM Orders
 ORDER BY sale_amount OFFSET (SELECT COUNT(*) FROM Orders) / 2
-LIMIT 1
+LIMIT 1 
+```
 
---Медиана если количество продаж четное
+Общий вариант для медианы
+
+```
+WITH ordered_sales AS (SELECT sale_amount,
+                       ROW_NUMBER() OVER (ORDER BY sale_amount) AS rn,
+                       COUNT(*) OVER () AS total_count
+                       FROM Orders)
 SELECT 
-CASE
-WHEN (SELECT COUNT(*) FROM Orders) % 2 = 1 THEN (SELECT sale_amount FROM Orders ORDER BY sale_amount OFFSET (SELECT COUNT(*) FROM Orders) / 2 LIMIT 1)
-WHEN (SELECT COUNT(*) FROM Orders) % 2 = 0 THEN
-END AS median 
-FROM Orders 
+CASE 
+WHEN total_count % 2 = 1 THEN (SELECT sale_amount FROM ordered_sales WHERE rn = (total_count + 1) / 2) -- Если количество строк нечетное, возвращаем средний элемент
+ELSE (SELECT (sale_amount + next_sale_amount) / 2 FROM (SELECT sale_amount, LEAD(sale_amount) OVER (ORDER BY rn) AS next_sale_amount FROM ordered_sales
+                                                           WHERE rn IN (total_count / 2, total_count / 2 + 1) AS median_values) -- Если количество строк четное, усредняем два центральных элемента
+END AS median_sale_amount;
 ```
 
 Про OFFSET
