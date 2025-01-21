@@ -19,7 +19,7 @@ FROM (
       SELECT client_id, date,
       ROW_NUMBER() OVER(PARTITION BY client_id ORDER BY date) AS rn
       FROM Purchase
-      )
+      ) t1
 WHERE rn =1
 ```
 
@@ -40,3 +40,35 @@ INNER JOIN (
             ) t1
 ON o.client_id = t1.client_id AND o.datetime = t1.max_datetime
 ```
+
+# Задача 3
+
+**Есть таблица с информацией о городах City(city, population)
+Нужно достать топ - 5 городов по численности населения. В случае наличия городов с одинаковой численностью населения все равно выводить только топ 5 городов**
+
+1-й способ
+
+```
+SELECT city, population,
+FROM (
+      SELECT city, population,
+      ROW_NUMBER OVER(ORDER BY population DESC) AS rn
+      FROM City) t1
+WHERE rn <= 5
+```
+
+2-й способ
+
+```
+SELECT city, MAX(population) as population
+FROM City
+ORDER BY population DESC
+LIMIT 5
+```
+
+
+
+
+
+
+
