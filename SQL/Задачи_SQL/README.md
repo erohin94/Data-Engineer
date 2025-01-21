@@ -97,11 +97,19 @@ LIMIT 5
 SELECT ROUND(SUM(sale_amount)/COUNT(sale_amount), 0) AS srednee
 FROM Orders
 
---Медиана
+--Медиана если количество продаж нечетное
 SELECT sale_amount AS median
 FROM Orders
 ORDER BY sale_amount OFFSET (SELECT COUNT(*) FROM Orders) / 2
 LIMIT 1
+
+--Медиана если количество продаж четное
+SELECT 
+CASE
+WHEN (SELECT COUNT(*) FROM Orders) % 2 = 1 THEN (SELECT sale_amount FROM Orders ORDER BY sale_amount OFFSET (SELECT COUNT(*) FROM Orders) / 2 LIMIT 1)
+WHEN (SELECT COUNT(*) FROM Orders) % 2 = 0 THEN
+END AS median 
+FROM Orders 
 ```
 
 Про OFFSET
