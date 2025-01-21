@@ -88,7 +88,29 @@ LIMIT 5
 
 ```DENSE_RANK``` этот пропуск не происходил, поэтому у строки 5 стоит значение ранга – 3.
 
+# Задача 5
 
+**Напишите 2 SQL запроса для поиска значений среднего и медианы по сумме продажи. Сумму транзакции округляем до целой части. Нельзя использовать стандартные функции среднего и медианы в SQL. Можно использовать только агрегатные функции SUM и COUNT. Схема данных: Orders (id, sale_amount, user_id, datetime). sale_amount записывается в центах.**
+
+```
+--Среднее
+SELECT ROUND(SUM(sale_amount)/COUNT(sale_amount), 0) AS srednee
+FROM Orders
+
+--Медиана
+SELECT sale_amount AS median
+FROM Orders
+ORDER BY sale_amount OFFSET (SELECT COUNT(*) FROM Orders) / 2
+LIMIT 1
+```
+
+Про OFFSET
+
+```
+SELECT * FROM users
+LIMIT 10 OFFSET 20;
+```
+Этот запрос извлекает 10 записей, начиная с 21-й записи (так как индексы начинаются с 0, офсет 20 означает, что мы начинаем с 21-й строки).
 
 
 
