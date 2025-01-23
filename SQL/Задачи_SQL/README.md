@@ -143,7 +143,19 @@ LIMIT 10 OFFSET 20;
 
 **2. Для топ-100 наиболее платежеспособных клиентов за всю историю покупок посчитать траты помесячно.**
 
+--1
+SELECT id_client, SUM(sum_tran)
+FROM transact
+WHERE  tran_time > CURRENT_DATE() - INTERVAL '30 DAY'
+GROUP BY id_client
 
+--2
+WITH t1 AS (SELECT DATE_TRUNC()
+FROM transact)
 
+SELECT SUM(sum_tran)
+FROM transact
+GROUP BY id_client, 
+LIMIT 100
 
 
