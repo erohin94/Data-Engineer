@@ -106,20 +106,20 @@ def nyc_taxi_dataset_dag():
 
 ```
 check_file = SimpleHttpOperator(
-    method='HEAD',
+    method='GET',
     endpoint='resource/t29m-gskq.csv',
     task_id='check_file',
     http_conn_id='nyc_yellow_taxi_id'
 )
 ```
 
-*Заметка
+*Заметка```
 (check_file = SimpleHttpOperator(
     method='HEAD',
     endpoint='yellow_tripdata_{{ execution_date.strftime("%Y-%m") }}.csv',
     task_id='check_file',
     http_conn_id='nyc_yellow_taxi_id'
-)
+)```
 Обратите внимание на endpoint. У операторов Airflow есть т.н. template fields, куда можно передавать строку-шаблон и Airflow подставит нужные значения в зависимости от контекста. Переменная execution_date входит в набор переменных по умолчанию, доступных в контексте выполнения DAG (DagRun), она представляет из себя объект типа Pendulum из пакета pendulum, это datetime на стероидах. В качестве шаблонизатора Apache Airflow использует Jinja2. execution_date указывает на дату исполнения, это не дата на компьютере в момент выполнения DAG, а дата, рассчитанная относительно start_date и schedule interval. Пример как считается execution_date я описывал ранее.)*
 
 **download_file**
