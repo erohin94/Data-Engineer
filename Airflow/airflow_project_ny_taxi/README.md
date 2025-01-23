@@ -264,6 +264,39 @@ S3Hook даёт разработчику высокоуровневый инте
 
 ![image](https://github.com/user-attachments/assets/30d4968d-1f81-4d88-b6dd-b9643d31d67e)
 
+# Тест подключения к MINIO
+
+Создадим тестовый файл test.py
+
+![image](https://github.com/user-attachments/assets/a43a9553-28a9-4fef-8dd9-9a39d63c2e54)
+
+Установить библиотеку ```pip install boto3``` 
+
+В test.py прописать код
+
+```
+import boto3
+from botocore.exceptions import NoCredentialsError, EndpointConnectionError
+
+# Подключение через boto3 к MinIO
+s3 = boto3.client('s3', 
+                  endpoint_url='http://127.0.0.1:9000',  # Адрес MinIO. Был порт 9001, падал в ошибку. Заменил на 9000
+                  aws_access_key_id='minioadmin', 
+                  aws_secret_access_key='minioadmin', 
+                  region_name='us-east-1')
+
+try:
+    # Попробуем получить список бакетов
+    response = s3.list_buckets()
+    print("Buckets:", response['Buckets'])
+except (NoCredentialsError, EndpointConnectionError) as e:
+    print(f"Error: {e}")
+```
+Получу следующее
+
+![image](https://github.com/user-attachments/assets/8f453234-d4a0-4e87-825d-a8514c0cedbe)
+
+
 Теперь проделываем шаги чтобы указать данные для доступа к этому файловому хранилищу.
 
 Для этого переходим в уже запущенный Airflow -> Admin -> Connections нажимаем на плюсик (+ Add a new record)
