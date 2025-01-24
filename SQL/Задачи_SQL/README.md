@@ -143,6 +143,7 @@ LIMIT 10 OFFSET 20;
 
 **2. Для топ-100 наиболее платежеспособных клиентов за всю историю покупок посчитать траты помесячно.**
 
+
 ```
 --1
 SELECT id_client, SUM(sum_tran)
@@ -153,9 +154,18 @@ GROUP BY id_client
 
 ```
 --2
-WITH t1 AS (SELECT DATE_TRUNC()
-FROM transact)
+-- Нашли топ 100 клиентов
+WITH client_totals AS (SELECT id_client, SUM(sum_tran) AS total_spent
+                       FROM transact
+                       GROUP BY id_client
+                       ORDER BY total_spent DESC
+                      LIMIT 100)
 
-WHERE client_id = (SELECT id_client, SUM(sum_tran) FROM transact GROUP BY id_client LIMIT 100)
+SELECT t.id_client, EXTRACT(YEAR FROM t.tran_time) AS year, EXTRACT(MONTH FROM t.tran_time) AS month, SUM(t.sum_tran) AS monthly_spent
+FROM transact t
+JOIN client_totals c
+ON t.id_client = c.id_client
+GROUP BY t.id_client, EXTRACT(YEAR FROM t.tran_time), EXTRACT(MONTH FROM t.tran_time)
+ORDER BY t.id_client, year, month;
 ```
 
