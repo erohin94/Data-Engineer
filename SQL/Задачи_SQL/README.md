@@ -156,9 +156,6 @@ GROUP BY id_client
 WITH t1 AS (SELECT DATE_TRUNC()
 FROM transact)
 
-SELECT SUM(sum_tran)
-FROM transact
-GROUP BY id_client, 
-LIMIT 100
+WHERE client_id = (SELECT id_client, SUM(sum_tran) FROM transact GROUP BY id_client LIMIT 100)
 ```
 
