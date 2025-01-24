@@ -41,6 +41,15 @@ SELECT EXTRACT(DOW FROM '2025-01-24'::date) AS day_of_week;
            5
 ```
 
+```
+--Использование EXTRACT для извлечения продолжительности
+SELECT EXTRACT(DAY FROM '2025-01-24'::date - '2025-01-01'::date) AS days_diff;
+
+ days_diff
+-----------
+        23
+```
+
 
 
 
