@@ -159,7 +159,7 @@ WITH client_totals AS (SELECT id_client, SUM(sum_tran) AS total_spent
                        FROM transact
                        GROUP BY id_client
                        ORDER BY total_spent DESC
-                      LIMIT 100)
+                       LIMIT 100)
 
 SELECT t.id_client, EXTRACT(YEAR FROM t.tran_time) AS year, EXTRACT(MONTH FROM t.tran_time) AS month, SUM(t.sum_tran) AS monthly_spent
 FROM transact t
@@ -168,4 +168,5 @@ ON t.id_client = c.id_client
 GROUP BY t.id_client, EXTRACT(YEAR FROM t.tran_time), EXTRACT(MONTH FROM t.tran_time)
 ORDER BY t.id_client, year, month;
 ```
+
 
