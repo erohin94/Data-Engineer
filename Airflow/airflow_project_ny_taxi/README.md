@@ -328,7 +328,7 @@ except (NoCredentialsError, EndpointConnectionError) as e:
 
 ![image](https://github.com/user-attachments/assets/e7dbbafb-0768-4791-9131-ae5e367bbc5f)
 
-В MINIO
+В MINIO если зайти в бакеты то будет видно загруженый файл
 
 
 
