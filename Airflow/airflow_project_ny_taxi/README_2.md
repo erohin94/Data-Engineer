@@ -189,6 +189,12 @@ except (NoCredentialsError, EndpointConnectionError) as e:
 
 ![image](https://github.com/user-attachments/assets/fa3752fe-4a24-4b4e-afaf-e6cbf1334dff)
 
+# Настройка подключений в интерфейсе Airflow
+
+В UI Airflow перейти в Admin-Connections нажать плюсик и добавить подключение 
+
+![image](https://github.com/user-attachments/assets/fda9fa97-6e44-4299-aff8-c167dab10ea7)
+
 
 Рабочий даг
 
