@@ -296,6 +296,42 @@ except (NoCredentialsError, EndpointConnectionError) as e:
 
 ![image](https://github.com/user-attachments/assets/8f453234-d4a0-4e87-825d-a8514c0cedbe)
 
+*Тест 2*
+
+Создать текстовый файл и попробовать загрузить в MINIO
+```
+import boto3
+from botocore.exceptions import NoCredentialsError, EndpointConnectionError
+
+# Подключение через boto3 к MinIO
+s3 = boto3.client('s3', 
+                  endpoint_url='http://127.0.0.1:9000',  # Адрес MinIO
+                  aws_access_key_id='minioadmin', 
+                  aws_secret_access_key='minioadmin', 
+                  region_name='us-east-1')
+
+try:
+    # Открыть файл
+    file_path = "C:/Users/erohi/Desktop/airflow_project_ny_taxi/test.txt"  # Путь
+    with open(file_path, 'rb') as file:
+        response = s3.put_object(Bucket='nyc-yellow-taxi-raw-data', 
+                                 Key='example.txt', 
+                                 Body=file)
+    
+    print(f"Файл {file_path} успешно загружен в бакет.")
+    
+except (NoCredentialsError, EndpointConnectionError) as e:
+    print(f"Ошибка: {e}")
+```
+
+Увижу 
+
+![image](https://github.com/user-attachments/assets/e7dbbafb-0768-4791-9131-ae5e367bbc5f)
+
+В MINIO
+
+
+
 
 Теперь проделываем шаги чтобы указать данные для доступа к этому файловому хранилищу.
 
