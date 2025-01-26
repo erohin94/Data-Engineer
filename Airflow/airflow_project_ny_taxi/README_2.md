@@ -22,6 +22,80 @@
 
 Если необходимого файла на сервере нет (check_file_task), то выполнение загрузки нецелесообразно (upload_task), за этим строго следит Airflow.
 
+# Установка S3Hook
+
+Для подключения к S3 надо импортировать класс S3Hook
+
+```from airflow.providers.amazon.aws.hooks.s3 import S3Hook```
+
+S3Hook — это класс, который используется для взаимодействия с Amazon S3 (облачное хранилище данных от Amazon). С помощью S3Hook можно загружать файлы в S3, скачивать их, проверять наличие объектов и другие операции с данными в облаке.
+
+S3Hook упрощает работу с S3 в контексте задач в Airflow.
+
+Так как Airflow работает в контейнерах Docker, нужно будет установить необходимую библиотеку внутри Docker-контейнера, используемого для проекта. Для этого есть несколько вариантов. 
+
+Буду устанавливать через ```.env``` файл:
+
+У меня сейчас в ```docker-compose.yaml``` файле следующее 
+
+![image](https://github.com/user-attachments/assets/f3307d37-115d-402d-855f-1f4491c75432)
+
+Это означает, что переменная ```_PIP_ADDITIONAL_REQUIREMENTS``` может быть установлена через окружение или .env файл, но по умолчанию она не содержит значений.
+
+В папке проекта где лежит ```docker-compose.yaml``` создать еще один файл ```.env```
+
+Открыть ```.env``` в VScode и прописать в нем ```_PIP_ADDITIONAL_REQUIREMENTS=apache-airflow-providers-amazon```
+
+Далее
+
+Перезапустить контейнер с помощью Docker Compose
+
+Перейти в папку с проектом Airflow, где находится файл docker-compose.yml.
+
+Чтобы перезапустить контейнеры Airflow, используйте следующую команду:
+
+```docker-compose down``` — завершает и удаляет все контейнеры, созданные с помощью docker-compose.
+
+```docker-compose up -d``` — пересоздает и запускает контейнеры в фоновом режиме (-d — detached mode).
+
+![image](https://github.com/user-attachments/assets/99345757-0944-4947-92ff-d80e332a9007)
+
+После этого Airflow будет перезапущен, и изменения в конфигурации будут учтены.
+
+**Проверка**
+
+Чтобы проверить, установлен ли пакет apache-airflow-providers-amazon в контейнере Airflow в Docker.
+
+1. Узнайте имя контейнера
+
+Если вы не уверены, как называется контейнер, в котором работает Airflow, используйте команду:
+
+```docker ps```
+
+Это выведет список всех работающих контейнеров. Найдите контейнер, который связан с Airflow (например, airflow-webserver, airflow-scheduler, или airflow-init).
+
+2. Войдите в контейнер
+   
+Теперь нужно войти в контейнер с Airflow. Используйте команду docker exec:
+
+```docker exec -it <container_name> /bin/bash```
+
+Замените <container_name> на имя контейнера, например airflow-webserver или любой другой контейнер, в котором работает Airflow.
+
+Пример:
+
+```docker exec -it airflow-webserver /bin/bash```
+
+3. Проверьте установку пакета
+   
+После того как вы вошли в контейнер, выполните команду для проверки установленного пакета:
+
+```pip show apache-airflow-providers-amazon```
+
+Если пакет установлен, вы увидите информацию о нем, как в обычной среде Python, например:
+
+![image](https://github.com/user-attachments/assets/29a519cd-50ad-4f7c-a2a8-c302884a858f)
+
 # Установка MINIO
 
 Бесплатная с открытым исходным кодом система. Это распределенное файловое хранилище. Можно установить на компьютер. Полностью совместима с Amazon S3.
@@ -195,72 +269,13 @@ except (NoCredentialsError, EndpointConnectionError) as e:
 
 ![image](https://github.com/user-attachments/assets/fda9fa97-6e44-4299-aff8-c167dab10ea7)
 
+**Здесь будет ссылка на test_dag**
 
-Рабочий даг
+Подключение для AWS
 
-```
-import requests
-import boto3
-from botocore.exceptions import NoCredentialsError, EndpointConnectionError
-from airflow import DAG
-from airflow.operators.python import PythonOperator
-from datetime import datetime
+![image](https://github.com/user-attachments/assets/ab71e553-27b9-4b8b-a92f-57f24700e6f3)
 
-# Подключение через boto3 к MinIO
-def upload_to_minio():
-    s3 = boto3.client('s3', 
-                      endpoint_url='http://host.docker.internal:9000',  # Адрес MinIO
-                      aws_access_key_id='ANV9JuSM47gsMx8BtBqf', 
-                      aws_secret_access_key='Y3O0qw1fV3cP1dzDXIDASAUx2vnaRFm28lDr3RYs', 
-                      region_name='us-east-1')
 
-    try:
-        # Загрузка CSV
-        url = 'https://data.cityofnewyork.us/resource/kxp8-n2sj.csv'
-        response = requests.get(url)
-        response.raise_for_status()  # Проверка запроса
-
-        # Загрузка файла в MinIO
-        file_content = response.content  # Получаем бинарные данные файла
-        file_key = 'nyc_taxi_data.csv'  # Уникальное имя для файла в MinIO
-        
-        # Загружаем данные в MinIO
-        s3.put_object(Bucket='nyc-yellow-taxi-raw-data', 
-                      Key=file_key, 
-                      Body=file_content)
-
-        print(f"Файл {file_key} успешно загружен в бакет MinIO.")
-    
-    except requests.exceptions.RequestException as e:
-        print(f"Ошибка при скачивании файла: {e}")
-    except (NoCredentialsError, EndpointConnectionError) as e:
-        print(f"Ошибка при загрузке в MinIO: {e}")
-
-# Определение DAG
-default_args = {
-    'owner': 'airflow',
-    'depends_on_past': False,
-    'start_date': datetime(2025, 1, 24),
-    'retries': 1,
-}
-
-dag = DAG(
-    'upload_file_to_minio',
-    default_args=default_args,
-    description='DAG для загрузки CSV-файла в MinIO',
-    schedule_interval=None,  # Можно настроить на регулярный запуск
-    catchup=False,
-)
-
-# PythonOperator для выполнения функции
-upload_task = PythonOperator(
-    task_id='upload_to_minio_task',
-    python_callable=upload_to_minio,
-    dag=dag,
-)
-
-upload_task
-```
 
 # Заметки
 
