@@ -246,7 +246,7 @@ except (NoCredentialsError, EndpointConnectionError) as e:
 
 [Ссылка на даг](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/airflow_project_ny_taxi/dags/test_dag_2.py)
 
-# Заметки
+# Заметка ошибка при загрузке файла в S3
 
 Была ошибка, при загрузке файла в S3 с помощью Airflow.
 
@@ -269,7 +269,7 @@ def upload_to_minio():
 
 [Ссыдка на даг](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/airflow_project_ny_taxi/dags/test_dag.py)
 
-# Установка S3Hook
+# Заметка проверка установки S3Hook
 
 Для подключения к S3 надо импортировать класс S3Hook
 
@@ -278,6 +278,40 @@ def upload_to_minio():
 S3Hook — это класс, который используется для взаимодействия с Amazon S3 (облачное хранилище данных от Amazon). С помощью S3Hook можно загружать файлы в S3, скачивать их, проверять наличие объектов и другие операции с данными в облаке.
 
 S3Hook упрощает работу с S3 в контексте задач в Airflow.
+
+Чтобы проверить, установлен ли пакет apache-airflow-providers-amazon в контейнере Airflow в Docker.
+
+1. Узнать имя контейнера
+
+Если не понятно, как называется контейнер, в котором работает Airflow, ввести команду:
+
+```docker ps```
+
+Это выведет список всех работающих контейнеров. Найти контейнер, который связан с Airflow (например, airflow-webserver, airflow-scheduler, или airflow-init).
+
+2. Войти в контейнер
+   
+Теперь нужно войти в контейнер с Airflow. Использовать команду docker exec:
+
+```docker exec -it <container_name> /bin/bash```
+
+Заменить <container_name> на имя контейнера, например airflow-webserver или любой другой контейнер, в котором работает Airflow.
+
+Пример:
+
+```docker exec -it airflow-webserver /bin/bash```
+
+3. Проверить установку пакета
+   
+После того как вошли в контейнер, выполнить команду для проверки установленного пакета:
+
+```pip show apache-airflow-providers-amazon```
+
+Если пакет установлен, увидим информацию о нем, как в обычной среде Python, например:
+
+![image](https://github.com/user-attachments/assets/29a519cd-50ad-4f7c-a2a8-c302884a858f)
+
+# Заметка установка S3Hook
 
 Так как Airflow работает в контейнерах Docker, нужно будет установить необходимую библиотеку внутри Docker-контейнера, используемого для проекта. Для этого есть несколько вариантов. 
 
@@ -308,37 +342,3 @@ S3Hook упрощает работу с S3 в контексте задач в A
 ![image](https://github.com/user-attachments/assets/99345757-0944-4947-92ff-d80e332a9007)
 
 После этого Airflow будет перезапущен, и изменения в конфигурации будут учтены.
-
-**Проверка**
-
-Чтобы проверить, установлен ли пакет apache-airflow-providers-amazon в контейнере Airflow в Docker.
-
-1. Узнайте имя контейнера
-
-Если вы не уверены, как называется контейнер, в котором работает Airflow, используйте команду:
-
-```docker ps```
-
-Это выведет список всех работающих контейнеров. Найдите контейнер, который связан с Airflow (например, airflow-webserver, airflow-scheduler, или airflow-init).
-
-2. Войдите в контейнер
-   
-Теперь нужно войти в контейнер с Airflow. Используйте команду docker exec:
-
-```docker exec -it <container_name> /bin/bash```
-
-Замените <container_name> на имя контейнера, например airflow-webserver или любой другой контейнер, в котором работает Airflow.
-
-Пример:
-
-```docker exec -it airflow-webserver /bin/bash```
-
-3. Проверьте установку пакета
-   
-После того как вы вошли в контейнер, выполните команду для проверки установленного пакета:
-
-```pip show apache-airflow-providers-amazon```
-
-Если пакет установлен, вы увидите информацию о нем, как в обычной среде Python, например:
-
-![image](https://github.com/user-attachments/assets/29a519cd-50ad-4f7c-a2a8-c302884a858f)
