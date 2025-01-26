@@ -2,6 +2,22 @@
 
 [Инстукция](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/README.md) по установке Airflow
 
+Создать структуру папок
+
+![image](https://github.com/user-attachments/assets/6ec7a984-41a1-463d-8f0a-d8bd2a305db3)
+
+Открыть docker desktop и в терминале ввести команды:
+
+```cd Desktop\airflow_project_ny_taxi``` - перейти в папку с проектом
+
+```docker-compose up airflow-init``` - инициализация Airflow
+
+```docker-compose up -d``` - запуск Airflow
+
+Чтобы увидеть интерфейс Airflow открыть браузер и перейдите по адресу http://127.0.0.1:8080/
+
+Ввести airflow два раза
+
 Использую датасет, содержащий поездки на такси по городу Нью-Йорк. Данные открыто лежат на [сайте](https://opendata.cityofnewyork.us/).
 
 В качестве хранилища можно использовать AWS S3. Это популярный сервис для хранения файлов от компании Amazon, также S3 можно рассматривать как распределенную файловую систему. Чтобы не платить, есть альтернатива, которую можно развернуть у себя на компьютере. Сервис [Minio](https://min.io/) полностью совместимый с S3 файловый сервер, поэтому Apache Airflow будет работать с ним как с AWS S3.
