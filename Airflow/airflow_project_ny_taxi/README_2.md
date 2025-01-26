@@ -254,6 +254,14 @@ Airflow развернут в Docker, а MinIO работает на  локал
 
 Нужно использовать IP адрес хоста или специальный Docker-сетевой адрес для доступа из контейнера Airflow к MinIO.  Короче надо вот так endpoint_url='http://host.docker.internal:9000', а уменя было вот так endpoint_url='http://127.0.0.1:9000'
 
+# DAG
+
+В папке проекта dags создать DAG
+
+[Ссылка на даг](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/airflow_project_ny_taxi/dags/test_dag_2.py)
+
+
+
 # Установка S3Hook
 
 Для подключения к S3 надо импортировать класс S3Hook
