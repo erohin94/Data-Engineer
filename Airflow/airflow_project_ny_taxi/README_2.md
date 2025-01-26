@@ -213,9 +213,30 @@ except (NoCredentialsError, EndpointConnectionError) as e:
 
 ![image](https://github.com/user-attachments/assets/fda9fa97-6e44-4299-aff8-c167dab10ea7)
 
-**Здесь будет ссылка на test_dag**
-
 Подключение для AWS
+
+Можно в ```AWS Access Key ID``` и ```AWS Secret Access Key``` ввести ```minioadmin```. 
+
+В Extra 
+```
+{
+  "endpoint_url": "http://host.docker.internal:9000",
+  "region_name": "us-east-1"
+}
+```
+
+![image](https://github.com/user-attachments/assets/d9f02bd1-5bce-4e6f-b653-deb88f6eced3)
+
+А можно в интерфейсе MINIO создать секретные ключи
+
+![image](https://github.com/user-attachments/assets/4b47f37a-dc6d-4432-9b9f-e09ceb7126d3)
+
+![image](https://github.com/user-attachments/assets/843f2b64-c03d-4874-b3d8-c0d920cd6171)
+
+Копируем и вставляем их в UI Airflow так же в ```AWS Access Key ID``` и ```AWS Secret Access Key``` вместо ```minioadmin```.
+
+![image](https://github.com/user-attachments/assets/ff8f42a5-46b9-40e7-a71d-8e4913b2adf2)
+
 
 ![image](https://github.com/user-attachments/assets/ab71e553-27b9-4b8b-a92f-57f24700e6f3)
 
