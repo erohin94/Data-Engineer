@@ -34,7 +34,7 @@
 
 Вот как выглядит это на диаграмме с зависимостями:
 
-![image](https://github.com/user-attachments/assets/d8fe0e62-8805-4fbf-8cef-be894c78d8cc)
+![image](https://github.com/user-attachments/assets/fc45caf9-db53-4703-963b-95126080ea60)
 
 Выполнение последующего шага зависит от успешности предыдущего. 
 
@@ -240,7 +240,11 @@ except (NoCredentialsError, EndpointConnectionError) as e:
 
 ![image](https://github.com/user-attachments/assets/ab71e553-27b9-4b8b-a92f-57f24700e6f3)
 
+# DAG
 
+В папке проекта dags создать DAG
+
+[Ссылка на даг](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/airflow_project_ny_taxi/dags/test_dag_2.py)
 
 # Заметки
 
@@ -253,14 +257,6 @@ except (NoCredentialsError, EndpointConnectionError) as e:
 Airflow развернут в Docker, а MinIO работает на  локальном компьютере (развернут локально), из за этого проблема с подключением между контейнерами Airflow и MinIO, потому что контейнер Airflow не видит 127.0.0.1 localhost. 
 
 Нужно использовать IP адрес хоста или специальный Docker-сетевой адрес для доступа из контейнера Airflow к MinIO.  Короче надо вот так endpoint_url='http://host.docker.internal:9000', а уменя было вот так endpoint_url='http://127.0.0.1:9000'
-
-# DAG
-
-В папке проекта dags создать DAG
-
-[Ссылка на даг](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/airflow_project_ny_taxi/dags/test_dag_2.py)
-
-
 
 # Установка S3Hook
 
