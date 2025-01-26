@@ -215,10 +215,10 @@ def upload_to_minio():
                       region_name='us-east-1')
 
     try:
-        # Загрузка CSV-файла с удаленной ссылки
+        # Загрузка CSV
         url = 'https://data.cityofnewyork.us/resource/kxp8-n2sj.csv'
         response = requests.get(url)
-        response.raise_for_status()  # Проверка на успешность запроса
+        response.raise_for_status()  # Проверка запроса
 
         # Загрузка файла в MinIO
         file_content = response.content  # Получаем бинарные данные файла
