@@ -1,10 +1,22 @@
 # New York taxi data pipline
 
+[Инстукция](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/README.md) по установке Airflow
+
 Создать структуру папок
 
 ![image](https://github.com/user-attachments/assets/6ec7a984-41a1-463d-8f0a-d8bd2a305db3)
 
-[Инстукция](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/README.md) по установке Airflow
+Открыть docker desktop и в терминале ввести команды:
+
+```cd Desktop\airflow_project_ny_taxi``` - перейти в папку с проектом
+
+```docker-compose up airflow-init``` - инициализация Airflow
+
+```docker-compose up -d``` - запуск Airflow
+
+Чтобы увидеть интерфейс Airflow открыть браузер и перейдите по адресу http://127.0.0.1:8080/
+
+Ввести airflow два раза
 
 Использую датасет, содержащий поездки на такси по городу Нью-Йорк. Данные открыто лежат на [сайте](https://opendata.cityofnewyork.us/).
 
