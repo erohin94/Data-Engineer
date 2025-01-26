@@ -246,7 +246,7 @@ except (NoCredentialsError, EndpointConnectionError) as e:
 
 [Ссылка на даг](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/airflow_project_ny_taxi/dags/test_dag_2.py)
 
-# Заметка ошибка при загрузке файла в S3
+# Заметка - ошибка при загрузке файла в S3
 
 Была ошибка, при загрузке файла в S3 с помощью Airflow.
 
@@ -269,7 +269,7 @@ def upload_to_minio():
 
 [Ссыдка на даг](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/airflow_project_ny_taxi/dags/test_dag.py)
 
-# Заметка проверка установки S3Hook
+# Заметка - проверка установки S3Hook
 
 Для подключения к S3 надо импортировать класс S3Hook
 
@@ -311,7 +311,7 @@ S3Hook упрощает работу с S3 в контексте задач в A
 
 ![image](https://github.com/user-attachments/assets/29a519cd-50ad-4f7c-a2a8-c302884a858f)
 
-# Заметка установка S3Hook
+# Заметка - установка S3Hook
 
 Так как Airflow работает в контейнерах Docker, нужно будет установить необходимую библиотеку внутри Docker-контейнера, используемого для проекта. Для этого есть несколько вариантов. 
 
