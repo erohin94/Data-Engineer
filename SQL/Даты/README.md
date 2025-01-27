@@ -122,3 +122,15 @@ SELECT '2025-01-24'::date + INTERVAL '1 month';
 
 ```SELECT DATE_PART('month', CURRENT_DATE) AS current_month;```
 
+# Получить интервал времени
+
+```
+SELECT
+  EXTRACT(epoch FROM ('2025-01-27 18:00:00'::timestamp - '2025-01-27 14:30:00'::timestamp)) / 3600 AS hours,
+  (EXTRACT(epoch FROM ('2025-01-27 18:00:00'::timestamp - '2025-01-27 14:30:00'::timestamp)) / 60) % 60 AS minutes;
+
+ hours | minutes
+-------+---------
+     3 |      30
+```
+
