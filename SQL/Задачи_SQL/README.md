@@ -169,4 +169,23 @@ GROUP BY t.id_client, EXTRACT(YEAR FROM t.tran_time), EXTRACT(MONTH FROM t.tran_
 ORDER BY t.id_client, year, month;
 ```
 
+# Задача 7
+
+**Дана таблица с логом выполнения операторами задач в CRM системе. Необходимо вывести среднее время выполнения задач с status ‘failed’, созданных в текущем месяце**
+```
+create table crm_tasks_log (
+    task_id int,
+    operator_id int,
+    status varchar, -- есть 4 статуса ‘failed’, 'success', 'open', 'in progress'
+    created_at timestamp, -- время создания задачи
+    started_at timestamp, -- время старта задачи
+    closed_at timestamp -- время завершения задачи
+);
+```
+SELECT AVG(EXTRACT(EPOCH FROM (closed_at - started_at)) / 3600) AS avg_hours
+FROM crm_tasks_log
+WHERE EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM CURRENT_DATE)
+  AND EXTRACT(YEAR FROM created_at) = EXTRACT(YEAR FROM CURRENT_DATE)
+  AND status = 'failed'
+  AND closed_at IS NOT NULL;
 
