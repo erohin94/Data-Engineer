@@ -182,10 +182,12 @@ create table crm_tasks_log (
     closed_at timestamp -- время завершения задачи
 );
 ```
+
+```
 SELECT AVG(EXTRACT(EPOCH FROM (closed_at - started_at)) / 3600) AS avg_hours
 FROM crm_tasks_log
 WHERE EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM CURRENT_DATE)
   AND EXTRACT(YEAR FROM created_at) = EXTRACT(YEAR FROM CURRENT_DATE)
   AND status = 'failed'
   AND closed_at IS NOT NULL;
-
+```
