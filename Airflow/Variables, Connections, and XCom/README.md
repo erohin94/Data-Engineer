@@ -125,3 +125,127 @@ with DAG('my_dag', schedule_interval='@daily', start_date=datetime(2024, 1, 1)) 
 
 В этом примере получаем подключение с помощью BaseHook.get_connection() и выводим некоторые параметры подключения в задаче с помощью функции my_task(). 
 
+Как выглядят переменные и подключения и как можно автоматизировать их добавление c помощью DAG.
+
+Variables и connections по сути своей пары "ключ-значение". Получается что мы сможем сохранить их в соответствующем файле, это JSON.
+
+Примера, есть ситуация когда необходимо в процессе выполнения DAG использовать подключение к базе данных PostgreSQL. Для этого создаем файл connections.json в таком виде:
+
+```
+{
+  "conn1": {
+    "conn_type": "postgres",
+    "description": "Подключение к базе данных",
+    "login": "postgres",
+    "password": "password",
+    "host": "host.docker.internal",
+    "port": 5430,
+    "schema": "test",
+    "extra": "{}"
+ }
+}
+```
+
+А также в процессе задачи требуется использовать какие-то значения, которые не хорошо писать прям в коде (API ключи, какие-то параметры, подключения те же именовать). Для этого создадим файл variables.json в таком виде:
+
+```
+{
+    "base_url": "https://www.тут-нужная-вам-ссылка.co/query",
+    "conn_name": "conn1",
+    "function": "TIME_SERIES_INTRADAY",
+    "interval": "15min",
+    "symbol_apple": "AAPL",
+    "apikey": "----------",
+    "outputsize": "full"
+    
+}
+```
+
+Теперь создадим DAG который назовем init, который будет добавлять наши переменные и подключения в Airflow автоматически, при помощи bash-оператора:
+
+```
+from datetime import datetime, timedelta, date
+from airflow import DAG
+from airflow.operators.bash import BashOperator
+from airflow.operators.empty import EmptyOperator
+from airflow.utils.task_group import TaskGroup
+
+# аргументы дага по умолчанию
+default_args = {
+    "owner": "user",
+    "retries": 0,
+    "start_date": datetime.today()
+}
+
+# функция добавления переменных в airflow
+
+with DAG(dag_id="01_init",description = 'Прикручиваем connections и variables', default_args=default_args, schedule_interval='@once', catchup=False) as dag:
+
+    start = EmptyOperator(task_id='start')
+
+    with TaskGroup("01_init", tooltip="Добавление connections") as init_tg:
+
+        # ****************** добавление переменных ***********************
+
+        set_variables = BashOperator(
+            task_id = 'set_variables',
+            bash_command='airflow variables import /opt/airflow/dags/variables.json'
+        )
+
+        # ****************** добавление connecions ***********************
+
+        set_connections = BashOperator(
+            task_id='set_connections',
+            bash_command='airflow connections import /opt/airflow/dags/connections.json'
+        )
+
+    end = EmptyOperator(task_id='end')
+
+    start >> init_tg >> end
+```
+
+# XComs (Cross-Communication)
+
+XComs, или механизм кросс-коммуникации, позволяет задачам в Airflow обмениваться сообщениями или данными между собой. Каждая задача может "вытолкнуть" сообщение в XCom с помощью метода xcom_push, и другие задачи могут "вытянуть" это сообщение с помощью метода xcom_pull.
+
+Это особенно полезно в сценариях, где результат выполнения одной задачи требуется для начала выполнения другой. Например, задача, которая обрабатывает данные, может передать результаты другой задаче, которая использует эти данные для обновления базы данных или отправки уведомлений.
+
+XComs хранятся в базе данных Airflow, что делает этот механизм надежным и эффективным для управления данными между задачами.
+
+```
+from airflow import DAG
+from airflow.operators.python_operator import PythonOperator
+from datetime import datetime
+
+def push_data(**context):
+    context['ti'].xcom_push(key='my_data', value='Hello, Airflow!')
+
+def process_data(**context):
+    my_data = context['ti'].xcom_pull(key='my_data')
+    print(my_data)
+
+with DAG('xcom_example_dag', schedule_interval='@daily', start_date=datetime(2024, 1, 1)) as dag:
+    push_task = PythonOperator(
+        task_id='push_task',
+        python_callable=push_data,
+        provide_context=True
+    )
+
+    process_task = PythonOperator(
+        task_id='process_task',
+        python_callable=process_data,
+        provide_context=True
+    )
+
+    push_task >> process_task
+```
+
+В этом примере у две задачи: push_task и process_task.
+
+В задаче push_task определяем функцию push_data(), которая отправляет данные 'Hello, Airflow!' в XCom с помощью метода xcom_push(). Мы используем аргумент **context, чтобы получить доступ к контексту выполнения задачи, и вызываем context['ti'].xcom_push() для отправки данных в XCom. Мы указываем ключ 'my_data' и значение 'Hello, Airflow!'.
+
+В задаче process_task мы определяем функцию process_data(), которая получает данные из XCom с помощью метода xcom_pull(). Мы снова используем аргумент **context, чтобы получить доступ к контексту выполнения задачи, и вызываем context['ti'].xcom_pull() с ключом 'my_data', чтобы получить данные из XCom. Затем мы просто выводим полученные данные.
+
+Затем мы связываем задачи push_task и process_task с помощью оператора >>, чтобы определить порядок их выполнения.
+
+При выполнении этого DAG задача push_task сначала отправляет данные в XCom, а затем задача process_task получает эти данные из XCom и выводит их.
