@@ -191,3 +191,20 @@ WHERE EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM CURRENT_DATE)
   AND status = 'failed'
   AND closed_at IS NOT NULL;
 ```
+
+# Задача 8
+
+**Дан sql запрос, написанный аналитиком. Необходимо определить неоптимальности в запросе и предложить как их избежать. В запросе джойнятся две таблицы: таблица фактов events c ключом `event_id`, таблица-справочник источников трафика с ключом `referer_str`**
+
+```
+select *
+from (select distinct e.event_id, e.user_id, e.category_id, e.location_id, s.source_name, s.medium_name, s.campaign_name,
+             row_number() over(partition by e.event_id, e.user_id, e.category_id, e.location_id, s.source_name, s.medium_name, s.campaign_name) as rnk
+      from events e 
+      left join traffic_source s
+      on e.referer_str = s.referer_str
+      where e.event_date = current_date() - 1
+      group by 1,2,3,4,5,6,7) t 
+where rnk = 1
+```
+
