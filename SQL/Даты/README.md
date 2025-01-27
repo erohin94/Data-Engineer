@@ -114,3 +114,11 @@ SELECT '2025-01-24'::date + INTERVAL '1 month';
 2025-02-24
 ```
 
+# Получить текущий месяц
+
+```SELECT EXTRACT(MONTH FROM CURRENT_DATE) AS current_month;```
+
+или 
+
+```SELECT DATE_PART('month', CURRENT_DATE) AS current_month;```
+
