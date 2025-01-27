@@ -75,3 +75,53 @@ with DAG('my_dag', schedule_interval='@daily', start_date=datetime(2024, 1, 1)) 
 **2 Создание подключений с использованием API:**
 
 Также можно использовать API для программного создания подключений. Вот пример использования API Python для создания подключения к базе данных PostgreSQL:
+
+```
+import requests
+
+# URL для создания подключения
+url = 'http://localhost:8080/api/v1/connections'
+
+# Параметры запроса
+headers = {'Content-Type': 'application/json'}
+data = {
+    'conn_id': 'my_postgres_conn',
+    'conn_type': 'postgres',
+    'host': 'localhost',
+    'port': '5432',
+    'login': 'my_user',
+    'password': 'my_password',
+    'schema': 'my_schema'
+}
+
+# Отправка POST-запроса для создания подключения
+response = requests.post(url, headers=headers, json=data)
+
+# Проверка статуса ответа
+if response.status_code == 200:
+    print('Подключение успешно создано')
+else:
+    print('Ошибка при создании подключения:', response.status_code)
+```
+
+В этом примере отправляем POST-запрос на URL /api/v1/connections с указанием параметров подключения в формате JSON. Если ответ имеет код состояния 200, значит подключение было успешно создано.
+
+Когда подключение создано, можно использовать его в коде задач с помощью объекта Connection модуля airflow.hooks.base. Вот пример использования подключения в коде:
+
+```
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from airflow.hooks.base_hook import BaseHook
+from datetime import datetime
+
+def my_task():
+    my_conn = BaseHook.get_connection("my_postgres_conn")
+    print(f"Host: {my_conn.host}")
+    print(f"Login: {my_conn.login}")
+
+with DAG('my_dag', schedule_interval='@daily', start_date=datetime(2024, 1, 1)) as dag:
+    task = PythonOperator(task_id='my_task', python_callable=my_task)
+```
+
+В этом примере получаем подключение с помощью BaseHook.get_connection() и выводим некоторые параметры подключения в задаче с помощью функции my_task(). 
+
