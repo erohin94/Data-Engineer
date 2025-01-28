@@ -243,3 +243,41 @@ SELECT department_name, dep_salary, rn
 FROM t1
 WHERE rn <=3
 ```
+# Задача 10
+
+```
+Orders:
+- order_date datetime NOT NULL
+- user_id int NOT NULL
+- order_id int NOT NULL    
+ 
+Goods:
+- order_id int NOT NULL
+- model int NOT NULL
+- cat_1 varchar(50) NOT NULL
+- price int NOT NULL
+- quantity int NOT NULL
+
+Значения в cat_1:
+- Одежда
+- Обувь
+- Косметика
+- Товары для дома
+- Игрушки
+```
+
+**Вывести количество заказов и "товаров нужной категории в заказе" за 2021 год в категориях «Одежда» и за 2022 год в категории «Обувь» (Итоговый вид: 2 строки. Поля: год, количество товаров, количество заказов)**
+
+SELECT EXTRACT(YEAR FROM o.order_date) AS year, SUM(g.quantity) AS total_goods, COUNT(DISTINCT o.order_id) AS total_orders
+FROM Orders o
+JOIN Goods g 
+ON o.order_id = g.order_id
+WHERE(EXTRACT(YEAR FROM o.order_date) = 2021 AND g.cat_1 = 'Одежда') OR (EXTRACT(YEAR FROM o.order_date) = 2022 AND g.cat_1 = 'Обувь')
+GROUP BY year
+ORDER BY year;
+
+*Важно: несмотря на то, что в соответствии с порядком выполнения операторов блок SELECT выполняется после блока GROUP BY, в данном случае PostgreSQL позволяет нам немного отойти от правил и упростить процесс написания запроса. Однако такой «синтаксический сахар» есть не в каждой СУБД, поэтому при работе с другими инструментами будьте аккуратны — в общем случае рекомендуется дублировать расчётное поле в блоке GROUP BY и не использовать в нём алиасы колонок из SELECT.*
+
+
+
+
