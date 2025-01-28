@@ -208,3 +208,38 @@ from (select distinct e.event_id, e.user_id, e.category_id, e.location_id, s.sou
 where rnk = 1
 ```
 
+# Задача 9
+
+**Есть две таблицы:**
+
+**Таблица "employees":**
+
+```
+employee_id    department_id    dep salary  
+1                   1               50000    
+2                   2               60000   
+3                   1               55000    
+4                   2               52000 
+```
+
+**Таблица "departments":**
+
+```
+department_id    department_name
+1                Sales
+2                Marketing
+```
+
+**Необходимо вывести топ 3 самых высоких зарплат по каждому департаменту**
+
+```
+WITH t1 AS (SELECT d.department_name AS department_name, e.dep_salary AS dep_salary,
+ROW_NUMBER() OVER(PARTITION BY d.department_name ORDER BY e.dep_salary DESC) AS rn
+FROM employees e
+JOIN departments d
+ON e.department_id=d.department_id)
+
+SELECT department_name, dep_salary, rn
+FROM t1
+WHERE rn <=3
+```
