@@ -213,7 +213,48 @@ except (NoCredentialsError, EndpointConnectionError) as e:
 
 ![image](https://github.com/user-attachments/assets/fda9fa97-6e44-4299-aff8-c167dab10ea7)
 
-Подключение для AWS
+В форме необходимо заполнить несколько полей:
+
+**Conn Id**: ```nyc_yellow_taxi_id```
+
+**Conn Type:** ```HTTP```
+
+**Host:** ```https://data.cityofnewyork.us```
+
+```
+check_file_task = SimpleHttpOperator(
+    task_id='check_file_exists_task_2',
+    method='GET',  # Используем метод для проверки доступности ресурса
+    http_conn_id='nyc_yellow_taxi_id',  # Настроить в UI Airflow Admin-Connections поле Connection id
+    endpoint='/resource/kxp8-n2sj.csv',  # Путь файла
+    headers={"Accept": "application/json"},  # Заголовки запроса
+    response_check=lambda response: response.status_code == 200,  # Проверка ответа
+    dag=dag,
+)
+```
+
+SimpleHttpOperator его задача — выполнить HTTP запрос и вернуть ответ. Используем для проверки существования файла перед его загрузкой. Также SimpleHttpOperator отличный способ показать как работать с разделом Connections.
+
+При инициализации оператор принимает несколько аргументов:
+
+```task_id``` — уникальное название оператора.
+
+```method``` — HTTP метод, использую GET.
+
+```http_conn_id``` — название ключа соединения, создали через раздел Connections. Оператору нельзя передать полную ссылку напрямую.
+
+```endpoint``` — URI, т.е. это всё, что есть в ссылке после указания домена. 
+
+Например, если полная ссылка на данные ```https://nyc-tlc.s3.amazonaws.com/trip+data/yellow_tripdata_2020-12.csv```, то endpoint здесь это ```/trip+data/yellow_tripdata_2020-12.csv или yellow_tripdata_2020-12.csv```. 
+Он меняется в зависимости от года и месяца.
+
+```headers``` - это словарь, который передается в запрос, чтобы указать дополнительные параметры или информацию. В моем случае этот заголовок сообщает серверу, что клиент (в данном случае Airflow) ожидает получить данные в формате JSON. То есть, сервер должен возвращать ответ в формате JSON, если это возможно.
+
+```response_check``` - это функция, которая используется для проверки ответа от сервера. Задача будет успешной только в том случае, если HTTP-ответ от сервера имеет код состояния 200, что означает успешное выполнение запроса.
+
+```dag — инстанс объекта DAG (если используется декоратор dag, то этот аргумент можно опустить).
+
+**Подключение для AWS.**
 
 Можно в ```AWS Access Key ID``` и ```AWS Secret Access Key``` ввести ```minioadmin```. 
 
