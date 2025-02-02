@@ -221,6 +221,8 @@ except (NoCredentialsError, EndpointConnectionError) as e:
 
 **Host:** ```https://data.cityofnewyork.us```
 
+Код оператора из будущего DAG отдельно:
+
 ```
 check_file_task = SimpleHttpOperator(
     task_id='check_file_exists_task_2',
@@ -233,7 +235,7 @@ check_file_task = SimpleHttpOperator(
 )
 ```
 
-SimpleHttpOperator его задача — выполнить HTTP запрос и вернуть ответ. Используем для проверки существования файла перед его загрузкой. Также SimpleHttpOperator отличный способ показать как работать с разделом Connections.
+```SimpleHttpOperator``` его задача — выполнить HTTP запрос и вернуть ответ. Используем для проверки существования файла перед его загрузкой. Также ```SimpleHttpOperator``` отличный способ показать как работать с разделом Connections.
 
 При инициализации оператор принимает несколько аргументов:
 
