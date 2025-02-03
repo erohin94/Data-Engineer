@@ -101,4 +101,153 @@ Parquet является стандартом для хранения данны
 
 Apache Parquet — это мощный и эффективный формат для хранения и обработки данных, который позволяет сжать данные, ускорить выполнение аналитических запросов и снизить затраты на хранение. Он идеально подходит для работы с большими объемами табличных данных и активно используется в аналитических платформах и Big Data экосистемах.
 
+# Код
+
+**functions.py**
+```
+import requests
+import gzip
+import io
+from airflow.providers.amazon.aws.hooks.s3 import S3Hook
+
+def download_and_compress_file(url):
+    """
+    Загружает CSV-файл и сжимает его в формат gzip.
+    """
+    response = requests.get(url)
+    response.raise_for_status()  # Проверка запроса
+
+    # Сжимаем файл в gzip
+    compressed_file = io.BytesIO()
+    with gzip.GzipFile(fileobj=compressed_file, mode='wb') as f:
+        f.write(response.content)
+    
+    compressed_file.seek(0)
+    return compressed_file
+
+def upload_to_minio(aws_conn_id, bucket_name, file_key, file_content):
+    """
+    Загружает сжатый файл в MinIO.
+    """
+    aws_hook = S3Hook(aws_conn_id=aws_conn_id)  # Получаем подключение через S3Hook
+    s3_client = aws_hook.get_conn()  # Получаем клиента boto3 для работы с S3 через Airflow
+
+    try:
+        # Загружаем сжатые данные в MinIO
+        s3_client.put_object(Bucket=bucket_name, Key=file_key, Body=file_content)
+        print(f"Файл {file_key} успешно загружен в бакет MinIO.")
+    except Exception as e:
+        print(f"Ошибка при загрузке в MinIO: {e}")
+```
+
+```requests:``` Библиотека для работы с HTTP-запросами. В данном случае используется для загрузки файла по URL.
+
+```gzip:``` Модуль для работы с форматом сжатия GZIP. Мы будем использовать его для сжатия данных перед загрузкой в MinIO.
+
+```io:``` Модуль для работы с потоками данных. Мы используем BytesIO, чтобы создать объект в памяти, куда будем записывать сжатые данные.
+
+```S3Hook:``` Это специальный хук для работы с Amazon S3 в Airflow. Через него мы можем работать с S3-совместимыми хранилищами, такими как MinIO, используя API библиотеки boto3.
+
+Загрузка файла по URL:
+
+В первой строке функции выполняется HTTP-запрос по указанному URL с помощью ```requests.get(url)```.
+
+```response.raise_for_status()``` проверяет, что запрос прошел успешно (код ответа 200). Если сервер вернул ошибку (например, 404 или 500), будет вызвано исключение.
+Сжатие файла в формат GZIP:
+
+Создаем объект ```BytesIO```, который работает как временный файл в памяти. Это позволяет нам не создавать физический файл на диске.
+
+Внутри блока ```with``` создаем объект ```GzipFile```, который будет сжимать данные.
+
+```gzip.GzipFile(fileobj=compressed_file, mode='wb')``` открывает объект для записи данных в формате ```GZIP```. Мы используем ```fileobj=compressed_file```, чтобы все данные записывались прямо в объект BytesIO, а не в файл на диске.
+
+```f.write(response.content)``` записывает содержимое ответа (CSV-файл) в сжатом виде.
+
+Возвращаем сжатые данные:
+
+```compressed_file.seek(0)``` — перемещает указатель на начало объекта ```BytesIO```, так что мы можем вернуть сжатые данные в следующую функцию.
+
+Функция возвращает объект ```compressed_file```, который содержит сжатые данные в формате ```GZIP```.
+
+Получение подключения к S3:
+
+```S3Hook(aws_conn_id=aws_conn_id)``` — создается объект S3Hook, который будет использовать настройки подключения к AWS (или MinIO) по идентификатору aws_conn_id. Этот идентификатор должен быть настроен в Airflow через UI.
+
+```s3_client = aws_hook.get_conn()``` — используя этот хук, мы получаем клиента boto3 для работы с хранилищем S3 (или совместимым, как MinIO).
+
+Загрузка сжатого файла в MinIO:
+
+В ```try```-блоке мы используем метод ```put_object``` клиента ```boto3```, чтобы загрузить сжатый файл в MinIO.
+
+Параметры:
+
+```Bucket=bucket_name```: название бакета, куда будет загружен файл.
+
+```Key=file_key```: имя файла, под которым он будет сохранен в бакете.
+
+```Body=file_content```: содержимое файла, которое мы передаем в виде объекта BytesIO (сжатый файл).
+
+После успешной загрузки выводится сообщение о том, что файл был успешно загружен.
+
+Обработка ошибок:
+
+В случае возникновения ошибки при загрузке файла (например, если нет подключения к MinIO или возникли проблемы с правами доступа), исключение перехватывается и выводится сообщение об ошибке.
+
+**DAG**
+
+```
+from datetime import datetime
+from airflow import DAG
+from airflow.providers.http.operators.http import SimpleHttpOperator
+from airflow.operators.python import PythonOperator
+from functions import download_and_compress_file, upload_to_minio
+
+# Определение дефолтных параметров DAG
+default_args = {
+    'owner': 'airflow',
+    'depends_on_past': False,
+    'start_date': datetime(2025, 1, 24),
+    'retries': 1,
+}
+
+dag = DAG(
+    'upload_compressed_file_to_minio',
+    default_args=default_args,
+    description='DAG для проверки и загрузки сжатого CSV-файла в MinIO',
+    schedule_interval=None,
+    catchup=False,
+)
+
+# Задача 1: Использование SimpleHttpOperator для проверки наличия файла
+check_file_task = SimpleHttpOperator(
+    task_id='check_file_exists_task',
+    method='GET',
+    http_conn_id='nyc_yellow_taxi_id',  # Настроить в UI Airflow Admin-Connections поле Connection id
+    endpoint='/resource/kxp8-n2sj.csv',
+    headers={"Accept": "application/json"},
+    response_check=lambda response: response.status_code == 200,  # Проверка ответа
+    dag=dag,
+)
+
+# Задача 2: Загрузка сжатого файла в MinIO
+def upload_task_function(**kwargs):
+    url = 'https://data.cityofnewyork.us/resource/kxp8-n2sj.csv'
+    compressed_file = download_and_compress_file(url)
+    upload_to_minio(
+        aws_conn_id='aws_connection',
+        bucket_name='nyc-yellow-taxi-raw-data',
+        file_key='nyc_taxi_data.csv.gz',
+        file_content=compressed_file
+    )
+
+upload_task = PythonOperator(
+    task_id='upload_to_minio_task',
+    python_callable=upload_task_function,
+    provide_context=True,  # Передаем контекст в функцию (необходимо для использования kwargs)
+    dag=dag,
+)
+
+# Зависимости: сначала проверяем файл, затем загружаем его в MinIO
+check_file_task >> upload_task
+```
 
