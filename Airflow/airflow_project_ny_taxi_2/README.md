@@ -165,6 +165,14 @@ def upload_to_minio(aws_conn_id, bucket_name, file_key, file_content):
 
 **DAG**
 
+Подключения
+
+![image](https://github.com/user-attachments/assets/6ddd61ab-93e1-4844-b497-6c2e9d98d9d0)
+
+![image](https://github.com/user-attachments/assets/278c9728-2cff-49eb-b30e-2c8e6da580af)
+
+![image](https://github.com/user-attachments/assets/e95191ab-d96e-4db9-97f6-ef525a9d4f2b)
+
 ![image](https://github.com/user-attachments/assets/6a4a0292-f842-4852-b202-7c0b1d51104c)
 
 ```
