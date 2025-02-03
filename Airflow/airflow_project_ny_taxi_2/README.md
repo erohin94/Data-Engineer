@@ -109,6 +109,9 @@ import requests
 import gzip
 import io
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
+import pandas as pd
+import pyarrow as pa
+import pyarrow.parquet as pq
 
 def download_and_compress_file(url):
     """
@@ -125,82 +128,51 @@ def download_and_compress_file(url):
     compressed_file.seek(0)
     return compressed_file
 
+def convert_gzip_to_parquet(compressed_file):
+    """
+    Преобразует GZIP сжатый файл в формат Parquet.
+    compressed_file — это объект BytesIO, содержащий сжатые данные.
+    """
+    # Шаг 1: Чтение CSV из сжатого GZIP файла
+    with gzip.GzipFile(fileobj=compressed_file, mode='rb') as f:
+        df = pd.read_csv(f)
+
+    # Шаг 2: Преобразуем DataFrame в формат Parquet
+    parquet_buffer = io.BytesIO()  # Буфер для сохранения Parquet в памяти
+
+    # Преобразуем Pandas DataFrame в формат Parquet с использованием pyarrow
+    table = pa.Table.from_pandas(df)  # Преобразуем DataFrame в Table
+    pq.write_table(table, parquet_buffer)  # Записываем в буфер в формате Parquet
+
+    parquet_buffer.seek(0)  # Перемещаем указатель в начало буфера для дальнейшего использования
+
+    return parquet_buffer
+
 def upload_to_minio(aws_conn_id, bucket_name, file_key, file_content):
     """
-    Загружает сжатый файл в MinIO.
+    Загружает файл в указанный бакет в MinIO.
     """
     aws_hook = S3Hook(aws_conn_id=aws_conn_id)  # Получаем подключение через S3Hook
     s3_client = aws_hook.get_conn()  # Получаем клиента boto3 для работы с S3 через Airflow
 
     try:
-        # Загружаем сжатые данные в MinIO
+        # Загружаем данные в MinIO
         s3_client.put_object(Bucket=bucket_name, Key=file_key, Body=file_content)
-        print(f"Файл {file_key} успешно загружен в бакет MinIO.")
+        print(f"Файл {file_key} успешно загружен в бакет {bucket_name}.")
     except Exception as e:
         print(f"Ошибка при загрузке в MinIO: {e}")
 ```
 
-```requests:``` Библиотека для работы с HTTP-запросами. В данном случае используется для загрузки файла по URL.
-
-```gzip:``` Модуль для работы с форматом сжатия GZIP. Мы будем использовать его для сжатия данных перед загрузкой в MinIO.
-
-```io:``` Модуль для работы с потоками данных. Мы используем BytesIO, чтобы создать объект в памяти, куда будем записывать сжатые данные.
-
-```S3Hook:``` Это специальный хук для работы с Amazon S3 в Airflow. Через него мы можем работать с S3-совместимыми хранилищами, такими как MinIO, используя API библиотеки boto3.
-
-Загрузка файла по URL:
-
-В первой строке функции выполняется HTTP-запрос по указанному URL с помощью ```requests.get(url)```.
-
-```response.raise_for_status()``` проверяет, что запрос прошел успешно (код ответа 200). Если сервер вернул ошибку (например, 404 или 500), будет вызвано исключение.
-Сжатие файла в формат GZIP:
-
-Создаем объект ```BytesIO```, который работает как временный файл в памяти. Это позволяет нам не создавать физический файл на диске.
-
-Внутри блока ```with``` создаем объект ```GzipFile```, который будет сжимать данные.
-
-```gzip.GzipFile(fileobj=compressed_file, mode='wb')``` открывает объект для записи данных в формате ```GZIP```. Мы используем ```fileobj=compressed_file```, чтобы все данные записывались прямо в объект BytesIO, а не в файл на диске.
-
-```f.write(response.content)``` записывает содержимое ответа (CSV-файл) в сжатом виде.
-
-Возвращаем сжатые данные:
-
-```compressed_file.seek(0)``` — перемещает указатель на начало объекта ```BytesIO```, так что мы можем вернуть сжатые данные в следующую функцию.
-
-Функция возвращает объект ```compressed_file```, который содержит сжатые данные в формате ```GZIP```.
-
-Получение подключения к S3:
-
-```S3Hook(aws_conn_id=aws_conn_id)``` — создается объект S3Hook, который будет использовать настройки подключения к AWS (или MinIO) по идентификатору aws_conn_id. Этот идентификатор должен быть настроен в Airflow через UI.
-
-```s3_client = aws_hook.get_conn()``` — используя этот хук, мы получаем клиента boto3 для работы с хранилищем S3 (или совместимым, как MinIO).
-
-Загрузка сжатого файла в MinIO:
-
-В ```try```-блоке мы используем метод ```put_object``` клиента ```boto3```, чтобы загрузить сжатый файл в MinIO.
-
-Параметры:
-
-```Bucket=bucket_name```: название бакета, куда будет загружен файл.
-
-```Key=file_key```: имя файла, под которым он будет сохранен в бакете.
-
-```Body=file_content```: содержимое файла, которое мы передаем в виде объекта BytesIO (сжатый файл).
-
-После успешной загрузки выводится сообщение о том, что файл был успешно загружен.
-
-Обработка ошибок:
-
-В случае возникновения ошибки при загрузке файла (например, если нет подключения к MinIO или возникли проблемы с правами доступа), исключение перехватывается и выводится сообщение об ошибке.
-
 **DAG**
+
+![image](https://github.com/user-attachments/assets/6a4a0292-f842-4852-b202-7c0b1d51104c)
 
 ```
 from datetime import datetime
 from airflow import DAG
 from airflow.providers.http.operators.http import SimpleHttpOperator
 from airflow.operators.python import PythonOperator
-from functions import download_and_compress_file, upload_to_minio
+from functions import download_and_compress_file, convert_gzip_to_parquet, upload_to_minio
 
 # Определение дефолтных параметров DAG
 default_args = {
@@ -211,10 +183,10 @@ default_args = {
 }
 
 dag = DAG(
-    'upload_compressed_file_to_minio',
+    'upload_compressed_and_parquet_file_to_minio',
     default_args=default_args,
-    description='DAG для проверки и загрузки сжатого CSV-файла в MinIO',
-    schedule_interval=None,
+    description='DAG для проверки и загрузки сжатого CSV и Parquet файлов в MinIO',
+    schedule_interval=None,  # Можно настроить на регулярный запуск
     catchup=False,
 )
 
@@ -229,10 +201,14 @@ check_file_task = SimpleHttpOperator(
     dag=dag,
 )
 
-# Задача 2: Загрузка сжатого файла в MinIO
-def upload_task_function(**kwargs):
+# Задача 2: Загрузка GZIP файла в MinIO
+def upload_gzip_task_function(**kwargs):
     url = 'https://data.cityofnewyork.us/resource/kxp8-n2sj.csv'
+    
+    # Скачиваем и сжимаем файл
     compressed_file = download_and_compress_file(url)
+    
+    # Загружаем сжатый файл в бакет nyc-yellow-taxi-raw-data
     upload_to_minio(
         aws_conn_id='aws_connection',
         bucket_name='nyc-yellow-taxi-raw-data',
@@ -240,14 +216,50 @@ def upload_task_function(**kwargs):
         file_content=compressed_file
     )
 
-upload_task = PythonOperator(
-    task_id='upload_to_minio_task',
-    python_callable=upload_task_function,
+upload_gzip_task = PythonOperator(
+    task_id='upload_gzip_to_minio_task',
+    python_callable=upload_gzip_task_function,
     provide_context=True,  # Передаем контекст в функцию (необходимо для использования kwargs)
     dag=dag,
 )
 
-# Зависимости: сначала проверяем файл, затем загружаем его в MinIO
-check_file_task >> upload_task
+# Задача 3: Загрузка Parquet файла в MinIO
+def upload_parquet_task_function(**kwargs):
+    url = 'https://data.cityofnewyork.us/resource/kxp8-n2sj.csv'
+    
+    # Скачиваем и сжимаем файл
+    compressed_file = download_and_compress_file(url)
+    
+    # Преобразуем сжатый файл в формат Parquet
+    parquet_file = convert_gzip_to_parquet(compressed_file)
+    
+    # Загружаем Parquet файл в бакет nyc-yellow-taxi-parquet-data
+    upload_to_minio(
+        aws_conn_id='aws_connection',
+        bucket_name='nyc-yellow-taxi-parquet-data',
+        file_key='nyc_taxi_data.parquet',
+        file_content=parquet_file
+    )
+
+upload_parquet_task = PythonOperator(
+    task_id='upload_parquet_to_minio_task',
+    python_callable=upload_parquet_task_function,
+    provide_context=True,  # Передаем контекст в функцию (необходимо для использования kwargs)
+    dag=dag,
+)
+
+# Зависимости: сначала проверяем файл, затем загружаем его в два разных бакета
+check_file_task >> [upload_gzip_task, upload_parquet_task]
 ```
+
+Увидим в MINIO
+
+![image](https://github.com/user-attachments/assets/9663a29a-0e89-4ede-bda5-0276803d0ce1)
+
+![image](https://github.com/user-attachments/assets/79778a4b-474b-4554-965b-6fd6deafc229)
+
+![image](https://github.com/user-attachments/assets/d0ce0834-ad71-4558-a278-a74f2222e6d9)
+
+
+
 
