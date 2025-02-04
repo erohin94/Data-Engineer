@@ -105,6 +105,8 @@ Apache Parquet — это мощный и эффективный формат д
 
 **Описание functions.py**
 
+**Необходимые библиотеки для работы**
+
 ```
 import requests
 import gzip
@@ -133,6 +135,7 @@ import pyarrow.parquet as pq
 
 ```pyarrow и pyarrow.parquet```: Библиотека для работы с форматом данных Parquet. Этот формат часто используется для хранения больших объемов данных, так как он эффективен по памяти и времени. PyArrow позволяет работать с такими данными и выполнять операции преобразования и чтения/записи Parquet файлов.
 
+**Функция загрузки и сжатия файла**
 
 ```
 def download_and_compress_file(url):
@@ -150,8 +153,6 @@ def download_and_compress_file(url):
     compressed_file.seek(0)
     return compressed_file
 ```
-
-*Функция загрузки и сжатия файла*
 
 Используем ```requests.get(url)``` чтобы отправить GET-запрос на указанный URL.
 
@@ -183,6 +184,8 @@ def download_and_compress_file(url):
 
 Получили данные в ответ на HTTP-запрос (например, response.content), и теперь хотим их сжать. Используя gzip.GzipFile, сжимаем эти данные в память, без записи на диск.
 Затем возвращаем сжатые данные, хранящиеся в памяти, которые могут быть использованы в дальнейшем.
+
+**Функция преобразования gzip в parquet**
 
 ```
 def convert_gzip_to_parquet(compressed_file):
