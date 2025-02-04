@@ -225,6 +225,8 @@ def convert_gzip_to_parquet(compressed_file):
 
 Функция возвращает объект ```parquet_buffer```, который теперь содержит сжатые данные в формате Parquet, и его можно использовать для дальнейших операций, например, для записи в облачное хранилище или локальное файловое хранилище.
 
+**Функция загрузки в облако**
+
 ```
 def upload_to_minio(aws_conn_id, bucket_name, file_key, file_content):
     """
