@@ -36,8 +36,13 @@ order by 1
 SELECT day, EXTRACT(day FROM day) AS day_number
 FROM generate_series('2025-01-01'::date, '2025-03-02'::date, '1 day'::interval) AS day
 ```
-
+ Запрос
+ 
 ![image](https://github.com/user-attachments/assets/91a43a21-7b1e-4fe7-8c24-1ba88db372cb)
+
+Датасет
+
+![image](https://github.com/user-attachments/assets/156b6108-b57b-4eda-ab12-1d0208adf0bb)
 
 **Создание графика показателя**
 
