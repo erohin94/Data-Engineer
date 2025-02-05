@@ -44,6 +44,10 @@ FROM generate_series('2025-01-01'::date, '2025-03-02'::date, '1 day'::interval) 
 
 ![image](https://github.com/user-attachments/assets/156b6108-b57b-4eda-ab12-1d0208adf0bb)
 
+Получаем два датасета, которые будем использовать для построения графика и фильтра jinja
+
+![image](https://github.com/user-attachments/assets/25d52c65-c072-4c42-8323-96f0e04c1a38)
+
 **Создание графика показателя**
 
 Сделаем простой график показателя, чтобы понять как работает jinja. Будем считать сумму по столбцу ```day_number```.
