@@ -30,5 +30,46 @@ FROM generate_series('2025-01-01'::date, '2025-03-02'::date, '1 day'::interval) 
 
 ![image](https://github.com/user-attachments/assets/91a43a21-7b1e-4fe7-8c24-1ba88db372cb)
 
+**Создание графика показателя**
+
+Сделаем простой график показателя, чтобы понять как работает jinja. Будем считать сумму по столбцу ```day_number```.
+
+По дефолту(когда никаких фильтров нет) будет браться период с '2025-01-01' по '2025-03-02' и считаться сумма, которая будет равняться 903.
+
+Но если применить фильтр, на боковой панели superset, то будет рассчитываться сумма за тот период который в нашем фильтре, то есть по месяцам.
+
+Для реализации этого в показатле, при настройке графика, надо прописать следующее:
+
+```
+SUM(day_number) filter (where day>=concat(right(left($$'{{ filter_values('Период jinja')[0]| default('2025-01-01')}}'$$, 12),12), '''')::date - interval '2 days 8 hours 13 minute 59 seconds'
+ and day<concat(left(right($$'{{ filter_values('Период jinja')[0]| default('2025-03-02')}}'$$, 12),12), '''')::date - interval '8 hours 14 minute 59 seconds')
+```
+
+![image](https://github.com/user-attachments/assets/1905d010-7792-46f3-965a-7d0fe88048ea)
+
+**Создание дашборда и добавление фильтров**
+
+Создадим дашборд с графиком из предыдущего шага. Так же добавим фильтры на боковой панели superset.
+
+![image](https://github.com/user-attachments/assets/39c8d3dc-d60c-413c-bf71-c0be66343785)
+
+![image](https://github.com/user-attachments/assets/8abea7b8-4bc6-494f-b4cf-596a19f2a60c)
+
+![image](https://github.com/user-attachments/assets/888aa505-02df-4f4a-8f48-c88096ca8f3e)
+
+**Пример работы**
+
+В исходном состоянии когда не выбраны никакие фильтры на боковой панели суперсет, получаем следующее.
+
+![image](https://github.com/user-attachments/assets/badde948-25e3-4f4e-8a14-6d57482abe55)
+
+
+
+
+
+
+
+
+
 
 
