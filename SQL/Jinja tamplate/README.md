@@ -17,6 +17,8 @@ group by 1
 order by 1
 ```
 
+![image](https://github.com/user-attachments/assets/78f7e050-eb3d-4db6-8c42-34e5e52335ab)
+
 ![image](https://github.com/user-attachments/assets/72f772d0-4685-4dcd-a4f4-d0424e3a30d7)
 
 **Создаем датасет для показателя**
