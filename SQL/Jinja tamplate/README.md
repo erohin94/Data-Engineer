@@ -23,10 +23,7 @@ order by 1
 
 Датасет
 
-![image](https://github.com/user-attachments/assets/78f7e050-eb3d-4db6-8c42-34e5e52335ab)
-
 ![image](https://github.com/user-attachments/assets/4f2c40f1-22d4-4853-9701-84055693f298)
-
 
 **Создаем датасет для показателя**
 
