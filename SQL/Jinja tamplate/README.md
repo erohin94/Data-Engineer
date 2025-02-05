@@ -111,6 +111,19 @@ LIMIT 50000;
 Тоесть jinja тянет требуемый интервал и на основе чего применяет фильтрацию для графика. Если ничего не задано, то по дефолту возвращается дата, которая установлена в праметрах по дефолту
 ![image](https://github.com/user-attachments/assets/408b6d5d-f9f1-4da9-aeac-9813af9a4887)
 
+Также можно проверить, сгенерировав запрос и посчитав сумму. Получим значение равное 465
+
+```
+WITH t1 AS(SELECT day, EXTRACT(day FROM day) AS day_number
+FROM generate_series('2025-01-01'::date, '2025-03-02'::date, '1 day'::interval) AS day   
+WHERE day <= '2025-01-31'::date - INTERVAL '8 hours 14 minute 59 seconds')
+
+select sum(day_number)
+From t1
+```
+
+![image](https://github.com/user-attachments/assets/77d9a306-b6be-4956-9e4e-f7d60e1a5a59)
+
 
 
 
