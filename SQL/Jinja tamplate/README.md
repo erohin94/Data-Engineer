@@ -65,6 +65,18 @@ SUM(day_number) filter (where day>=concat(right(left($$'{{ filter_values('Пер
 
 Так же если посмотреть сгенерированный запрос на графике, то будет видно границы которые были заданы по дефолту '2025-01-01' по '2025-03-02':
 
+```
+SELECT SUM(day_number) filter (
+                               where day>=concat(right(left($$'2025-01-01'$$, 12), 12), '''')::date - interval '2 days 8 hours 13 minute 59 seconds'
+                                 and day<concat(left(right($$'2025-03-02'$$, 12), 12), '''')::date - interval '8 hours 14 minute 59 seconds') AS "Показатель"
+FROM
+  (SELECT day,
+          EXTRACT(day
+                  FROM day) AS day_number
+   FROM generate_series('2025-01-01'::date, '2025-03-02'::date, '1 day'::interval) AS day) AS virtual_table
+LIMIT 50000;
+```
+
 ![image](https://github.com/user-attachments/assets/5a26613e-8c5f-4ef2-96c3-711dd34a54df)
 
 Так же если провалится в редактирование графика, то в поле "Фильтры" только одна метка "day(без фильтра)"
@@ -75,7 +87,20 @@ SUM(day_number) filter (where day>=concat(right(left($$'{{ filter_values('Пер
 
 ![image](https://github.com/user-attachments/assets/7c31b3f2-5472-4c19-b755-5bbf91e6eee2)
 
-Сгенерированный запрос, как видно подставился тот интервал который выбран в боковом фильтре. В результате чего показатель расчитался для заданного интервала даты
+Сгенерированный запрос, 
+```
+SELECT SUM(day_number) filter (
+                               where day>=concat(right(left($$'2025-01-01 - 2025-01-31'$$, 12), 12), '''')::date - interval '2 days 8 hours 13 minute 59 seconds'
+                                 and day<concat(left(right($$'2025-01-01 - 2025-01-31'$$, 12), 12), '''')::date - interval '8 hours 14 minute 59 seconds') AS "Показатель"
+FROM
+  (SELECT day,
+          EXTRACT(day
+                  FROM day) AS day_number
+   FROM generate_series('2025-01-01'::date, '2025-03-02'::date, '1 day'::interval) AS day) AS virtual_table
+LIMIT 50000;
+```
+
+Как видно подставился интервал который выбран в боковом фильтре. В результате чего показатель расчитался для заданного интервала даты
 
 ![image](https://github.com/user-attachments/assets/b94c337f-69ee-4c30-95f1-5575d9bb13ba)
 
