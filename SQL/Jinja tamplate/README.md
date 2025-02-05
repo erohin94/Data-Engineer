@@ -71,7 +71,20 @@ SUM(day_number) filter (where day>=concat(right(left($$'{{ filter_values('Пер
 
 ![image](https://github.com/user-attachments/assets/fba45545-dbbb-42f2-9830-b7f43a0b1fd4)
 
-Но если на боковой панели выбрать интервал
+Но если на боковой панели дашборда выбрать интервал
+
+![image](https://github.com/user-attachments/assets/7c31b3f2-5472-4c19-b755-5bbf91e6eee2)
+
+Сгенерированный запрос, как видно подставился тот интервал который выбран в боковом фильтре. В результате чего показатель расчитался для заданного динтервала даты
+
+![image](https://github.com/user-attachments/assets/b94c337f-69ee-4c30-95f1-5575d9bb13ba)
+
+В графике применился фильтр. Видно в поле "Фильтр" в настройке графика
+
+![image](https://github.com/user-attachments/assets/cc612f65-ba60-4f8c-90f1-8fd4bb300c1b)
+
+Тоесть jinja тянет требуемый интервал и на основе чего применяет фильтрацию для графика. Если ничего не задано, то по дефолту возвращается дата, которая установлена в праметрах по дефолту
+![image](https://github.com/user-attachments/assets/408b6d5d-f9f1-4da9-aeac-9813af9a4887)
 
 
 
