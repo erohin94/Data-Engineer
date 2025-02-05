@@ -21,6 +21,8 @@ order by 1
 
 **Создаем датасет для показателя**
 
+Также сгенерируем датасет для показателя, получим таблицу с датами и номером дня конкретного месяца
+
 ```
 SELECT day, EXTRACT(day FROM day) AS day_number
 FROM generate_series('2025-01-01'::date, '2025-03-02'::date, '1 day'::interval) AS day
