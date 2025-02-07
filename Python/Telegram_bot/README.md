@@ -13,3 +13,55 @@
 `bot.send_message` — это метод, который отправляет сообщение в чат, откуда пришла команда.
 
 `message.chat.id` — это идентификатор чата, в который нужно отправить ответ. Это поле получает из объекта message, чтобы отправить сообщение обратно в тот же чат.
+
+```
+@bot.message_handler(commands=['start'])
+def handle_start(message):
+    bot.send_message(message.chat.id, "Привет! Я бот.")
+```
+
+**func** — функция, которая принимает объект `message` и должна вернуть `True`, если обработчик должен сработать для данного сообщения. Например, `lambda message: message.text == 'Привет'` — сработает, если в сообщении будет текст `"Привет"`.
+
+```
+@bot.message_handler(func=lambda message: 'привет' in message.text.lower())
+def handle_greeting(message):
+    bot.send_message(message.chat.id, "Привет! Как дела?")
+```
+
+**content_types** — список типов содержимого, которые будут обрабатываться. Примеры типов: `'text'`, `'photo'`, `'document'`, `'location'`, `'audio'` и т. д. Например, `content_types=['photo']` будет обрабатывать только фото.
+
+```
+@bot.message_handler(content_types=['photo'])
+def handle_photo(message):
+    bot.send_message(message.chat.id, "Отличное фото!")
+```
+
+**regexp** — можно использовать регулярные выражения для фильтрации сообщений. Это позволяет обрабатывать текстовые сообщения, которые соответствуют определенному шаблону.
+
+```
+import re
+
+@bot.message_handler(regexp=r'\d{10}')
+def handle_phone_number(message):
+    bot.send_message(message.chat.id, "Это похоже на номер телефона.")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
