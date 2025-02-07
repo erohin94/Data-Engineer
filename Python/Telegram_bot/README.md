@@ -1,6 +1,6 @@
 # Заметки тг-бот
 
-# **Декоратор @bot.message_handler**
+# Декоратор @bot.message_handler
 
 Декоратор `@bot.message_handler` используется в библиотеке pyTelegramBotAPI (также известной как telebot) для обработки входящих сообщений в боте Telegram.
 
@@ -47,6 +47,82 @@ import re
 def handle_phone_number(message):
     bot.send_message(message.chat.id, "Это похоже на номер телефона.")
 ```
+
+# Состояния пользователя, для ТГ бота
+
+**Обновление состояния**
+
+`state` - Cостояние пользователя.
+
+`states` - Список, который будет хранить последовательность состояний этого пользователя.
+
+`chat_id` - Идентификатор чата пользователя, ключ для хранения информации о его состоянии.
+
+`attempts` - Счётчик количества попыток (начинается с 0).
+
+```
+user_states = {}
+
+def update_user_state(chat_id, state):
+    if chat_id not in user_states:
+        user_states[chat_id] = {'states': [], 'attempts': 0}
+    user_states[chat_id]['states'].append(state)
+```
+
+```
+update_user_state(12345, 'START')
+```
+
+```
+user_states[12345]
+```
+![image](https://github.com/user-attachments/assets/ba7ee1a6-dd8a-4d85-957d-38c7bca3fe3c)
+
+```
+update_user_state(12345, 'PROCESSING')
+```
+
+```
+user_states[12345]
+```
+
+![image](https://github.com/user-attachments/assets/3fb5ca5b-ea4a-48ec-a4f5-1de0ac92e070)
+
+```
+update_user_state(67890, 'START')
+```
+
+```
+user_states
+```
+
+![image](https://github.com/user-attachments/assets/5b0ae932-35cc-47db-8908-79b5f9af33a0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
