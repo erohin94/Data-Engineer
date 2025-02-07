@@ -98,6 +98,117 @@ user_states
 
 ![image](https://github.com/user-attachments/assets/5b0ae932-35cc-47db-8908-79b5f9af33a0)
 
+**2-й вариант**
+
+```
+user_state = {}
+
+def update_user_state(user_id, state):
+    user_state[user_id] = state
+
+update_user_state(12345, 'START')
+update_user_state(12346, 'awaiting_password')
+
+user_state
+```
+
+![image](https://github.com/user-attachments/assets/55cfba67-ba90-41b8-8d1d-129d9a0f478a)
+
+**Получение состояния**
+
+```
+def get_user_state(chat_id):
+    return user_states.get(chat_id, {}) #.get('states', [])
+```
+
+```
+get_user_state(12345)
+```
+
+![image](https://github.com/user-attachments/assets/78dc4f7b-2a5f-45a0-ad50-ccecc7c8f1a9)
+
+
+```
+def get_user_state(chat_id):
+    return user_states.get(chat_id, {}).get('states', [])
+```
+
+```
+get_user_state(12345)
+```
+
+![image](https://github.com/user-attachments/assets/3fbfee5a-8691-4bd1-a0eb-a73717882f75)
+
+
+**2-й вариант
+
+```
+# Функция для получения состояния пользователя
+def get_user_state(user_id):
+    return user_state.get(user_id, None)
+
+get_user_state(12346)
+```
+
+![image](https://github.com/user-attachments/assets/09b2768d-ad1c-4a35-85af-9ff5257c0ac8)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
