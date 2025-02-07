@@ -140,7 +140,7 @@ get_user_state(12345)
 ![image](https://github.com/user-attachments/assets/3fbfee5a-8691-4bd1-a0eb-a73717882f75)
 
 
-**2-й вариант
+**2-й вариант**
 
 ```
 # Функция для получения состояния пользователя
@@ -151,6 +151,59 @@ get_user_state(12346)
 ```
 
 ![image](https://github.com/user-attachments/assets/09b2768d-ad1c-4a35-85af-9ff5257c0ac8)
+
+
+**Получение последнего состояния**
+
+```
+def get_previous_state(chat_id):
+    states = get_user_state(chat_id)
+    if len(states) > 1:
+        return states[-2]  # Возвращаем предпоследнее состояние (предыдущий шаг)
+    return 'main_menu'  # Если предыдущего шага нет, значит, пользователь в главном меню
+```
+
+```
+get_previous_state(12345)
+```
+
+![image](https://github.com/user-attachments/assets/f8bc9cc2-2fa6-4828-837b-2a5c183ceb44)
+
+
+```
+x = [1,2,3,5,6,7,8,9]
+
+x[-2]
+
+----------------------
+8
+```
+
+**Увеличение попыток**
+
+```
+def increment_attempts(chat_id):
+    if chat_id in user_states:
+        user_states[chat_id]['attempts'] += 1
+    else:
+        user_states[chat_id] = {'states': ['awaiting_password'], 'attempts': 1}
+
+user_states = {
+    1: {'states': ['active'], 'attempts': 3},
+    2: {'states': ['inactive'], 'attempts': 5}
+}
+
+increment_attempts(1)
+
+user_states
+```
+
+![image](https://github.com/user-attachments/assets/7f24606f-49b0-4706-a194-492bbde55b9d)
+
+
+
+
+
 
 
 
