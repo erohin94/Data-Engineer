@@ -414,6 +414,9 @@ FROM (
 
 `sum(rank * value)`: Вычисляем сумму произведений ранга на значение.
 
+На примере двух строк со значением 3 и 4 таблицы table
+
+![image](https://github.com/user-attachments/assets/6a767ed5-302d-4f4e-b452-a2639b604948)
 
 
 
