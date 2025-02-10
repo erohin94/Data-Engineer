@@ -279,6 +279,122 @@ ORDER BY year;
 
 *Важно: несмотря на то, что в соответствии с порядком выполнения операторов блок SELECT выполняется после блока GROUP BY, в данном случае PostgreSQL позволяет нам немного отойти от правил и упростить процесс написания запроса. Однако такой «синтаксический сахар» есть не в каждой СУБД, поэтому при работе с другими инструментами будьте аккуратны — в общем случае рекомендуется дублировать расчётное поле в блоке GROUP BY и не использовать в нём алиасы колонок из SELECT.*
 
+# Задача 11 (ClickHouse)
+
+**Перечислить через запятую, в порядке убывания, в какие годы топ-5 издателей по продажам за всё время превышали продажи Global_Sales всех остальных более чем на 60. Формат ответа: Годы через запятую в порядке убывания.**
+
+```
+CREATE TABLE video_game_sales (
+    Rank UInt32,
+    Name String,
+    Platform String,
+    Year String,
+    Genre String,
+    Publisher String,
+    NA_Sales Float32,
+    EU_Sales Float32,
+    JP_Sales Float32,
+    Other_Sales Float32,
+    Global_Sales Float32
+) ENGINE = Log
+```
+
+```
+INSERT INTO video_game_sales SELECT * FROM url('https://raw.githubusercontent.com/dmitrii12334/clickhouse/main/vgsale', CSVWithNames, 'Rank UInt32,
+    Name String,
+    Platform String,
+    Year String,
+    Genre String,
+    Publisher String,
+    NA_Sales Float32,
+    EU_Sales Float32,
+    JP_Sales Float32,
+    Other_Sales Float32,
+    Global_Sales Float32')
+```
+
+Пример таблицы
+
+![image](https://github.com/user-attachments/assets/978cde00-6be3-461a-b113-fcd71ec87626)
+
+Результат 
+
+```
+--В CTE находим ТОП 5 издателей по продажам за все время
+WITH t1 AS (SELECT Publisher
+FROM sandbox.video_game_sales_es
+GROUP BY Publisher
+ORDER BY SUM(Global_Sales) DESC
+LIMIT 5),
+
+--Считаем продажи по годам для топ 5 издателей и продажи по годам для всех всех издателей кроме топ 5
+t2 AS (SELECT Year,
+        SUM(Global_Sales) FILTER (WHERE Publisher IN (SELECT Publisher FROM t1)) AS prodazhi_top5,
+        SUM(Global_Sales) FILTER (WHERE Publisher NOT IN (SELECT Publisher FROM t1)) AS prodazhi_vse_krome_top5
+FROM sandbox.video_game_sales_es
+GROUP BY Year)
+
+SELECT arrayStringConcat(groupArray(Year), ',') as "Результат"
+FROM
+    (
+    SELECT Year, prodazhi_top5, prodazhi_vse_krome_top5, prodazhi_top5 - prodazhi_vse_krome_top5 AS delta
+    FROM t2
+    WHERE prodazhi_top5 - prodazhi_vse_krome_top5 > 60
+    ORDER BY Year DESC
+    )
+```
+
+![image](https://github.com/user-attachments/assets/82e8d0f6-fe58-421f-af08-7ed21e48b43f)
+
+**Пример с использованием OFFSET**
+
+```
+WITH top5 AS (SELECT Publisher, SUM(Global_Sales) AS first_5_sales
+                          FROM sandbox.video_game_sales_es 
+                          GROUP BY Publisher 
+                          ORDER BY SUM(Global_Sales) DESC
+                          LIMIT 5),
+not_top5 AS (SELECT Publisher, SUM(Global_Sales) AS not_5_sales
+                       FROM sandbox.video_game_sales_es 
+                       GROUP BY Publisher 
+                       ORDER BY SUM(Global_Sales) desc
+                       OFFSET 5)
+
+SELECT arrayStringConcat(groupArray("Год"), ',') as "Результат"
+FROM( 
+SELECT Year "Год",
+            SUM(Global_Sales) filter (WHERE Publisher IN (SELECT Publisher FROM top5)) AS "Суммарная прибыль топ 5",
+            SUM(Global_Sales) filter (WHERE Publisher IN (SELECT Publisher FROM not_top5)) "Суммарная прибыль всех >5",
+            SUM(Global_Sales) filter (WHERE Publisher IN (SELECT Publisher FROM top5))-SUM(Global_Sales) filter (WHERE Publisher IN (SELECT Publisher FROM not_top5)) AS delta
+FROM sandbox.video_game_sales_es 
+GROUP BY Year
+HAVING delta>60
+ORDER BY Year DESC) AS rez
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
