@@ -177,6 +177,13 @@ From t1
 
 ![image](https://github.com/user-attachments/assets/c7aae576-8b64-4f4b-ae80-cd224b504f7c)
 
+**Боковой и нативный фильтр**
+
+Можно сделать два фильтра. Боковой и нативный. Настроить например боковой фильтр на одну часть графиков, а нативный на другую часть. Настраивать на вкладке "Влияние"
+
+![image](https://github.com/user-attachments/assets/e5ce73bc-a6ce-49a1-aaea-6c8de37259cf)
+
+![image](https://github.com/user-attachments/assets/fde8666d-1b5b-4083-8c25-b120fee37fdc)
 
 
 
