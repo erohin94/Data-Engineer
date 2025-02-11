@@ -72,6 +72,9 @@ SUM(day_number) filter (where day>=concat(right(left($$'{{ filter_values('Пер
 
 ![image](https://github.com/user-attachments/assets/888aa505-02df-4f4a-8f48-c88096ca8f3e)
 
+![image](https://github.com/user-attachments/assets/ccd1f771-003c-4c3a-b28b-1842230d2277)
+
+
 **Пример работы**
 
 В исходном состоянии когда не выбраны никакие фильтры на боковой панели суперсет, получаем следующее. Как видно, значение показателя равно 903.
@@ -138,6 +141,43 @@ From t1
 ```
 
 ![image](https://github.com/user-attachments/assets/77d9a306-b6be-4956-9e4e-f7d60e1a5a59)
+
+
+**Пример нативного фильтра**
+
+Строится на том же запросе. Только выносится из боковойпанели фильтров на сам дашборд.
+
+![image](https://github.com/user-attachments/assets/7bd95e97-025e-48fe-9b8c-0405718dd26b)
+
+Чтобы добавить, выбрать "Редактировать дашборд" -> Компоненты -> Нативные фильтры
+
+![image](https://github.com/user-attachments/assets/545de520-9fb3-4e67-8760-e3b265780682)
+
+Перенести фильтр на дашборд, в меню нативные фильтры, добавить элент на вкладку.
+
+![image](https://github.com/user-attachments/assets/5bd5fc40-d83c-40f6-9693-ee74e92bf132)
+
+Настраивается так же как и обычный фильтр на боковой панели
+
+![image](https://github.com/user-attachments/assets/708b9c1d-f2f0-419c-abf2-29e4be75f8fe)
+
+![image](https://github.com/user-attachments/assets/52ef8e5b-6d15-4e9a-8f3a-27260aa35ca9)
+
+![image](https://github.com/user-attachments/assets/7d739e5a-c662-482b-baa7-eb918f3db877)
+
+Если выбрать интервал, то видно изменение на графике:
+
+![image](https://github.com/user-attachments/assets/d00a331b-2116-408c-ac7a-c17aca8d2fce)
+
+В редактировании графика видно что ссылается так же как и при обычном боковом фильтре
+
+![image](https://github.com/user-attachments/assets/a9e2784d-8b0e-446f-b2de-c0f59d925d68)
+
+![image](https://github.com/user-attachments/assets/c7aae576-8b64-4f4b-ae80-cd224b504f7c)
+
+
+
+
 
 
 
