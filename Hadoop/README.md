@@ -18,7 +18,7 @@
 
 После успешного запуска, получим сообщение:
 
-[image](https://github.com/user-attachments/assets/5de27163-1df4-4d8e-9e03-2b804689e7e3)
+![image](https://github.com/user-attachments/assets/5de27163-1df4-4d8e-9e03-2b804689e7e3)
 
 Далее необходимо залезть в контейнер и поработать с hdfs.
 
