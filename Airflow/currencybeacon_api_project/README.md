@@ -42,6 +42,50 @@ DAG будет выглядеть следующим образом:
 
 [Ссылка для настройки PostgreSQL через Docker](https://github.com/erohin94/Data-Engineer/tree/main)
 
+[Ссылка для настройки Airflow через Docker](https://github.com/erohin94/Data-Engineer/tree/main/Airflow)
+
+В интерфейсе Airflow, в Admin → Connections необходимо обновить соединение postgres_default как показано на скрине:
+
+![image](https://github.com/user-attachments/assets/51a5ea93-17a0-4e36-a9f7-28a06e909eaf)
+
+Для подключения, передал в Admin → Connections следующие параметры из `docker-compose.yml` файла:
+
+```
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    container_name: postgres
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: 1
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+      
+
+volumes:
+  postgres_data:
+```
+
+где:
+
+`Connection Id` : `postgres_default` (или любое другое имя для идентификации подключения)
+
+`Connection Type` : `Postgres`
+
+`Host` : `postgres` (это имя контейнера PostgreSQL, указанное в docker-compose.yml)
+
+`Database` : postgres` (имя базы данных, как указано в переменной среды POSTGRES_DB)
+
+`Login` : `test` (имя пользователя, указанное в переменной среды POSTGRES_USER)
+
+`Password` : `1` (пароль, указанный в переменной среды POSTGRES_PASSWORD)
+
+`Port` : `5432` (порт PostgreSQL)
+
 
 
 
