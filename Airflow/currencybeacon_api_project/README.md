@@ -40,7 +40,7 @@ DAG будет выглядеть следующим образом:
 
 Первый таск из пайплайна отвечает за создание таблицы, если её нет. В качестве базы данных используется PostgreSQL, можно поднять новый docker-образ базы:
 
-(Ссылка для настройки PostgreSQL через Docker)[https://github.com/erohin94/Data-Engineer/tree/main]
+[Ссылка для настройки PostgreSQL через Docker](https://github.com/erohin94/Data-Engineer/tree/main)
 
 
 
