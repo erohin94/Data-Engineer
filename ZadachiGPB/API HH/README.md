@@ -35,3 +35,38 @@
 `json_example = {"query": "Иванов Иван", "count": 7}`
 
 **OAuth 2.0** — протокол авторизации, позволяющий выдать одному сервису (приложению) права на доступ к ресурсам пользователя на другом сервисе. Протокол избавляет от необходимости доверять приложению логин и пароль, а также позволяет выдавать ограниченный набор прав, а не все сразу.
+
+# Пример ZIP
+
+```
+data = {'region' : ["Москва", "Москва", "Санкт-Петербург", "Уфа"],
+        'salar' : [100000, 100000, 120000, 80000]}
+df = pd.DataFrame(data)
+```
+
+![image](https://github.com/user-attachments/assets/a30ff45b-8def-4431-8ef7-4339bcdd6452)
+
+```
+region_salary = df[["region", "salar"]].drop_duplicates()
+```
+
+![image](https://github.com/user-attachments/assets/7ab95768-626f-4026-acd7-d583778a4436)
+
+```
+for region, salar in zip(region_salary["region"], region_salary["salar"]):
+  print(region)
+  print(salar)
+-----------------
+Москва
+100000
+Санкт-Петербург
+120000
+Уфа
+80000
+```
+
+
+
+
+
+
