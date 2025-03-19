@@ -46,22 +46,27 @@ import time
 # Декоратор для измерения времени выполнения
 def timer_decorator(func):
     def wrapper(*args, **kwargs):
+        lst = []
         start_time = time.time()  # Засекаем время начала
         result = func(*args, **kwargs)  # Вызываем исходную функцию
         end_time = time.time()  # Засекаем время окончания
         print(f"Время выполнения функции {func.__name__}: {end_time - start_time:.4f} секунд")
-        return result
+        lst.append(f"Время старата: {start_time} - Время окончания {end_time}")
+        return lst
     return wrapper
 
 # Применение декоратора
 @timer_decorator
 def slow_function():
+    print("Отсчет пошел")
     time.sleep(2)  # Эмуляция долгой работы
 
 slow_function()
 
 ----------------------------------------------------------
+Отсчет пошел
 Время выполнения функции slow_function: 2.0002 секунд
+['Время старата: 1742373674.2935667 - Время окончания 1742373676.2937737']
 ```
 
 Этот декоратор измеряет время до и после выполнения функции и выводит разницу.
