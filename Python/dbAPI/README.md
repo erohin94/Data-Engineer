@@ -143,3 +143,122 @@ conn.close()
 ```cursor.description ``` - Возвращает информацию о столбцах в результате запроса в виде списка кортежей. Каждый кортеж содержит информацию о столбце, такую как имя, тип данных и т.д.<br>
 ```cursor.executemany(operation, seq_of_parameters) ``` - многократно выполняет команды/запросы к БД с применением всех параметров предоставленных в последовательности seq_of_parameters <br>
 ```cursor.close() ``` - закрыть курсор. Выполняется когда более не требуется выполнять запросы к БД. <br>
+
+### Примеры
+Далее разберем на примерах работы выше описанных методов<br><br>
+Блок импортов для выполнения дальнейших примеров
+
+```
+import os
+import getpass
+import traceback
+import pandas as pd
+from impala.dbapi import connect
+```
+
+Создаем функцию для подключения используя коннект из impala.dbapi
+
+```
+def impala_connect():
+    return connect(host='hdp-y9ret',
+                   port=11111,
+                   use_ssl='true',
+                   auth_mechanism='GSSAPI')
+```
+
+Следующий блок необходим для получения тикета доступа, запустите его, введите пароль и нажмите клавишу Enter
+
+```
+# Получение логина и указание пароля
+login = getpass.getuser()
+print('Введите пароль')
+password = getpass.getpass()
+
+# Получение тикета доступа для подключения к БД
+os.system('echo ' + password + ' | kinit ' + login)
+!klist
+```
+
+Создание подключения conn и курсора cursor
+
+```
+conn = impala_connect()
+cursor = conn.cursor()
+```
+
+Задаем sql запрос с сортировкой на календарь от самой старой даты и получаем первые 65 дней
+
+```
+sql = 'select * from dm_evd.xref_calendar order by calendar_dt limit 65'
+```
+
+Если есть необходимость задать конфигурацию запроса, например изменить лимит памяти на выполняемый запрос, это можно сделать с помощью ```configuration``` в примере ниже
+
+```
+cursor.execute(sql, configuration={'mem_limit': '3gb'})
+```
+
+Конструкция ```try-except``` необходима для безопасности кода, через ```traceback``` мы получаем ошибку от импалы
+
+```
+try:
+    cursor.execute(sql)
+except:
+    error = traceback.format_exc()
+    print(error)
+else:
+    df_result = pd.DataFrame(cursor.fetchall())
+```
+
+Вывод получаемого датафрейма, с нумерацией вместо названий столбцов из БД, может быть полезно если имена столбцов не имеют ценности
+
+```
+df_result.head()
+```
+
+Вывод получаемого датафрейма, с названиями столбцов из БД, может быть полезно если имена столбцов необходимы для дальнейшей работы с данными
+
+```
+cursor.execute(sql)
+new_df = pd.DataFrame(cursor.fetchall(), columns = [desc[0] for desc in cursor.description])
+new_df.head()
+```
+
+Пример работы ```fetchone```, при вызове данного метода мы получаем 1 строку данных, начиная с первой в виде кортежа с данными. при повторном вызове получаем 2ю строку и т.д.
+
+```
+cursor.execute(sql)
+one = cursor.fetchone()
+two = cursor.fetchone()
+print(one)
+print(two)
+```
+
+Пример работы ```fetchmany```. В скобках мы укуазали кол-во строк необходимых для вывода. получили список кортежей с данными по строчно.
+
+```
+cursor.execute(sql)
+newer = cursor.fetchmany(3)
+print(newer)
+```
+
+Пример работы ```rowcount```, к сожалению на текущих параметрах система не смогла определить кол-во строк получаемых запросом
+
+```
+cursor.execute(sql)
+a = cursor.rowcount
+a
+```
+
+Пример работы description для получения "описания данных"
+
+```
+cursor.description
+```
+
+Закрытие курсора и закрытие подключения
+
+```
+cursor.close()
+conn.close()
+```
