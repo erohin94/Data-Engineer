@@ -68,5 +68,5 @@ results = cursor.fetchall()
 connection.close()
 ```
 
-# Тема блока: __`Impala.dbapi`__
+# Тема блока: `Impala.dbapi`
 
