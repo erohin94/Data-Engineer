@@ -69,4 +69,4 @@ connection.close()
 ```
 
 # Тема блока: __`Impala.dbapi`__
-<hr>
+
