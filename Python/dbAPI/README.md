@@ -47,3 +47,26 @@ dbAPI описывает несколько объектов и методов, 
 
 **Transactions** — стандартный способ управления транзакциями, поддержка коммитов (commit) и откатов (rollback).
 
+Пример использования DBAPI с SQLite:
+
+```
+import sqlite3
+
+# Установление соединения с базой данных
+connection = sqlite3.connect('example.db')
+
+# Создание курсора для выполнения запросов
+cursor = connection.cursor()
+
+# Выполнение SQL-запроса
+cursor.execute('SELECT * FROM employees')
+
+# Извлечение всех строк результата
+results = cursor.fetchall()
+
+# Закрытие соединения с базой данных
+connection.close()
+```
+
+# Тема блока: __`Impala.dbapi`__
+<hr>
