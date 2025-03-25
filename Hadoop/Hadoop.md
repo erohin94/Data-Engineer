@@ -64,5 +64,7 @@ Cloudera также предоставляет решения для упрощ�
 
 Интерфейс Cloudera
 
-![Без названия](https://github.com/user-attachments/assets/f8c47570-0aa9-4077-9111-b04a91da0c35)
+![Без названия](https://github.com/user-attachments/assets/e9601588-bfa8-480c-bb98-6115597b36c0)
+
+
 
