@@ -93,5 +93,32 @@ SELECT * FROM orders WHERE order_date BETWEEN '2025-02-01' AND '2025-02-28';
 
 ![image](https://github.com/user-attachments/assets/a946e2d6-9345-49dc-9af0-ed7fa6a9226a)
 
+# **Получить информацию о партициях в PostgreSQL**
 
+Можно воспользоваться запросом, ориентированным на партиционированные таблицы, например:
 
+```
+SELECT 
+    child.relname AS partition_name,
+    parent.relname AS parent_table,
+    child.relkind
+FROM 
+    pg_inherits i
+JOIN 
+    pg_class parent ON parent.oid = i.inhparent
+JOIN 
+    pg_class child ON child.oid = i.inhrelid
+WHERE 
+    parent.relname = 'orders';  -- Укзать имя родительской таблицы
+```
+Этот запрос будет использовать таблицы pg_inherits и pg_class для поиска информации о партициях, если родительская таблица существует и является партиционированной.
+
+![image](https://github.com/user-attachments/assets/800d8655-23cc-4281-876b-4eabce448df7)
+
+`partition_name`  — это имена партиций таблицы orders для разных месяцев 2025 года.
+
+`orders` — это родительская таблица (основная таблица), которая используется для партиционирования. 
+Каждая из партиций — это подтаблица родительской таблицы, которая хранит данные только за определённый месяц.
+
+`relkind` - r это тип объекта в PostgreSQL (или в DBeaver). r означает "regular", то есть это обычная таблица (или партиция). 
+В контексте партиционированной таблицы это обозначает, что orders_jan_2025, orders_feb_2025, и orders_mar_2025 — это партиции, а не отдельные таблицы, которые напрямую содержат данные.
