@@ -102,6 +102,50 @@ ORDER BY customer_id
 
 -Улучшает производительность за счет хранения данных, но требует обновления, если данные изменяются.
 
+# **Запросы для создания и наполнения таблиц**
 
+```
+--1.Создание таблицы с PRIMARY KEY, включающим order_date
+-- Создаем таблицу заказов с партиционированием по дате
+CREATE TABLE orders (
+    order_id SERIAL,
+    customer_id INT NOT NULL,
+    order_date DATE NOT NULL,
+    total_amount DECIMAL(10, 2) NOT NULL,
+    PRIMARY KEY (order_id, order_date)  -- Включаем order_date в PRIMARY key, если не включить, то будет ошибка
+) PARTITION BY RANGE (order_date);
+
+--2.Добавление партиций для каждого месяца
+-- Партиция для заказов в январе 2025 года
+CREATE TABLE orders_jan_2025 PARTITION OF orders
+    FOR VALUES FROM ('2025-01-01') TO ('2025-02-01');
+
+-- Партиция для заказов в феврале 2025 года
+CREATE TABLE orders_feb_2025 PARTITION OF orders
+    FOR VALUES FROM ('2025-02-01') TO ('2025-03-01');
+
+-- Партиция для заказов в марте 2025 года
+CREATE TABLE orders_mar_2025 PARTITION OF orders
+    FOR VALUES FROM ('2025-03-01') TO ('2025-04-01');
+
+--3.Вставка тестовых данных
+-- Вставляем данные для января 2025 года
+INSERT INTO orders (customer_id, order_date, total_amount)
+VALUES
+    (1, '2025-01-05', 150.00),
+    (2, '2025-01-15', 200.50),
+    (3, '2025-01-20', 99.99);
+
+-- Вставляем данные для февраля 2025 года
+INSERT INTO orders (customer_id, order_date, total_amount)
+VALUES
+    (4, '2025-02-05', 250.00),
+    (5, '2025-02-10', 350.75);
+
+-- Вставляем данные для марта 2025 года
+INSERT INTO orders (customer_id, order_date, total_amount)
+VALUES
+    (6, '2025-03-01', 450.00);
+```
 
 
