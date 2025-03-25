@@ -162,7 +162,10 @@ def impala_connect():
     return connect(host='hdp-y9ret',
                    port=11111,
                    use_ssl='true',
-                   auth_mechanism='GSSAPI')
+                   auth_mechanism='GSSAPI') # Механизм аутентификации Kerberos
+
+# Если обычная аутентификация
+conn = connect(host='hdp-y9ret', port=11111, user='user_name', password = 'pass')
 ```
 
 Следующий блок необходим для получения тикета доступа, запустите его, введите пароль и нажмите клавишу Enter
