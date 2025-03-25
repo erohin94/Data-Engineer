@@ -19,7 +19,8 @@ SELECT * FROM orders ORDER BY customer_id;
 
 ![image](https://github.com/user-attachments/assets/359b3167-8824-4ed9-8f1d-e8442b2838bb)
 
-Создаем представление
+Создаем представление с агрегацией.
+Которое будет агрегировать данные, например, подсчитывать общее количество заказов и сумму по каждому клиенту:
 
 ```
 --Создание представления
@@ -43,11 +44,36 @@ FROM customer_order_summary
 ORDER BY customer_id
 ```
 
-Получим результат
+Получим агрегированный результат
 
 ![image](https://github.com/user-attachments/assets/1525683b-4ab4-4e27-9c1e-0529de74a761)
 
+Добавим еще данные в таблицу `orders`
 
+```
+INSERT INTO orders (customer_id, order_date, total_amount)
+VALUES
+    (7, '2025-01-07', 200.00),
+    (7, '2025-01-08', 400.00);
+```
+
+```
+SELECT * FROM orders order by customer_id;
+```
+
+![image](https://github.com/user-attachments/assets/8044295f-d5c6-4cd6-bd06-64661a8f6635)
+
+Теперь обращаемся к представлению
+
+```
+SELECT *
+FROM customer_order_summary
+ORDER BY customer_id
+```
+
+Видим агрегированный результат
+
+![image](https://github.com/user-attachments/assets/a3ada027-184e-4e6e-a79b-5dfa967b1a08)
 
 
 
