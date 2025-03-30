@@ -66,8 +66,6 @@ conn.close()
 
 **Результат:** Запрос будет выполнен, и данные из DataFrame будут вставлены в таблицу. Для каждой строки DataFrame будет выполнена вставка в таблицу с подставленными значениями.
 
-**Заключение:**
-
 Для каждой строки из DataFrame создается отдельная запись в SQL-запросе.
 
 Данные преобразуются в формат, который может быть подставлен в запрос через параметры (%s).
@@ -83,19 +81,19 @@ conn.close()
 Пакетная вставка — это когда вместо того, чтобы делать два отдельных запроса:
 
 ```
-INSERT INTO sbxm_hr.rda_hh_search_result_eserohin(resume_id, owner_id, url, url_w_contacts, vacancy_code, search_status, t_changed_dttm)
+INSERT INTO schema.tablica(resume_id, owner_id, url, url_w_contacts, vacancy_code, search_status, t_changed_dttm)
 VALUES ('aaa111', 111111, 'test1', 'test_11', 10011, 'active', 'data');
 
 #И
 
-INSERT INTO sbxm_hr.rda_hh_search_result_eserohin(resume_id, owner_id, url, url_w_contacts, vacancy_code, search_status, t_changed_dttm)
+INSERT INTO schema.tablica(resume_id, owner_id, url, url_w_contacts, vacancy_code, search_status, t_changed_dttm)
 VALUES ('aaa222', 22222, 'test2', 'test_22', 10012, 'active', 'data2');
 ```
 
 Мы можем сделать один запрос, который будет вставлять сразу обе строки:
 
 ```
-INSERT INTO sbxm_hr.rda_hh_search_result_eserohin(resume_id, owner_id, url, url_w_contacts, vacancy_code, search_status, t_changed_dttm)
+INSERT INTO schema.tablica(resume_id, owner_id, url, url_w_contacts, vacancy_code, search_status, t_changed_dttm)
 VALUES 
 ('aaa111', 111111, 'test1', 'test_11', 10011, 'active', 'data'),
 ('aaa222', 22222, 'test2', 'test_22', 10012, 'active', 'data2');
@@ -105,7 +103,7 @@ VALUES
 
 В Python с помощью библиотеки psycopg2 (для PostgreSQL) можно использовать метод executemany(), чтобы выполнить пакетную вставку. Этот метод позволяет передать сразу несколько значений для выполнения одного запроса.
 
-cursor.executemany(query, values) — выполняет пакетную вставку, вставляя все строки из массива values в таблицу с помощью одного SQL-запроса. Библиотека автоматически заменяет %s в запросе на соответствующие значения из массива данных.
+`cursor.executemany(query, tuples)` — выполняет пакетную вставку, вставляя все строки из `tuples` в таблицу с помощью одного SQL-запроса. Библиотека автоматически заменяет %s в запросе на соответствующие значения из массива данных.
 
 В результате все строки DataFrame будут вставлены одним запросом.
 
