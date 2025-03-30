@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/8b78bc16-4e00-4309-a800-e083d8e2ba6c)
+
 # **dbAPI**
 
 **dbAPI (Database API)** — это стандартный интерфейс, предназначенный для работы с базами данных в языке Python. 
