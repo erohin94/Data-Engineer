@@ -1,4 +1,4 @@
-**AnalysisException: Could not resolve column/field reference: 'curent_date'**
+**`AnalysisException: Could not resolve column/field reference: 'curent_date'`**
 
 Ошибка, которая возникает при выполнении запроса в Impala и выглядит так: «AnalysisException: Не удалось разрешить ссылку на столбец/поле: „current_date“».
 
