@@ -150,4 +150,220 @@ GROUP BY customer_id;
 SELECT * FROM sales_data.transactions
 ```
 
+# **🔐 3. DCL – Data Control Language**
+
+Контроль прав доступа. Управляют правами доступа к объектам базы данных: таблицам, схемам, представлениям, функциям и т. д.
+
+**🔐 GRANT — предоставить права**
+
+📌 Синтаксис:
+
+```
+GRANT привилегии
+ON объект
+TO пользователь [WITH GRANT OPTION];
+```
+
+🔹 Примеры:
+
+1. Дать пользователю analyst_user права только на чтение таблицы:
+
+```
+GRANT SELECT ON sales_data.transactions TO analyst_user;
+```
+
+2. Дать полные права на таблицу:
+
+```
+GRANT SELECT, INSERT, UPDATE, DELETE ON sales_data.transactions TO data_engineer;
+```
+
+3. Дать право создавать таблицы в схеме:
+
+```
+GRANT CREATE ON SCHEMA sales_data TO junior_dev;
+```
+
+4. С правом передачи прав (WITH GRANT OPTION):
+
+```
+GRANT SELECT ON sales_data.transactions TO team_lead WITH GRANT OPTION;
+```
+
+Теперь team_lead может давать другим пользователям доступ к таблице.
+
+**🛑 REVOKE — отозвать права**
+
+📌 Синтаксис:
+
+```
+REVOKE привилегии
+ON объект
+FROM пользователь;
+```
+
+🔹 Примеры:
+
+1. Убрать права на вставку:
+
+```
+REVOKE INSERT ON sales_data.transactions FROM analyst_user;
+```
+
+2. Полностью убрать все права:
+
+```
+REVOKE ALL ON sales_data.transactions FROM data_engineer;
+```
+
+3. Отозвать только право делиться правами:
+
+```
+REVOKE GRANT OPTION FOR SELECT ON sales_data.transactions FROM team_lead;
+```
+
+🧠 Полезно знать
+
+В PostgreSQL пользователи и роли — одно и то же (ROLE)
+
+Есть системные роли (postgres, pg_read_all_data, pg_write_all_data)
+
+Права можно выдавать не только пользователям, но и группам ролей
+
+📋 Таблица распространённых привилегий:
+
+```
+Объект	        Привилегии
+TABLE	        SELECT, INSERT, UPDATE, DELETE, REFERENCES
+SCHEMA	        USAGE, CREATE
+DATABASE	    CONNECT, CREATE, TEMP
+FUNCTION	    EXECUTE
+```
+
+**Как посмотреть текущие права доступа (привилегии) к таблицам, схемам и другим объектам в PostgreSQL — через системные представления и SQL-запросы.**
+
+🔎 1. Посмотреть права на таблицу
+
+```
+SELECT grantee, privilege_type
+FROM information_schema.role_table_grants
+WHERE table_name = 'transactions'
+  AND table_schema = 'sales_data';
+```
+
+🔍 Покажет:
+
+- кто (grantee) имеет доступ
+
+- какие привилегии (SELECT, INSERT, и т.д.)
+
+test - это пользователь
+
+![image](https://github.com/user-attachments/assets/bb78723c-f974-46b7-b52c-747dca176468)
+
+![image](https://github.com/user-attachments/assets/c1f06b4c-a9b7-466a-9fc4-9cb7358fa8f2)
+
+🔎 2. Права по всем таблицам в схеме
+
+```
+SELECT table_schema, table_name, grantee, privilege_type
+FROM information_schema.role_table_grants
+WHERE table_schema = 'sales_data';
+```
+
+📋 Это удобно, если хочешь посмотреть все доступы по своей схеме.
+
+🔎 3. Права на схему
+
+```
+SELECT grantee, privilege_type
+FROM information_schema.role_usage_grants
+WHERE object_type = 'SCHEMA'
+  AND object_name = 'sales_data';
+```
+
+🔎 4. Права на функции
+
+```
+SELECT grantee, specific_name, privilege_type
+FROM information_schema.role_routine_grants
+WHERE routine_schema = 'public';
+```
+
+🔎 5. Права на уровне базы данных (например, подключение)
+
+```
+SELECT datacl
+FROM pg_database
+WHERE datname = 'your_database_name';
+```
+
+💡 datacl — это массив текстов с правами (user=CTc/postgres, например CONNECT, TEMP, CREATE).
+
+🔎 6. Права по ролям
+
+```
+SELECT rolname, rolsuper, rolcreaterole, rolcreatedb, rolcanlogin
+FROM pg_roles;
+```
+📌 Показывает:
+
+-суперпользователь?
+
+-может ли создавать другие роли?
+
+-может ли логиниться?
+
+
+
+
+
+
+
+
+
+
+
+
+# **🔄 4. TCL – Transaction Control Language**
+
+Для управления транзакциями (важно в ETL, особенно при загрузке данных).
+
+🧾 BEGIN, COMMIT, ROLLBACK
+
+```
+BEGIN;
+
+UPDATE accounts SET balance = balance - 100 WHERE user_id = 1;
+UPDATE accounts SET balance = balance + 100 WHERE user_id = 2;
+
+-- если всё прошло успешно
+COMMIT;
+
+-- если произошла ошибка
+ROLLBACK;
+```
+
+🧷 SAVEPOINT и ROLLBACK TO
+
+```
+BEGIN;
+
+UPDATE inventory SET quantity = quantity - 1 WHERE item_id = 10;
+SAVEPOINT reduce_stock;
+
+UPDATE payments SET status = 'PAID' WHERE payment_id = 55;
+
+-- Откатить только к промежуточной точке:
+ROLLBACK TO reduce_stock;
+COMMIT;
+```
+
+
+
+
+
+
+
+
 
