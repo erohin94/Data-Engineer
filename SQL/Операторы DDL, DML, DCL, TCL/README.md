@@ -1,4 +1,4 @@
-# **🏗️ DDL – Data Definition Language (определение структуры данных) (CREATE, DROP, ALTER, TRUNCATE**
+# **🏗️ 1. DDL – Data Definition Language (определение структуры данных) (CREATE, DROP, ALTER, TRUNCATE)**
 
 **Операции для определения структуры объектов базы данных: схем, таблиц, индексов, типов и пр.**
 
@@ -110,5 +110,44 @@ DROP TABLE customers CASCADE;
 ```
 
 `CASCADE` — опасная команда в продуктивных БД, потому что она может удалить всё, что связано, без возможности восстановления (если нет бэкапа).
+
+# **📝 2. DML – Data Manipulation Language (Операции над содержимым таблиц) (SELECT, INSERT, UPDATE, DELETE)**
+
+Операции для вставки, изменения, удаления и чтения данных.
+
+Операции над содержимым таблиц:
+
+`SELECT` — выбрать данные
+
+`INSERT` — вставить строку
+
+`UPDATE` — обновить строку
+
+`DELETE` — удалить строку
+
+```
+INSERT INTO sales_data.transactions (customer_id, product_id, transaction_date, amount)
+VALUES (101, 5, '2024-01-15', 150.75);
+
+--Множественная вставка:
+INSERT INTO sales_data.transactions (customer_id, product_id, transaction_date, amount)
+VALUES 
+(102, 3, '2024-01-16', 99.99),
+(103, 2, '2024-01-17', 249.00);
+
+UPDATE sales_data.transactions
+SET amount = 200.00
+WHERE transaction_id = 1;
+
+DELETE FROM sales_data.transactions
+WHERE transaction_date < '2024-01-16';
+
+SELECT * FROM sales_data.transactions;
+SELECT customer_id, SUM(amount) AS total_spent
+FROM sales_data.transactions
+GROUP BY customer_id;
+
+SELECT * FROM sales_data.transactions
+```
 
 
