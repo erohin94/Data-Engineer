@@ -30,7 +30,7 @@
 
 ```
 INSERT INTO users (id, name, email) VALUES (2, 'Пётр Смирнов', 'petr@example.com'), (3, 'Ольга Соколова', 'olga@example.com');
-``
+```
 
 **SQL запросы**
 
