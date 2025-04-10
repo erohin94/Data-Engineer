@@ -26,5 +26,17 @@
 
 Сделал с помощью `df = df.astype(object)` перед тем как добавлять данные в БД.
 
+**SQL запросы**
+
+```
+DROP TABLE IF EXISTS sbxm_hr.rda_hh_application_resume_erohin
+
+DROP TABLE IF EXISTS sbxm_hr.rda_hh_full_resume_erohin
+
+select * from sbxm_hr.rda_hh_application_resume_erohin 
+
+select * from sbxm_hr.rda_hh_full_resume_erohin
+```
+
 
 
