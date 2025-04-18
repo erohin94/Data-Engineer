@@ -112,6 +112,22 @@ INSERT INTO ... VALUES (...);
 | `cursor.execute(query)` без параметров          | Строка с подставленными значениями     | `"INSERT INTO t (a, b) VALUES ('user_1', 25)"`   | Все значения уже в query — можно собирать вручную через `.join()`        |
 | `cursor.execute(query, dict)`                   | Словарь с именованными параметрами     | `{'name': 'user_1', 'age': 25}`                  | Используется с именованными плейсхолдерами: `VALUES (%(name)s, %(age)s)` |
 
+# **А что значит VALUES %s?**
+
+Когда используется VALUES %s в таком виде:
+```
+query = "INSERT INTO table_name (col1, col2) VALUES %s"
+execute_values(cursor, query, [('user1', 25), ('user2', 30)])
+```
+
+Это специальный синтаксис библиотеки psycopg2.extras.execute_values. Она сама разворачивает список в:
+```
+INSERT INTO table_name (col1, col2) VALUES 
+('user1', 25),
+('user2', 30);
+```
+
+Передаём просто список кортежей — `[(...), (...)]`, а библиотека превращает это в полноценный SQL. Это работает только с `execute_values` (PostgreSQL).
 
 # **Важно!!!!!**
 
