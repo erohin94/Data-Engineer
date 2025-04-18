@@ -132,12 +132,12 @@ INSERT INTO table_name (col1, col2) VALUES
 **executemany**
 
 ```
-query = "INSERT INTO users (name, age) VALUES (%s, %s)"
+query = "INSERT INTO users (name, age) VALUES (%s, %s, %s)"
 
-cursor.executemany(query, [('Alice', 30),('Bob', 25),])
+cursor.executemany(query, [('Alice', 30, 1),('Bob', 25, 5),])
 ```
 
-`%s, %s` — потому что мы вставляем два отдельных значения на каждую строку.
+`%s, %s, %s` — потому что мы вставляем три отдельных значения на каждую строку.
 
 Для каждой строки из списка выполняется отдельный INSERT.
 
@@ -152,7 +152,6 @@ execute_values(cursor, query, [('Alice', 30),('Bob', 25),])
 Только один `%s` — потому что `execute_values` подставляет сразу всю часть (...), (...) в одном запросе.
 
 Всё идёт одним большим INSERT, а не много маленьких.
-
 
 # **Важно!!!!!**
 
