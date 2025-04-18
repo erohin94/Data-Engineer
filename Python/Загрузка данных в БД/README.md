@@ -135,3 +135,7 @@ Impala — это более "псевдокластерная" СУБД, и о�
 
 `execute_values` не работает — но можно собрать строку из `VALUES (...), (...), ...` с помощью `.join()` и вставить через `cursor.execute()`.
 
+```
+insert_str = "insert into schema.table (col1, col2, col3) values ('gjghj', 1234, null), ('fkfkhj', 4444, null), ('cvfdg', 9865, null), ('hghhg', 9632, null)"
+cursor.execute(insert_str)
+```
