@@ -129,6 +129,25 @@ INSERT INTO table_name (col1, col2) VALUES
 
 Передаём просто список кортежей — `[(...), (...)]`, а библиотека превращает это в полноценный SQL. Это работает только с `execute_values` (PostgreSQL).
 
+**`executemany`**
+``
+query = "INSERT INTO users (name, age) VALUES (%s, %s)"
+cursor.executemany(query, [('Alice', 30),('Bob', 25),])
+``
+`%s, %s` — потому что мы вставляем два отдельных значения на каждую строку.
+
+Для каждой строки из списка выполняется отдельный INSERT.
+
+**`execute_values`**
+```
+query = "INSERT INTO users (name, age) VALUES %s"
+execute_values(cursor, query, [('Alice', 30),('Bob', 25),])
+```
+Только один `%s` — потому что `execute_values` подставляет сразу всю часть (...), (...) в одном запросе.
+
+Всё идёт одним большим INSERT, а не много маленьких.
+
+
 # **Важно!!!!!**
 
 При работе с PostgreSQL не забывать делать conn.commit(), Иначе в БД данные не появятся и будет пустая таблица.
