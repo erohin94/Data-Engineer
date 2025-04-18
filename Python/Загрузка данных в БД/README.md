@@ -133,6 +133,7 @@ INSERT INTO table_name (col1, col2) VALUES
 
 ``
 query = "INSERT INTO users (name, age) VALUES (%s, %s)"
+
 cursor.executemany(query, [('Alice', 30),('Bob', 25),])
 ``
 
@@ -144,6 +145,7 @@ cursor.executemany(query, [('Alice', 30),('Bob', 25),])
 
 ```
 query = "INSERT INTO users (name, age) VALUES %s"
+
 execute_values(cursor, query, [('Alice', 30),('Bob', 25),])
 ```
 
