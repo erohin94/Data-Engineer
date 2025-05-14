@@ -79,9 +79,11 @@ slow_function()
 
 **Структура проекта:**
 
+```
 project/
 ├── hh_templates.py    ← здесь декоратор и функция
 └── data_for_model.py    ← здесь вызываем и передаём переменные
+```
 
 **Файл 1: hh_templates.py**
 
