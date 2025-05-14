@@ -75,4 +75,92 @@ slow_function()
 
 Вызов `slow_function()` будет выводить время, затраченное на выполнение функции.
 
+# **Декоратор с параметрами**
+
+**Структура проекта:**
+
+project/
+├── hh_templates.py    ← здесь декоратор и функция
+└── data_for_model.py    ← здесь вызываем и передаём переменные
+
+**Файл 1: hh_templates.py**
+
+```
+def split_area_decorator(df_handbook, df_handbook_id):
+    def decorator(func):
+        def wrapper():
+            print("Декоратор сработал")
+            print("df_handbook:", df_handbook)
+            print("df_handbook_id:", df_handbook_id)
+            templates = func()
+
+            # Пример: добавим регион в каждый шаблон
+            new_templates = []
+            for template in templates:
+                for region_id in df_handbook_id:
+                    t = template.copy()
+                    t['region_id'] = region_id
+                    new_templates.append(t)
+            return new_templates
+        return wrapper
+    return decorator
+
+
+def hh_search_templates():
+    """
+    Просто возвращает базовые шаблоны.
+    """
+    templates = [
+                {"name": "Data Scientist", "keywords": ["ML", "AI"]},
+                {"name": "Backend Developer", "keywords": ["Python", "Django"]}
+                ]
+    return templates
+```
+
+**Файл 2: data_for_model.py**
+
+```
+# data_for_model.py
+from hh_templates import hh_search_templates as base_templates, split_area_decorator
+
+# Пример переменных
+df_handbook = "Это справочник" 
+df_handbook_id = [1, 2, 3]
+
+# Оборачиваем функцию с параметрами
+hh_search_templates = split_area_decorator(df_handbook, df_handbook_id)(base_templates)
+
+# Вызываем
+result = hh_search_templates()
+
+# Печатаем результат
+for item in result:
+    print(item)
+```
+
+```
+PS C:\Users\erohi\Desktop\gazprombank\test_decorator> python data_for_model.py
+Декоратор сработал
+df_handbook: Это справочник
+df_handbook_id: [1, 2, 3]
+{'name': 'Data Scientist', 'keywords': ['ML', 'AI'], 'region_id': 1}
+{'name': 'Data Scientist', 'keywords': ['ML', 'AI'], 'region_id': 2}
+{'name': 'Data Scientist', 'keywords': ['ML', 'AI'], 'region_id': 3}
+{'name': 'Backend Developer', 'keywords': ['Python', 'Django'], 'region_id': 1}
+{'name': 'Backend Developer', 'keywords': ['Python', 'Django'], 'region_id': 2}
+{'name': 'Backend Developer', 'keywords': ['Python', 'Django'], 'region_id': 3}
+```
+В `hh_templates.py` не оборачиваем функцию — экспортируем её «чистой».
+
+`В data_for_model.py`:
+
+Импортируем базовую функцию
+
+Передаём справочник и ID
+
+Оборачиваем её с декоратором с параметрами
+
+
+
+
 
