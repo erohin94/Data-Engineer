@@ -19,7 +19,7 @@
 
 | Цель                          | Код                                                                          |
 |------------------------------|-------------------------------------------------------------------------------|
-| 📤 Python → JSON строка      | `json_str = json.dumps(data, ensure_ascii=False, indent=2)`                 |
+| 📤 Python dict → JSON строка      | `json_str = json.dumps(data, ensure_ascii=False, indent=2)`                 |
 | 📥 JSON строка → Python dict | `data = json.loads(json_str)`                                               |
 | 💽 Сохранить в файл          | `json.dump(data, f, ensure_ascii=False, indent=2)`                          |
 | 📂 Загрузить из файла        | `data = json.load(f)`                                                       |
