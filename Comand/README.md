@@ -5,3 +5,6 @@
    ``python -m venv myenv``
 
    ``myenv\Scripts\activate``
+
+2) **Запуск скрипта в Jupyter**
+   ``%run data_for_model.py``
