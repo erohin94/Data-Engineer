@@ -151,7 +151,7 @@ GROUP BY priority, priority_desc, region
 
 ---------------------------------------------------------------------------------
 SELECT id, name 
-FROM sbxm_hr.rda_xref_hh_areas 
+FROM schema_name.ees_xref_hh_areas 
 WHERE syslib.utf8_lower(name) IN ('волгоград', 'екатеринбург', 'казань', 
 									'краснодар', 'москва', 'нижний новгород', 'новосибирск', 'омск', 
 										'оренбург', 'ростов-на-дону', 'самара', 
