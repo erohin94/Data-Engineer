@@ -152,3 +152,14 @@ SELECT
      3 |      30
 ```
 
+# **Пример**
+
+```
+SELECT CAST('2025-05-27' AS timestamp) AS cast_col_timestmp,
+       CAST('2025-05-27 12:00:00' AS date) AS cast_col_date,
+       TO_DATE('2025-05-27 12:00:00', 'YYYY-MM-DD') AS to_date_col,
+       CURRENT_DATE AS current_date_col
+```
+
+![image](https://github.com/user-attachments/assets/2af96ebe-65f5-4239-8ba3-8b190b84a86c)
+
