@@ -121,3 +121,10 @@ SELECT DATE_SUB(TRUNC(DATE_ADD(TRUNC(NOW(), 'mm'), INTERVAL 1 MONTH), 'mm'), 150
 SELECT DATE_SUB(TRUNC(NOW(), 'dd'), 150) --Разница, сегодня (от 00:00:00 часов) минус 150 дней
 ```
 ![image](https://github.com/user-attachments/assets/2a059793-301e-4c1f-8ca0-b880d413970c)
+
+```
+SELECT CAST('2025-05-27' AS timestamp) AS cast_col, TO_DATE('2025-05-27 12:00:00') AS to_date_col, CURRENT_DATE() AS current_date_col
+```
+![image](https://github.com/user-attachments/assets/60bd3e93-5340-4465-af01-7aa91c8894d8)
+
+
