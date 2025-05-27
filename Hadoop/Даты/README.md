@@ -123,8 +123,9 @@ SELECT DATE_SUB(TRUNC(NOW(), 'dd'), 150) --Разница, сегодня (от 
 ![image](https://github.com/user-attachments/assets/2a059793-301e-4c1f-8ca0-b880d413970c)
 
 ```
-SELECT CAST('2025-05-27' AS timestamp) AS cast_col, TO_DATE('2025-05-27 12:00:00') AS to_date_col, CURRENT_DATE() AS current_date_col
+SELECT CAST('2025-05-27' AS timestamp) AS cast_col,
+       CAST('2025-05-27' AS date) AS cast_col,
+       TO_DATE('2025-05-27 12:00:00') AS to_date_col,
+       CURRENT_DATE() AS current_date_col
 ```
-![image](https://github.com/user-attachments/assets/60bd3e93-5340-4465-af01-7aa91c8894d8)
-
-
+![image](https://github.com/user-attachments/assets/0aec2477-3dbb-4290-a311-4750c817cbc0)
