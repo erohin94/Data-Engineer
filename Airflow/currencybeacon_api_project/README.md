@@ -169,7 +169,7 @@ create_table = PostgresOperator(
 
 В случае с таском `insert_rate` при обнаружении дубля по 3-м колонкам: `base`, `currency` и `date`, произойдёт обновление колонки `rate` вместо добавления ещё одной. Пример SQL запроса:
 
-`
+```
 INSERT INTO
     currency_exchange_rates
 VALUES ('USD', 'KZT', 420.55, '2020-01-01')
