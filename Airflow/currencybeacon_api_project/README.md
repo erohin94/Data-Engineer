@@ -36,8 +36,6 @@ DAG будет выглядеть следующим образом:
 
 `insert_rate`, укладывает полученный курс в таблицу, созданную в таске create_table
 
--------------------------------------------------------------------------------------
-
 # **create_table**
 
 Первый таск из пайплайна отвечает за создание таблицы, если её нет. В качестве базы данных используется PostgreSQL, можно поднять новый docker-образ базы:
@@ -153,7 +151,7 @@ create_table = PostgresOperator(
 
 Путь SQL файла необходимо указывать относительно директории, где лежит сам DAG. В данном случае папка sql лежит в одной директории с кодом DAGа. Аргумент `postgres_conn_id` можно не указывать, т.к. по умолчанию он будет равен `postgres_default`, но я предпочитаю явно это делать.
 
-**get_rate**
+# **get_rate**
 
 Для таска `get_rate` напишем свой кастомный оператор, который будет тянуть данные из внешнего API. В качестве сервиса использую [currencybeacon](https://currencybeacon.com/).
 
@@ -163,9 +161,68 @@ create_table = PostgresOperator(
 
 `Operator` и `Hook` для работы с сервисом напишем позже, сейчас рассмотрим последний таск в нашем пайплайне — `insert_rate`.
 
-**insert_rate**
+# **insert_rate**
 
 Для таска `insert_rate` также будем использовать `PostgresOperator`. Его задача — добавить запись о курсе валют в базу данных после успешного выполнения предыдущего таска `get_rate`.
+
+Вставка данных будет происходить через `UPSERT`. Нередко бывают сбои и чтобы не допустить дублирования данных все таски в Airflow должны быть идемпотентными. 
+
+В случае с таском `insert_rate` при обнаружении дубля по 3-м колонкам: `base`, `currency` и `date`, произойдёт обновление колонки `rate` вместо добавления ещё одной. Пример SQL запроса:
+
+`
+INSERT INTO
+    currency_exchange_rates
+VALUES ('USD', 'KZT', 420.55, '2020-01-01')
+ON CONFLICT (base, currency, date) DO
+    UPDATE
+        SET rate = excluded.rate;
+```
+
+Если в таблице `currency_exchange_rates` уже будет запись обменного курса `USD/KZT` за 1 января, то у этой строчки будет обновлена колонка `rate` на значение `420.55`. Выражение `excluded.rate` ссылается на значение обменного курса, предложенного для вставки (новое значение).
+
+Код оператора:
+
+```
+insert_rate = PostgresOperator(
+    task_id='insert_rate',
+    postgres_conn_id='postgres_default',
+    sql='sql/insert_rate.sql',
+    params={
+        'base_currency': 'USD',
+        'currency': 'KZT',
+    }
+)
+```
+
+Обратите внимание на аргумент `params`, он позволяет передавать значения в SQL-шаблон. Конкретно в этом случае значения у нас статичные, но в конце модуля будет пример с созданием динамических тасков, где это актуально. Параметры в шаблоне доступны через переменную `params`. К ним можно обратиться так:
+
+```
+{{ params.base_currency }} 
+{{ params.currency }} 
+```
+
+А теперь давайте взглянем как выглядит файл с SQL запросом:
+
+Код SQL шаблона:
+
+```
+INSERT INTO
+    currency_exchange_rates
+VALUES ('{{ params.base_currency }}', '{{ params.currency }}', {{ ti.xcom_pull(task_ids="get_rate") }}, '{{ execution_date.strftime("%Y-%m-%d") }}')
+ON CONFLICT (base, currency, date) DO
+    UPDATE
+        SET rate = excluded.rate;
+```
+
+Переменная `execution_date` знакома, с `params` тоже всё понятно.
+
+А что по поводу выражения?
+
+```
+{{ ti.xcom_pull(task_ids="get_rate") }}
+```
+Переменная `ti` также как и `execution_date` доступна в контексте выполнения DAG и ссылается на инстанс текущего таска (PostgresOperator), инстанс также доступен под названием task_instance.
+
 
 
 
