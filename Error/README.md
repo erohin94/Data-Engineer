@@ -11,7 +11,13 @@
 
 Ошибка возникает при загрузке датафрейма в БД hadoop. В датафрейме в столбце `df['standart_time_load']` строка в виде `06:30:00`.
 
-Hive не понимает тип datetime.time (в отличие от pandas или Python), потому что Hive поддерживает свои типы данных (`DATE (yyyy-MM-dd)`, `TIMESTAMP (yyyy-MM-dd HH:mm:ss)`), и datetime.time — не подходит.
+Hive не понимает тип datetime.time (в отличие от pandas или Python), потому что Hive поддерживает свои типы данных 
+
+`DATE (yyyy-MM-dd)` 
+
+`TIMESTAMP (yyyy-MM-dd HH:mm:ss)`
+
+и datetime.time — не подходит.
 
 Если надо сохранять 06:30:00 как время, без даты — нужно: 
 
