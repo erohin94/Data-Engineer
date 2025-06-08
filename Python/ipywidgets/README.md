@@ -18,6 +18,7 @@
 | `Output`       | Блок вывода                                  |
 | `HBox`, `VBox` | Компоновка виджетов по горизонтали/вертикали |
 
+----------------------------------------------------------------------------------------
 
 **widgets.Dropdown**
 
@@ -34,6 +35,8 @@ widgets.Dropdown(
     style           # стиль (например, {'description_width': 'initial'})
 )
 ```
+
+----------------------------------------------------------------------------------------
 
 **dropdown.observe**
 
@@ -58,6 +61,14 @@ def on_change(change):
 
 dropdown.observe(on_change)
 display(dropdown)
+
+-------------------------------
+Питомец: Собака
+{'name': '_property_lock', 'old': traitlets.Undefined, 'new': {'index': 1}, 'owner': Dropdown(description='Питомец:', options=('Кошка', 'Собака', 'Попугай'), value='Кошка'), 'type': 'change'}
+{'name': 'label', 'old': 'Кошка', 'new': 'Собака', 'owner': Dropdown(description='Питомец:', index=1, options=('Кошка', 'Собака', 'Попугай'), value='Кошка'), 'type': 'change'}
+{'name': 'value', 'old': 'Кошка', 'new': 'Собака', 'owner': Dropdown(description='Питомец:', index=1, options=('Кошка', 'Собака', 'Попугай'), value='Собака'), 'type': 'change'}
+{'name': 'index', 'old': 0, 'new': 1, 'owner': Dropdown(description='Питомец:', index=1, options=('Кошка', 'Собака', 'Попугай'), value='Собака'), 'type': 'change'}
+{'name': '_property_lock', 'old': {'index': 1}, 'new': {}, 'owner': Dropdown(description='Питомец:', index=1, options=('Кошка', 'Собака', 'Попугай'), value='Собака'), 'type': 'change'}
 ```
 
 Что такое `change`?
@@ -66,20 +77,51 @@ display(dropdown)
 
 ```
 {
- 'name': 'value',
- 'old': 'Кошка',
- 'new': 'Собака',
- 'owner': Dropdown(...),
- 'type': 'change'
+ 'name': 'value', # Имя свойства, которое изменилось (например, 'value')
+ 'old': 'Кошка', # Старое значение
+ 'new': 'Собака', # Новое значение (что выбрал пользователь)
+ 'owner': Dropdown(...), # Сам виджет (dropdown, slider, и т.д.)
+ 'type': 'change' # 	Тип события. Всегда 'change' для обычного изменения
 }
 ```
 
+----------------------------------------------------------------------------------------
 
+**button.on_click**
 
+`button.on_click(...)` — реакция на нажатие кнопки
 
+----------------------------------------------------------------------------------------
 
+**widgets.Button**
 
+Это кнопка, которую можно нажать в интерфейсе Jupyter Notebook, чтобы запустить Python-функцию.
 
+```
+widgets.Button(
+    description='Текст кнопки',
+    disabled=False,                   # если True — кнопка "засерая", недоступна
+    button_style='',                  # 'primary', 'success', 'info', 'warning', 'danger' или ''
+    tooltip='Подсказка при наведении',
+    icon='check'                      # Иконка из FontAwesome, например: 'check', 'refresh', 'upload'
+)
+```
+
+----------------------------------------------------------------------------------------
+
+**widgets.Output**
+
+`widgets.Output` — Позволяет выводить информацию (текст, графику, ошибки) в ограниченную область, а не прямо в ячейку.
+
+Что делает `widgets.Output`?
+
+`Output` позволяет:
+
+- выводить `print()`, `display()`, графики `(matplotlib, plotly)` внутри себя;
+
+- изолировать вывод (удобно в интерфейсах с кнопками и интерактивными элементами);
+
+- очищать и обновлять содержимое при необходимости.
 
 
 
