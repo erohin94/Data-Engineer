@@ -105,7 +105,7 @@ dbvear
 
 ![image](https://github.com/user-attachments/assets/9d447bfe-4f90-480c-aa53-eb3358fbdc6c)
 
-**Не мог так же подключится к БД postgre которая создана в другом .yaml файле через UI Airflow. Даг падал в ошибку**
+**Не мог так же подключится к БД postgre которая создана в другом .yaml файле из UI Airflow. Даг падал в ошибку**
 
 Причины и решение
 
