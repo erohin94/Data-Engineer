@@ -75,6 +75,164 @@ Windows:
 
 ![image](https://github.com/user-attachments/assets/76328688-c846-48b1-ab0d-e19b9b8da55f)
 
+# **Заметки**
+
+**Как подключится к PostgreSQL через Ui Airflow?**
+
+В .yaml файле для airflow не был указан порт для postgresql (База для логов).
+
+В результате чего я не мог подключится к БД из dbvear и ui airflow
+
+Так как:
+
+-Внутри контейнера PostgreSQL всегда работает на стандартном порту 5432 (если не изменено в конфигурации).
+
+-На хосте (вашей машине) порт не проброшен (нет ports: в конфигурации).
+
+Host (хост): postgres (имя сервиса в docker-compose.yml)
+
+Port (порт): 5432 (стандартный порт внутри контейнера)
+
+В .yaml для Airflow прописал порты и заработало
+
+![1](https://github.com/user-attachments/assets/b8032d18-2b3e-42bc-a6f7-ebe0f05865aa)
+
+В conection прописал следующее
+
+![2](https://github.com/user-attachments/assets/64e435a7-b7a9-4a41-9e78-70432eb0a2f6)
+
+dbvear
+
+![image](https://github.com/user-attachments/assets/9d447bfe-4f90-480c-aa53-eb3358fbdc6c)
+
+**Не мог так же подключится к БД postgre которая создана в другом .yaml файле через UI Airflow. Даг падал в ошибку**
+
+Причины и решение
+
+1. Разные сети Docker
+   
+По умолчанию каждый docker-compose создаёт свою собственную сеть. Контейнеры из разных файлов не видят друг друга.
+
+Решение:
+
+Создать общую сеть в обоих файлах. В обоих docker-compose файлах добавить:
+```
+networks:
+  default:
+    name: my_shared_network
+    external: true
+```
+
+2. Использовать host.docker.internal (для Mac/Windows):
+
+В конфиге my_postgres добавить:
+
+```
+extra_hosts:
+  - "host.docker.internal:host-gateway"
+```
+Тогда в Airflow UI Connections указать Host: host.docker.internal, Port: 5423
+
+Сделал как в пункте 2. 
+
+![3](https://github.com/user-attachments/assets/2c82fc68-5c84-446f-9982-9ce6f6bb5a73)
+
+![4](https://github.com/user-attachments/assets/6103acc3-beb5-464c-94eb-84c5800b7eee)
 
 
+**Про хост и порт**
+
+Как работают хост и порт в Docker на локальном компьютере
+
+Когда вы запускаете PostgreSQL (или любой другой сервис) в Docker, важно понимать три уровня адресации:
+
+Внутри контейнера
+
+Сервис (например, PostgreSQL) всегда работает на своём стандартном порту (5432 для Postgres).
+
+Хост внутри контейнера: localhost (но только для этого контейнера).
+
+В сети Docker (между контейнерами)
+
+Контейнеры могут общаться по имени сервиса (из docker-compose.yml) или имени контейнера.
+
+Пример: если у вас есть сервис my_postgres, другие контейнеры могут подключиться к нему по адресу:
+
+```
+Host: my_postgres  
+Port: 5432
+Docker автоматически резолвит имена через внутренний DNS.
+```
+
+На локальном компьютере (host-машине)
+
+Чтобы подключиться к контейнеру с вашего ПК (не из Docker), нужно:
+
+Пробросить порт через ports: в docker-compose.yml.
+
+Использовать localhost (или 127.0.0.1) и внешний порт.
+
+Примеры из конфигов
+```
+1. Для логов Airflow (первый контейнер)
+yaml
+services:
+  postgres:
+    image: postgres:13
+    ports:
+      - "5432:5432"  # Проброс порта: хост_порт:контейнер_порт
+Подключение из другого контейнера:
+postgres:5432
+
+Подключение с локального ПК:
+localhost:5432
+```
+
+2. Для моей БД (второй контейнер)
+```
+yaml
+services:
+  my_postgres:
+    image: postgres:15
+    ports:
+      - "5423:5432"  # Внутри контейнера — 5432, снаружи — 5423
+Подключение из другого контейнера:
+my_postgres:5432
+
+Подключение с локального ПК:
+localhost:5423
+```
+
+Почему Airflow не подключается к my_postgres?
+
+Если Airflow в Docker (в другом docker-compose):
+
+Контейнеры по умолчанию в разных сетях → не видят друг друга.
+
+Решение:
+
+Создать общую сеть (как в предыдущем ответе).
+
+Либо использовать host.docker.internal (если ОС поддерживает).
+
+Если Airflow на хосте:
+
+Нужно использовать localhost:5423 (проброшенный порт).
+
+Итог
+
+Хост — это "адрес" сервиса:
+
+В Docker-сети: имя сервиса (my_postgres).
+
+На локальном ПК: localhost.
+
+Порт:
+
+Внутри контейнера — стандартный (5432).
+
+Снаружи — тот, что указан в ports: (5423).
+
+Если Airflow и PostgreSQL в одном docker-compose — подключение по my_postgres:5432.
+Если Airflow на хосте — localhost:5423.
 
