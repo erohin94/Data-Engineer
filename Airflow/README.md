@@ -107,11 +107,30 @@ dbvear
 
 ![image](https://github.com/user-attachments/assets/9d447bfe-4f90-480c-aa53-eb3358fbdc6c)
 
+-------------------------------------------------------------------------
+
 **Не мог так же подключится к БД postgre которая создана в другом .yml файле из UI Airflow. Даг падал в ошибку**
 
-Есть [.yml](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/docker-compose.yml) файл с PostgreSQL
+Есть [.yml](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/docker-compose.yml) файл с PostgreSQL и [.yaml](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/docker-compose.yaml) файл с Airflow
 
-Причины и решение
+Пример струткуры папок:
+
+DE/                     
+├── Programs_installation/
+│   ├── ClickHouse
+│         └── ..............
+│   ├── Postgre          
+│         └── docker-compose.yml #Докер файл с PostgreSQL
+│
+├── Airflow_project/
+│   ├── dags
+│   ├── logs
+│   ├── plugins
+│         └── docker-compose.yaml #Докер файл с Airflow
+
+Была так же проблема с подключением из UI Airflow
+
+Причины и решение:
 
 1. Разные сети Docker
    
@@ -120,6 +139,7 @@ dbvear
 Решение:
 
 Создать общую сеть в обоих файлах. В обоих docker-compose файлах добавить:
+
 ```
 networks:
   default:
@@ -135,9 +155,10 @@ networks:
 extra_hosts:
   - "host.docker.internal:host-gateway"
 ```
+
 Тогда в Airflow UI Connections указать Host: host.docker.internal, Port: 5423
 
-Сделал как в пункте 2. 
+Пошел по второму пути, как в пункте 2. 
 
 ![3](https://github.com/user-attachments/assets/2c82fc68-5c84-446f-9982-9ce6f6bb5a73)
 
