@@ -115,6 +115,7 @@ dbvear
 
 Пример струткуры папок:
 
+```
 DE/                     
 ├── Programs_installation/
 │   ├── ClickHouse
@@ -127,6 +128,7 @@ DE/
 │   ├── logs
 │   ├── plugins
 │         └── docker-compose.yaml #Докер файл с Airflow
+```
 
 Была так же проблема с подключением из UI Airflow
 
@@ -164,6 +166,7 @@ extra_hosts:
 
 ![4](https://github.com/user-attachments/assets/6103acc3-beb5-464c-94eb-84c5800b7eee)
 
+-------------------------------------------------------------------------
 
 **Про хост и порт**
 
