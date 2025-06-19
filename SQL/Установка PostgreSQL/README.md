@@ -66,3 +66,87 @@ docker-compose up -d
 ```
 \q
 ```
+
+## Подключение к БД с помощью python
+
+```
+import psycopg2
+from psycopg2 import sql
+
+# Параметры подключения
+dbname = 'postgres'
+user = 'test'
+password = '1'
+host = 'localhost'  # Это может быть '127.0.0.1', если localhost не работает
+port = '5432'
+
+try:
+    # Установить подключение
+    connection = psycopg2.connect(
+        dbname=dbname,
+        user=user,
+        password=password,
+        host=host,
+        port=port
+    )
+    
+    # Создать курсор
+    cursor = connection.cursor()
+    
+    # Пример запроса (получение данных из таблицы users)
+    cursor.execute("SELECT * FROM users;")
+    
+    # Получить все строки
+    rows = cursor.fetchall()
+    
+    print("Таблица users:")
+    for row in rows:
+        print(f"id: {row[0]}, name: {row[1]}, email: {row[2]}")
+    
+    # Пример запроса (вставка новой записи)
+    cursor.execute("INSERT INTO users (name, email) VALUES (%s, %s);", ("David", "david@example.com"))
+    connection.commit()  # Подтверждаем изменения
+    
+    print("Новая запись добавлена в таблицу users.")
+
+    # Закрыть курсор
+    cursor.close()
+    
+except Exception as e:
+    print(f"Ошибка при подключении или выполнении запроса: {e}")
+    
+finally:
+    # Закрыть соединение
+    if connection:
+        connection.close()
+```
+
+Выполнив код увидим что все работает.
+
+![image](https://github.com/user-attachments/assets/5e118d18-0b34-4eb8-971d-25f870ff97b0)
+
+Структура папок
+
+![image](https://github.com/user-attachments/assets/5a3b8d40-8aab-4065-a894-38aa1659a85f)
+
+## Дополнительные шаги (при необходимости):
+
+Проверка контейнера: Если нужно убедиться, что контейнер работает и слушает порт:
+
+```
+docker ps
+```
+
+Проверка логов контейнера: Если что-то пошло не так, можно просмотреть логи контейнера PostgreSQL:
+
+```
+docker logs postgres
+```
+
+## Подключение через DBeaver
+
+![image](https://github.com/user-attachments/assets/78d24903-bd61-4a67-82ac-a51d693641bb)
+
+Увидим созданную ранее в контейнере БД postgre и тестовые данные которыми наполнили.
+
+![image](https://github.com/user-attachments/assets/69a221a3-3e6b-4708-9bdb-ce976636ab68)
