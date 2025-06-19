@@ -37,7 +37,7 @@ docker-compose up -d
 
 ![image](https://github.com/user-attachments/assets/9a359dbe-0907-4568-89b8-e362ad6139cd)
 
-**Подключение к контейнеру PostgreSQL через терминал:**
+## Подключение к контейнеру PostgreSQL через терминал:
 
 Чтобы подключиться к PostgreSQL внутри контейнера, выполнить следующую команду:
 
