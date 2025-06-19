@@ -1,0 +1,16 @@
+services:
+  clickhouse:
+    image: yandex/clickhouse-server:latest
+    container_name: clickhouse
+    restart: always
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    environment:
+      CLICKHOUSE_USER: clickuser
+      CLICKHOUSE_PASSWORD: 2
+    volumes:
+      - ./clickhouse_data:/var/lib/clickhouse
+
+volumes:
+  clickhouse_data:
