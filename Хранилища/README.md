@@ -115,6 +115,8 @@ Data Lake поддерживает хранение данных любого т
 
 **Microsoft Azure Synapse Analytics:**
 
+## Что такое ETL/ELT процессы?
+
 **ETL**
 
 **Extract (Извлечение):**
