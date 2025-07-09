@@ -8,7 +8,7 @@
 
 Начиная с HEAD можно перебрать все узлы по ссылке next.
 
-Последний узел нахываеься - TAIL(хвост)
+Последний узел нахывается - TAIL(хвост)
 
 ![image](https://github.com/user-attachments/assets/b856f01a-7814-4c6f-9fa3-f3d1627b2c51)
 
