@@ -19,8 +19,6 @@ def upload_to_minio():
                       region_name='us-east-1')
 ```
 
-[Ссыдка на даг](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/airflow_project_ny_taxi/dags/test_dag.py) 
-
 # Заметка - проверка установки S3Hook
 
 Для подключения к S3 надо импортировать класс S3Hook
