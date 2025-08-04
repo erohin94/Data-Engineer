@@ -83,7 +83,7 @@ S3Hook упрощает работу с S3 в контексте задач в A
 
 Пример как добавить доп библиотеки:
 
-В папке проекта где лежит ```docker-compose.yaml``` создать еще один файл ```.env```. Пример [ссылка на .env файл](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/airflow_project_ny_taxi/.env)
+В папке проекта где лежит ```docker-compose.yaml``` создать еще один файл ```.env```. Пример [ссылка на .env файл](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/%D0%9E%D1%88%D0%B8%D0%B1%D0%BA%D0%B8/env.txt)
 
 Открыть ```.env``` в VScode и прописать в нем ```_PIP_ADDITIONAL_REQUIREMENTS=apache-airflow-providers-amazon```
 
