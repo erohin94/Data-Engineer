@@ -101,7 +101,7 @@ dbvear
 
 **Не мог так же подключится к БД postgre которая создана в другом .yml файле из UI Airflow. Даг падал в ошибку**
 
-Есть [.yml](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/docker-compose.yml) файл с PostgreSQL и [.yaml](https://github.com/erohin94/Data-Engineer/blob/main/Airflow/docker-compose.yaml) файл с Airflow
+Есть `.yml` файл с PostgreSQL и `.yaml` файл с Airflow
 
 Пример струткуры папок:
 
