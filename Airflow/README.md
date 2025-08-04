@@ -1,3 +1,5 @@
+<img width="981" height="484" alt="tile-image 1650053693" src="https://github.com/user-attachments/assets/7f979dd1-da51-4f90-9157-2d342e0b1d2d" />
+
 ## Содержание
 
 ### Установка 
