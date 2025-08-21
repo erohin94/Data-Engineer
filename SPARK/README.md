@@ -1,7 +1,5 @@
 ## Содержание
 
-<img width="320" height="180" alt="image" src="https://github.com/user-attachments/assets/8f0d0f5c-80c9-47a2-ae11-926f92005fc2" />
-
 ### Теория  
 Базовые понятия и теория Spark.  
 
