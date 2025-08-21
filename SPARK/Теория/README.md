@@ -89,3 +89,81 @@ spark.stop()
 В примере создания `Spark Context` мы импортируем модуль `SparkContext` из библиотеки `PySpark` и создаем объект `sc` с указанием имени приложения. Затем мы можем выполнять операции с `RDD`, используя `sc`. По завершении работы необходимо вызвать метод `stop()` для закрытия `Spark Context`.
 
 В примере создания `Spark Session` мы импортируем модуль `SparkSession` и используем `builder` для настройки параметров `Spark Session`, таких как имя приложения. Затем мы вызываем метод `getOrCreate()`, который создает новую `Spark Session` или возвращает существующую, если она уже создана. После этого мы можем выполнять операции с `DataFrames`, используя `spark`. Наконец, мы вызываем метод `stop()` для закрытия `Spark Session`.
+
+**Рассмотрим различные параметры Spark Session.**
+
+**App Name (spark.app.name)**
+
+- Описание: Имя Spark-приложения.
+- Пример: spark = SparkSession.builder.appName("MyApp").getOrCreate()
+
+**Master (spark.master)**
+
+- Описание: Указывает кластерный менеджер для выполнения приложения (например, локально или в кластере).
+- Пример: spark = SparkSession.builder.master("local[*]").getOrCreate()
+
+**Spark SQL Shuffle Partitions (spark.sql.shuffle.partitions)**
+
+- Описание: Количество разделов для операций shuffle в Spark SQL.
+- Пример: spark = SparkSession.builder.config("spark.sql.shuffle.partitions", "200").getOrCreate()
+
+**Executor Memory (spark.executor.memory)**
+
+- Описание: Количество памяти, выделяемой каждому исполнителю.
+- Пример: spark = SparkSession.builder.config("spark.executor.memory", "4g").getOrCreate()
+
+**Driver Memory (spark.driver.memory)**
+
+- Описание: Количество памяти, выделяемой драйверу Spark-приложения.
+- Пример: spark = SparkSession.builder.config("spark.driver.memory", "2g").getOrCreate()
+
+**Executor Cores (spark.executor.cores)**
+
+- Описание: Количество ядер, выделяемых каждому исполнителю.
+- Пример: spark = SparkSession.builder.config("spark.executor.cores", "4").getOrCreate()
+
+**Dynamic Allocation (spark.dynamicAllocation.enabled)**
+
+- Описание: Включает динамическое выделение исполнителей для приложения.
+- Пример: spark = SparkSession.builder.config("spark.dynamicAllocation.enabled", "true").getOrCreate()
+
+**Checkpoint Directory (spark.checkpoint.dir)**
+
+- Описание: Указывает директорию для сохранения контрольных точек RDD.
+- Пример: spark = SparkSession.builder.config("spark.checkpoint.dir", "/path/to/checkpoint/dir").getOrCreate()
+
+**SQL Warehouse Directory (spark.sql.warehouse.dir)**
+
+- Описание: Указывает директорию для хранения данных Spark SQL.
+- Пример: spark = SparkSession.builder.config("spark.sql.warehouse.dir", "/path/to/warehouse/dir").getOrCreate()
+
+**Hive Support (spark.sql.catalogImplementation)**
+
+- Описание: Включает поддержку Apache Hive в Spark SQL.
+- Пример: spark = SparkSession.builder.config("spark.sql.catalogImplementation", "hive").enableHiveSupport().getOrCreate()
+
+**Пример создания Spark Session с параметрами конфигурации:**
+
+```
+from pyspark.sql import SparkSession
+
+# Создание Spark Session с различными параметрами конфигурации
+spark = SparkSession.builder \
+    .appName("MyApp") \
+    .master("local[*]") \
+    .config("spark.sql.shuffle.partitions", "200") \
+    .config("spark.executor.memory", "4g") \
+    .config("spark.driver.memory", "2g") \
+    .config("spark.executor.cores", "4") \
+    .config("spark.dynamicAllocation.enabled", "true") \
+    .config("spark.checkpoint.dir", "/path/to/checkpoint/dir") \
+    .config("spark.sql.warehouse.dir", "/path/to/warehouse/dir") \
+    .config("spark.sql.catalogImplementation", "hive") \
+    .enableHiveSupport() \
+    .getOrCreate()
+
+# Пример использования Spark Session
+df = spark.read.json("/path/to/json/file")
+df.show()
+```
+
