@@ -184,35 +184,35 @@
 
 Cверху вниз пояснение.
 
-Configured Capacity — общая ёмкость всех DataNode, доступная в HDFS (сумма всех дисковых пространств).
+`Configured Capacity` — общая ёмкость всех DataNode, доступная в HDFS (сумма всех дисковых пространств).
 
-Present Capacity — доступная ёмкость HDFS с учетом зарезервированного пространства.
+`Present Capacity` — доступная ёмкость HDFS с учетом зарезервированного пространства.
 
-DFS Remaining — оставшееся свободное пространство на всех DataNode.
+`DFS Remaining` — оставшееся свободное пространство на всех DataNode.
 
-DFS Used — пространство, которое используется для хранения данных в HDFS.
+`DFS Used` — пространство, которое используется для хранения данных в HDFS.
 
-DFS Used% — процент использования пространства в HDFS.
+`DFS Used%` — процент использования пространства в HDFS.
 
-Under replicated blocks — количество блоков, у которых недостаточно реплик.
+`Under replicated blocks` — количество блоков, у которых недостаточно реплик.
 
-Blocks with corrupt replicas — количество блоков с повреждёнными репликами.
+`Blocks with corrupt replicas` — количество блоков с повреждёнными репликами.
 
-Missing blocks — количество блоков, которые отсутствуют в кластере (потерянные данные).
+`Missing blocks` — количество блоков, которые отсутствуют в кластере (потерянные данные).
 
-Live datanodes — количество активных (доступных) DataNode.
+`Live datanodes` — количество активных (доступных) DataNode.
 
-Dead datanodes — количество DataNode, которые не в сети или не отвечают.
+`Dead datanodes` — количество DataNode, которые не в сети или не отвечают.
 
-Name и Hostname — IP-адрес и имя хоста DataNode.
+`Name и Hostname` — IP-адрес и имя хоста DataNode.
 
-Decommission Status — статус DataNode (например, Normal или Decommissioned, если DataNode выведен из эксплуатации).
+`Decommission Status` — статус DataNode (например, Normal или Decommissioned, если DataNode выведен из эксплуатации).
 
-Configured Capacity, DFS Used, DFS Remaining — ёмкость, используемое и оставшееся пространство на DataNode.
+`Configured Capacity, DFS Used, DFS Remaining` — ёмкость, используемое и оставшееся пространство на DataNode.
 
-DFS Used%, DFS Remaining% — процентное использование и оставшееся пространство.
+`DFS Used%, DFS Remaining%` — процентное использование и оставшееся пространство.
 
-Last contact — время последнего контакта с DataNode.
+`Last contact` — время последнего контакта с DataNode.
 
 Итого файлы подкладывать научились, реплики менять тоже научились. Но, вот правда не узнали где они все таки лежат. Для этого используем следующую команду:
 
