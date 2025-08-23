@@ -119,3 +119,5 @@ YARN позволяет разным приложениям (не только M
 Поэтому оптимально размер блока делать 128 мб.
 
 <p align="center"><img width="600" height="300" alt="image" src="https://github.com/user-attachments/assets/9ce7510e-a716-4fb0-9103-ac8d1445033e" /></p>
+
+<p align="center"><img width="730" height="769" alt="image" src="https://github.com/user-attachments/assets/db7c7f16-9e22-4e08-9287-f09113582f7e" /></p>
