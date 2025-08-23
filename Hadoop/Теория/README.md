@@ -104,7 +104,7 @@ YARN позволяет разным приложениям (не только M
 
 Если `DataNode` падает → клиент переключается на другую реплику.
 
-<p align="center"><img width="400" height="300" alt="Без названия (1)" src="https://github.com/user-attachments/assets/b0116f10-f306-406f-b0d2-0add9e8aeb43" /></p>
+<p align="center"><img width="500" height="490" alt="Без названия (1)" src="https://github.com/user-attachments/assets/b0116f10-f306-406f-b0d2-0add9e8aeb43" /></p>
 
 **Пример**
 
