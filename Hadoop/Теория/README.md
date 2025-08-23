@@ -39,7 +39,7 @@ YARN позволяет разным приложениям (не только M
 
 Это набор общих библиотек и утилит, которые поддерживают работу всех компонентов Hadoop. Они обеспечивают взаимодействие между различными частями системы.
 
-<p align="center"><img width="500" height="300" alt="Без названия" src="https://github.com/user-attachments/assets/4cf69dee-62dc-400a-ac2d-c48d09c9c464" /></p>
+<p align="center"><img width="500" height="490" alt="Без названия" src="https://github.com/user-attachments/assets/4cf69dee-62dc-400a-ac2d-c48d09c9c464" /></p>
 
 ## Архитектура HDFS
 
