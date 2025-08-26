@@ -58,7 +58,8 @@
 
 В качестве источника указываю свою рабочую ветку, в качестве назначениявыбираю `master`.
 
-<img width="704" height="345" alt="image" src="https://github.com/user-attachments/assets/2541d560-64e6-4654-a8cc-66a3f18a6da3" />
+<img width="710" height="348" alt="image" src="https://github.com/user-attachments/assets/7d6f0e4f-cda0-40b5-94ae-b7bc29540009" />
+
 
 Назначаю ревьювера моего кода:
 
