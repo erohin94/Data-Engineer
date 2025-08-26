@@ -49,3 +49,18 @@
 И снова проверяем статус локального репозитория, убеждаемся, что все изменения за день отправлены в bitbucket
 
 <img width="623" height="135" alt="image" src="https://github.com/user-attachments/assets/70c64112-5910-40a9-8ad8-cb029ee7b4da" />
+
+**Пройти код ревью**
+
+Когда работа над задачей завершена и готова к код ревью, в репозитории BB создаем `pull request` на `merge` рабочей ветки с веткой `master` и наначаем `review` на сотрудника, ответсвенного за осуществление мерджа (или за проведение код ревью).
+
+<img width="360" height="226" alt="image" src="https://github.com/user-attachments/assets/4b7e5b0b-84ee-46c1-b5e7-ec7a9f7aef9e" />
+
+В качестве источника указываю свою рабочую ветку, в качестве назначениявыбираю `master`.
+
+<img width="704" height="345" alt="image" src="https://github.com/user-attachments/assets/2541d560-64e6-4654-a8cc-66a3f18a6da3" />
+
+Назначаю ревьювера моего кода:
+
+<img width="541" height="286" alt="image" src="https://github.com/user-attachments/assets/d279153a-a89d-4a75-b589-7f665cff7a30" />
+
