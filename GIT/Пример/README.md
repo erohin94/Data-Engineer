@@ -52,7 +52,7 @@
 
 <img width="612" height="189" alt="image" src="https://github.com/user-attachments/assets/b5462894-72f5-4e69-a0bd-b1ee281fd331" />
 
-И снова проверяем статус локального репозитория, убеждаемся, что все изменения за день отправлены в bitbucket
+И проверяем статус локального репозитория, убеждаемся, что все изменения за день отправлены в bitbucket
 
 <img width="623" height="135" alt="image" src="https://github.com/user-attachments/assets/70c64112-5910-40a9-8ad8-cb029ee7b4da" />
 
