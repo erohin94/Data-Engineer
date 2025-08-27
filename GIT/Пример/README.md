@@ -34,10 +34,6 @@
 
 <img width="571" height="22" alt="image" src="https://github.com/user-attachments/assets/a3bb1db2-fc9a-4899-ab12-d62b4cf8a42f" />
 
-Выполнем команду `git pull` - Скачивание изменений из удалённого репозитория в локальный
-
-<img width="571" height="35" alt="image" src="https://github.com/user-attachments/assets/42fbeb35-d1eb-4e4f-b4f5-565cbd4e572f" />
-
 После каждого логически завершенного фрагмента работы добавляем изменения в свою локальную ветку (`add, commit`).
 Добавляем изменения в скрипт `3_udate.sql` который лежит в локальном репозитории (удаляем старый код, добавляем новый).
 
