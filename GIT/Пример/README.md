@@ -71,4 +71,8 @@
 
 <img width="541" height="286" alt="image" src="https://github.com/user-attachments/assets/d279153a-a89d-4a75-b589-7f665cff7a30" />
 
-Отправить письмо на рег процессы по шаблону.
+После проделанных шагов в BB. Надо написать письмо по шаблону, с просьбой провести код ревью и отправить на рег процессы.
+
+<img width="1190" height="216" alt="image" src="https://github.com/user-attachments/assets/671d0261-0d6f-4456-8839-5cd32935261a" />
+
+
