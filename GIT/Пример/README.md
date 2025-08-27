@@ -16,6 +16,18 @@
 
 <img width="920" height="444" alt="image" src="https://github.com/user-attachments/assets/bc43e5a4-1fb4-486e-a214-8fd3622763ab" />
 
+Изначально откроется ветка OPALAB-14848, нам надо переключится на мастер, чтобы синхронизировать локальный репозиторий с удаленным. Вводим `git checkout master`
+
+<img width="585" height="75" alt="image" src="https://github.com/user-attachments/assets/f448bdc6-ad55-451c-885e-1c684c917c7f" />
+
+Делаем `git pull` - Скачивание изменений из удалённого репозитория в локальный
+
+<img width="542" height="33" alt="image" src="https://github.com/user-attachments/assets/f6bcfde0-0e30-4608-b444-dbf63d8cd086" />
+
+Далее переключаемся на нащу ветку `git checkout OPALAB-14848`
+
+<img width="524" height="64" alt="image" src="https://github.com/user-attachments/assets/0951f3d3-2301-41be-ab08-396733ea42a4" />
+
 Важно, чтобы название ветки было с номером задачи с которой работаем, в данном случае работаем с задачей `14848`.
 
 *При работе с bitbucket от ветки `master` создаем новую локальную ветку с номером задачи. И всегда работаем только с локальной веткой*
