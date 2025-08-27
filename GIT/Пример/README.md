@@ -71,3 +71,4 @@
 
 <img width="541" height="286" alt="image" src="https://github.com/user-attachments/assets/d279153a-a89d-4a75-b589-7f665cff7a30" />
 
+Отправить письмо на рег процессы по шаблону.
