@@ -41,10 +41,6 @@
 
 <img width="569" height="37" alt="image" src="https://github.com/user-attachments/assets/f042b3a7-a9fe-4f89-8d1e-bb98fc476fe3" />
 
-После добавления изменений в индекс, проверяем статус снова: `git status`. Git должен показать, что изменения добавлены в индекс и готовы для коммита.
-
-<img width="563" height="115" alt="image" src="https://github.com/user-attachments/assets/6aeff96e-a34f-4126-8acd-09930bfeb3ae" />
-
 Затем делаем `commit` и добавляем комментарий командой `git commit -m"Здесь пишем комментарий с изменениями":
 
 <img width="582" height="67" alt="image" src="https://github.com/user-attachments/assets/a6fe8054-1344-4452-bd44-5ff7e439bb41" />
