@@ -48,7 +48,13 @@
 **Отправка изменений кода в BitBucket из GitBash**
 
 После того как применили все изменения надо их отправить из локального репозитория на удаленный репозиторий.
-Выполняем команду `git push`
+Выполняем команду `git push` (а если мы пушим ветку в первый раз, то для нее нужно задать `upstream` командой `git push --set-upstream origin OPALAB-15231`)
+
+Первый пуш новой ветки:
+
+<img width="587" height="184" alt="image" src="https://github.com/user-attachments/assets/8328b959-6357-4a90-8889-5b1ff0074ddd" />
+
+Все последующие:
 
 <img width="612" height="189" alt="image" src="https://github.com/user-attachments/assets/b5462894-72f5-4e69-a0bd-b1ee281fd331" />
 
