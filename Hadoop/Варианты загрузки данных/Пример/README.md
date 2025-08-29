@@ -141,3 +141,17 @@ compute stats sbxm_hr.ees_first_sample_non_norm_time_tmp
 <img width="485" height="220" alt="image" src="https://github.com/user-attachments/assets/a95b6884-f6eb-4a14-aba4-b9824fab7630" />
 
 Далее на основе этой выборки производятся расчеты остальных атрибутов и данные заливаются в витрину. 
+
+**Если витрина изначально пустая**
+
+Представим что сегодня 29.08.2025 года.
+
+Витрина изначально пустая, флаг равен `True`
+
+<img width="387" height="183" alt="image" src="https://github.com/user-attachments/assets/00e352e8-b903-40d3-b27a-ae6061493bcd" />
+
+Запускаем расчет первичной выборки и видим что в первичную выборку попал период с `01-01-2020` по `27-08-2025`. То есть все данные которые есть в источнике.
+
+<img width="403" height="194" alt="image" src="https://github.com/user-attachments/assets/3d0bbc29-ed2d-4d62-8623-e36c9d979ea9" />
+
+Соответственно все записи попадут в витрину
