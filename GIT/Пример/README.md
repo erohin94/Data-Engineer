@@ -41,7 +41,7 @@
 
 <img width="569" height="37" alt="image" src="https://github.com/user-attachments/assets/f042b3a7-a9fe-4f89-8d1e-bb98fc476fe3" />
 
-Затем делаем `commit` и добавляем комментарий командой `git commit -m"Здесь пишем комментарий с изменениями":
+Затем делаем `commit` и добавляем комментарий командой `git commit -m"Здесь пишем комментарий с изменениями"`:
 
 <img width="582" height="67" alt="image" src="https://github.com/user-attachments/assets/a6fe8054-1344-4452-bd44-5ff7e439bb41" />
 
@@ -52,7 +52,7 @@
 
 <img width="612" height="189" alt="image" src="https://github.com/user-attachments/assets/b5462894-72f5-4e69-a0bd-b1ee281fd331" />
 
-И проверяем статус локального репозитория, убеждаемся, что все изменения за день отправлены в bitbucket
+И проверяем статус `git status` локального репозитория, убеждаемся, что все изменения за день отправлены в bitbucket
 
 <img width="623" height="135" alt="image" src="https://github.com/user-attachments/assets/70c64112-5910-40a9-8ad8-cb029ee7b4da" />
 
