@@ -24,7 +24,7 @@
 
 <img width="542" height="33" alt="image" src="https://github.com/user-attachments/assets/f6bcfde0-0e30-4608-b444-dbf63d8cd086" />
 
-Далее переключаемся на нащу ветку `git checkout OPALAB-14848`
+Далее переключаемся на нашу ветку `git checkout OPALAB-14848` (выполняем команду `git checkout -b OPALAB-14848` для создания новой ветки если ее нет. `git checkout` без `-b` рлзволяет переключатся на существующую ветку)
 
 <img width="524" height="64" alt="image" src="https://github.com/user-attachments/assets/0951f3d3-2301-41be-ab08-396733ea42a4" />
 
