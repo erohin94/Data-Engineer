@@ -18,6 +18,6 @@
 
 Посмотреть статистику таблицы можно командой `SHOW TABLE STATS database_name.table_name`. Перед использованием команды обновить статистику `COMPUTE STATS database_name.table_nam`.
 
-Видим 3 партиций по годам, размер каждой около 1МБ
+Видим 6 партиций по годам, размер каждой около 1МБ
 
 <img width="1356" height="301" alt="image" src="https://github.com/user-attachments/assets/00366d21-1bfc-41fa-a4d4-ae5ef2a7161e" />
