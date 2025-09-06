@@ -238,3 +238,91 @@ echo "Человекочитаемый размер директории $HDFS_D
 
 <img width="983" height="122" alt="image" src="https://github.com/user-attachments/assets/5e7a5b20-6efb-48bd-a80e-9e7687c1bc46" />
 
+## Добавление дата нод
+
+А что если...мы создадим еще дата нод? Чтобы посмотреть на то, как происходит репликация... Для этого изменим конфиг docker-compose на следующий
+
+```
+version: "3"
+
+services:
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop2.7.4-java8
+    volumes:
+      - namenode:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=test
+    env_file:
+      - ./hadoop-hive.env
+    ports:
+      - "50070:50070"
+
+  datanode1:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
+    volumes:
+      - datanode1:/hadoop/dfs/data
+    env_file:
+      - ./hadoop-hive.env
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070"
+    ports:
+      - "50075:50075"
+
+  datanode2:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
+    volumes:
+      - datanode2:/hadoop/dfs/data
+    env_file:
+      - ./hadoop-hive.env
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070"
+    ports:
+      - "50076:50075" # Порт изменен для уникальности
+
+  datanode3:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
+    volumes:
+      - datanode3:/hadoop/dfs/data
+    env_file:
+      - ./hadoop-hive.env
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070"
+    ports:
+      - "50077:50075" # Порт изменен для уникальности
+
+  hive-server:
+    image: bde2020/hive:2.3.2-postgresql-metastore
+    env_file:
+      - ./hadoop-hive.env
+    environment:
+      HIVE_CORE_CONF_javax_jdo_option_ConnectionURL: "jdbc:postgresql://hive-metastore/metastore"
+      SERVICE_PRECONDITION: "hive-metastore:9083"
+    ports:
+      - "10000:10000"
+
+  hive-metastore:
+    image: bde2020/hive:2.3.2-postgresql-metastore
+    env_file:
+      - ./hadoop-hive.env
+    command: /opt/hive/bin/hive --service metastore
+    environment:
+      SERVICE_PRECONDITION: "namenode:50070 datanode1:50075 datanode2:50075 datanode3:50075 hive-metastore-postgresql:5432"
+    ports:
+      - "9083:9083"
+
+  hive-metastore-postgresql:
+    image: bde2020/hive-metastore-postgresql:2.3.0
+
+  presto-coordinator:
+    image: shawnzhu/prestodb:0.181
+    ports:
+      - "8080:8080"
+
+volumes:
+  namenode:
+  datanode1:
+  datanode2:
+  datanode3:
+```
+
+*Были проблемы с перезапуском контейнера, клнфликт портов. Сделал docker stop 26886381c2cb, docker rm 26886381c2cb, docker compose down и docker compose up -d.*
