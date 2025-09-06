@@ -6,6 +6,13 @@
 
 ![image](https://github.com/user-attachments/assets/68d67b3e-174d-4693-af64-0cef1fbbab1c)
 
+(Либо использовать мою папку с проектом, тоже самое: [https://github.com/erohin94/Data-Engineer/tree/main/Hadoop/%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0/docker-hive](ссылка))
+
+Проект имеет следующую структуру 
+
+<img width="622" height="278" alt="image" src="https://github.com/user-attachments/assets/a4a5a93d-0e54-4fdb-8951-b5b3f3af9735" />
+
+
 **Перейти в папку с проектом:**
 
 `cd docker-hive`
