@@ -236,4 +236,5 @@ echo "Человекочитаемый размер директории $HDFS_D
 
 `docker exec -it 393bcc0012d8 /tmp/calculate_hdfs_directory_size.sh`
 
-<img width="973" height="197" alt="image" src="https://github.com/user-attachments/assets/16dba7be-2875-4d4f-9d46-ff8df2a02bf0" />
+<img width="983" height="122" alt="image" src="https://github.com/user-attachments/assets/5e7a5b20-6efb-48bd-a80e-9e7687c1bc46" />
+
