@@ -1,4 +1,4 @@
-# Команды 
+## Команды 
 
 `hdfs dfs` может применяться только в HDFS, а команды `hadoop fs` — это универсальная команда файловой системы. Она может работать как с HDFS, так и с другими файловыми системами, поддерживаемыми Hadoop (например, локальной файловой системой или S3).
 
@@ -183,5 +183,49 @@ Cверху вниз пояснение.
 
 ## Как запускать bash скрипты
 
-Посчитаем размер для нашей папки test1, созданной в прошлом шаге.
+Посчитаем размер для нашей папки test1.
 
+Создадим скрипт `sh` в `VsCode`, назовем его `calculate_hdfs_directory_size.sh` и наполним его кодом:
+
+```
+#!/bin/bash
+
+HDFS_DIRECTORY="/test1"
+
+DIRECTORY_SIZE=$(hdfs dfs -du -s $HDFS_DIRECTORY | awk '{print $1}')
+
+HUMAN_READABLE_SIZE=$(hdfs dfs -du -s -h $HDFS_DIRECTORY | awk '{print $1}')
+
+# Вывод результата
+echo "Размер директории $HDFS_DIRECTORY: $DIRECTORY_SIZE байт"
+echo "Человекочитаемый размер директории $HDFS_DIRECTORY: $HUMAN_READABLE_SIZE"
+```
+<img width="1309" height="427" alt="image" src="https://github.com/user-attachments/assets/3f7fd1a0-b4c2-4e1c-8c59-09023a88d4e6" />
+
+Открываем отдельный терминал, в другом запущен докер.
+
+<img width="1778" height="237" alt="image" src="https://github.com/user-attachments/assets/fae64f51-10f4-48b2-a970-f6f1ed4bfa94" />
+
+Далее мы перенесем этот скрипт в Docker.
+
+`docker cp calculate_hdfs_directory_size.sh 393bcc0012d8:/tmp/calculate_hdfs_directory_size.sh`
+
+<img width="1084" height="38" alt="image" src="https://github.com/user-attachments/assets/9a1a05cf-30ce-4347-b140-0f26f1cf75ea" />
+
+Стоит ли его перекидывать в HDFS? Нет. Проверим его наличие в Docker.
+
+`docker exec -it 393bcc0012d8 ls /tmp/calculate_hdfs_directory_size.sh`
+
+<img width="950" height="113" alt="image" src="https://github.com/user-attachments/assets/ebfeada2-9f18-40e8-b1e2-a022f3c7f40c" />
+
+А далее остается сделать его исполняемым и запустить.
+
+`docker exec -it 393bcc0012d8 chmod +x /tmp/calculate_hdfs_directory_size.sh`
+
+<img width="951" height="90" alt="image" src="https://github.com/user-attachments/assets/8c7cef8d-fde7-4463-82a7-3ceeddc60103" />
+
+И наконец, запустить скрипт
+
+`docker exec -it 393bcc0012d8 /tmp/calculate_hdfs_directory_size.sh`
+
+<img width="973" height="197" alt="image" src="https://github.com/user-attachments/assets/16dba7be-2875-4d4f-9d46-ff8df2a02bf0" />
