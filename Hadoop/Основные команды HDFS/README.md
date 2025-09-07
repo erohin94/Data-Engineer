@@ -355,7 +355,7 @@ volumes:
 
 *Если не ищет файл*
 
-1.Скопировать файл с хоста в контейнер. Сначала скопируй с хост-машины в контейнер namenode: `docker cp localfile.txt docker-hive-namenode-1:/tmp/localfile.txt`
+1.Скопировать файл с хоста в контейнер. Сначала скопируй с хост-машины в контейнер namenode(в другом терминале где не запущен hdfs): `docker cp localfile.txt docker-hive-namenode-1:/tmp/localfile.txt`
 
 <img width="871" height="43" alt="image" src="https://github.com/user-attachments/assets/febe4cf1-5d40-45c1-8a14-f897064ffec2" />
 
