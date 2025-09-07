@@ -342,3 +342,33 @@ volumes:
 
 <img width="1072" height="747" alt="Снимок экрана 2024-11-14 в 02 58 08" src="https://github.com/user-attachments/assets/c52dc326-f864-4900-834f-2c51b9882a24" />
 
+Видим, что блоки потеряны (MISSING BLOCKS). Поэтому дропнем этот файл и закинем еще один (который на самом деле никуда не девался, он по прежнему находится в Docker, если Вы внимательно читали это руководство).
+
+Итак, мы дропаем старый файл. Подкладываем с докера новый файл.
+
+`hdfs dfs -put /tmp/localfile.txt /test1/localfile.txt`
+
+*Если не ищет файл*
+
+1.Скопировать файл с хоста в контейнер. Сначала скопируй с хост-машины в контейнер namenode: `docker cp localfile.txt docker-hive-namenode-1:/tmp/localfile.txt`
+
+<img width="871" height="43" alt="image" src="https://github.com/user-attachments/assets/febe4cf1-5d40-45c1-8a14-f897064ffec2" />
+
+Затем уже в контейнере: `hdfs dfs -put /tmp/localfile.txt /test1/localfile.txt`
+
+<img width="600" height="34" alt="image" src="https://github.com/user-attachments/assets/5b1a8a18-b5fc-4416-a605-2a9545912c42" />
+
+А далее смотрим где это все размазано
+
+`hdfs fsck /test1/localfile.txt -files -blocks -locations`
+
+Видим, что размазано по следующим датанодам 
+
+[DatanodeInfoWithStorage[172.21.0.2:50010,DS-90c878d9-459e-44a4-ba94-07602152c7ab,DISK], 
+DatanodeInfoWithStorage[172.21.0.5:50010,DS-a13fcb7a-d8d7-404b-9310-c56761ad1653,DISK], 
+DatanodeInfoWithStorage[172.21.0.7:50010,DS-a079bc3c-0c2b-457f-bbed-e89814501837,DISK]]
+
+Видим размер блока - len=39 и количество реплик repl=3
+
+<img width="1890" height="459" alt="image" src="https://github.com/user-attachments/assets/75e843ed-8fef-4598-a21d-8dbfcbbc62f8" />
+
