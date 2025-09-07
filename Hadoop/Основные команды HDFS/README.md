@@ -390,3 +390,5 @@ DatanodeInfoWithStorage[172.21.0.7:50010,DS-a079bc3c-0c2b-457f-bbed-e89814501837
 А теперь посмотрим на то, что происходит с датанодами - `hdfs fsck /test1/localfile.txt -files -blocks -locations`
 
 <img width="1891" height="464" alt="image" src="https://github.com/user-attachments/assets/37a25cae-2e18-4594-a33e-5d23dfb7da25" />
+
+Видим, что датанод у нас 3, а фактор репликации - 2. Поэтому 2 файла (которые в текущем случае являются не кусочками, а файлами) записывают на 2 дата ноды.
