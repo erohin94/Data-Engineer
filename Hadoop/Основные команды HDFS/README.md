@@ -421,6 +421,8 @@ DatanodeInfoWithStorage[172.21.0.7:50010,DS-a079bc3c-0c2b-457f-bbed-e89814501837
 
 <img width="776" height="19" alt="image" src="https://github.com/user-attachments/assets/a0e6515c-d765-4d98-92a2-23a842abfed8" />
 
+*Разбор по частям: `hdfs dfs` — запускает утилиту работы с HDFS. `-put` — копирует файл из локальной файловой системы в HDFS. `/tmp/synthetic_fraud_data.csv` — путь к файлу на локальной машине (или внутри контейнера, если вы выполняете команду там). `/test1/synthetic_fraud_data.csv` — путь в HDFS, куда будет загружен файл.*
+
 Итак, команда - `hdfs dfs -ls /test1/synthetic_fraud_data.csv`. Покажет нам размер. Проверим сначала его.
 
 <img width="773" height="54" alt="image" src="https://github.com/user-attachments/assets/f5d99720-80b9-4118-94c5-823ef0e8f4a6" />
