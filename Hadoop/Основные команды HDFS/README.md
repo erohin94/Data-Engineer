@@ -4,6 +4,8 @@
 
 -[Как запускать bash скрипты](#Как-запускать-bash-скрипты)
 
+-[Добавление дата нод](#Добавление-дата-нод)
+
 ## Команды 
 
 Другие команды, как провалится в котейнер смотри тут [ссылка](https://github.com/erohin94/Data-Engineer/tree/main/Hadoop/%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0)
@@ -379,3 +381,12 @@ DatanodeInfoWithStorage[172.21.0.7:50010,DS-a079bc3c-0c2b-457f-bbed-e89814501837
 
 <img width="1890" height="459" alt="image" src="https://github.com/user-attachments/assets/75e843ed-8fef-4598-a21d-8dbfcbbc62f8" />
 
+А теперь попробуем изменить фактор репликации на 2. И посмотреть сможет ли он убрать копию файла с какой-то дата ноды.
+
+`hdfs dfs -setrep 2 /test1/localfile.txt`
+
+<img width="512" height="74" alt="image" src="https://github.com/user-attachments/assets/e834cbe6-4d35-4e1f-ac03-fe78804a04c6" />
+
+А теперь посмотрим на то, что происходит с датанодами - `hdfs fsck /test1/localfile.txt -files -blocks -locations`
+
+<img width="1891" height="464" alt="image" src="https://github.com/user-attachments/assets/37a25cae-2e18-4594-a33e-5d23dfb7da25" />
