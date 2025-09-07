@@ -324,5 +324,10 @@ volumes:
   datanode2:
   datanode3:
 ```
+После того как изментл докер файл, выполняю команды
 
-*Были проблемы с перезапуском контейнера, клнфликт портов. Сделал docker stop 26886381c2cb, docker rm 26886381c2cb, docker compose down и docker compose up -d.*
+Пересобрать конфигурацию. Если контейнеры уже были запущены: `docker compose down`
+
+Поднять новые сервисы: `docker compose up -d`
+
+*Были проблемы с перезапуском контейнера, клнфликт портов. Сделал `docker stop 26886381c2cb`, `docker rm 26886381c2cb`, `docker compose down` и `docker compose up -d`.*
