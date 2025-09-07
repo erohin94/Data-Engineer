@@ -176,3 +176,8 @@ SELECT TRUNC(NOW(), 'dd') --Округление до дня
 SELECT DATE_ADD(TRUNC(NOW(), 'dd'), INTERVAL 0 MONTH) -- Добавляет интервал 0 месяцев к сегодня
 
 SELECT TRUNC(DATE_ADD(TRUNC(NOW(), 'dd'), INTERVAL 0 MONTH), 'mm') --Округление до дня, добавление интервала 0 месяцев, округления до начала месяца
+
+SELECT DATE_SUB(TRUNC(DATE_ADD(TRUNC(NOW(), 'mm'), INTERVAL 0 MONTH), 'mm'), 150) --Округление до месяца, добавление интервала 0 месяцев, округления до начала месяца, начало месяца минус 150 дней
+
+SELECT DATE_SUB(TRUNC(NOW(), 'dd'), 150) --Разница, сегодня (от 00:00:00 часов) минус 150 дней
+```
