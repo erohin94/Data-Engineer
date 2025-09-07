@@ -47,3 +47,9 @@
 Работа с регистром
 
 🔗 [Регистр](https://github.com/erohin94/Data-Engineer/tree/main/Hadoop/%D0%A0%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80)
+
+### Фишки
+
+Различные фишки которые применял в работе
+
+🔗 [Фишки](https://github.com/erohin94/Data-Engineer/tree/main/Hadoop/%D0%A4%D0%B8%D1%88%D0%BA%D0%B8)
