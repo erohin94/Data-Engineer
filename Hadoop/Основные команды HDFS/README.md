@@ -431,6 +431,48 @@ DatanodeInfoWithStorage[172.21.0.7:50010,DS-a079bc3c-0c2b-457f-bbed-e89814501837
 
 <img width="616" height="74" alt="image" src="https://github.com/user-attachments/assets/02957369-e83e-4759-9081-2717de5450fe" />
 
+А теперь смотрим реплики и их размеры.
+
+`hdfs fsck /test1/synthetic_fraud_data.csv -files -blocks -locations`
+
+<img width="715" height="17" alt="image" src="https://github.com/user-attachments/assets/d6870165-7e78-4678-990d-99079209cedc" />
+
+<img width="1906" height="758" alt="image" src="https://github.com/user-attachments/assets/4828d61b-b330-449d-bd87-38f7848e107f" />
+
+<img width="609" height="347" alt="image" src="https://github.com/user-attachments/assets/e0a57304-17a6-45c4-b9fc-3d1115fd795a" />
+
+```
+Status: HEALTHY
+ Total size:    2934232016 B
+ Total dirs:    0
+ Total files:   1
+ Total symlinks:                0
+ Total blocks (validated):      22 (avg. block size 133374182 B)
+ Minimally replicated blocks:   22 (100.0 %)
+ Over-replicated blocks:        0 (0.0 %)
+ Under-replicated blocks:       0 (0.0 %)
+ Mis-replicated blocks:         0 (0.0 %)
+ Default replication factor:    3
+ Average block replication:     3.0
+ Corrupt blocks:                0
+ Missing replicas:              0 (0.0 %)
+ Number of data-nodes:          3
+ Number of racks:               1
+FSCK ended at Sun Sep 07 15:04:08 UTC 2025 in 28 milliseconds
+
+
+The filesystem under path '/test1/synthetic_fraud_data.csv' is HEALTHY
+root@67baa2e87e1c:/#
+```
+
+А теперь понимаем, что да как и отвечаем на самые частые вопросы. 
+
+**Блоков - 22. Средний размер каждого 128 Мб.**
+
+**Дата ноды 3. Получается, что мы записали 22 блока на первую дата ноду и 2 раза среплицировали их на 2 и 3 ноду. То есть всего в HDFS 66 блоков по 128 Мб.**
+
+Таким образом, файл `/test1/synthetic_fraud_data.csv` в HDFS полностью здоров, его блоки распределены по трем DataNode с репликацией 3, как настроено по умолчанию в конфигурации, которую мы с Вами использовали. 
+
 ------------------------------
 
 ## Заметки
@@ -466,5 +508,16 @@ DatanodeInfoWithStorage[172.21.0.7:50010,DS-a079bc3c-0c2b-457f-bbed-e89814501837
 | **HDFS**              | **HDFS**               | `hdfs dfs -mv`  | В контейнере (namenode) | Перемещает или переименовывает файл внутри HDFS                                            | `hdfs dfs -mv /test1/file1.txt /test1/file_renamed.txt`                             |
 | **Хост**              | **Контейнер с volume** | Через volume    | На хосте + контейнер    | Любой файл в примонтированной директории хоста автоматически виден в контейнере и наоборот | volume: `./data:/data` → файл `./data/file.csv` виден в контейнере `/data/file.csv` |
 
+**Команда:** `docker cp synthetic_fraud_data.csv 67baa2e87e1c:/tmp/synthetic_fraud_data.csv`
+
+`synthetic_fraud_data.csv` — файл на вашей локальной Windows-машине.
+
+`67baa2e87e1c`— это ID контейнера (например, NameNode или DataNode).
+
+`/tmp/synthetic_fraud_data.csv` — путь внутри контейнера, куда копируется файл.
+
+⚠️ Важно: это просто копирование файла в файловую систему контейнера, а не в HDFS. Если контейнер — это NameNode, файл теперь находится внутри контейнера, но не в HDFS.
+Чтобы файл оказался в HDFS, нужно выполнить уже команду: `hdfs dfs -put /tmp/synthetic_fraud_data.csv /test1/synthetic_fraud_data.csv`
+Только после этого файл появится в HDFS и будет доступен всем DataNode.
 
 ------------------------------
