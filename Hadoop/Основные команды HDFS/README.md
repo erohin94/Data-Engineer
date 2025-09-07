@@ -396,6 +396,7 @@ DatanodeInfoWithStorage[172.21.0.7:50010,DS-a079bc3c-0c2b-457f-bbed-e89814501837
 ------------------------------
 
 **Заметки**
+Обьяснение `hdfs fsck /test1/localfile.txt -files -blocks -locations`
 
 **Что такое hdfs fsck**
 
