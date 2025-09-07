@@ -330,8 +330,9 @@ volumes:
 
 Поднять новые сервисы: `docker compose up -d`
 
+--------------------------------------------
 *Были проблемы с перезапуском контейнера, клнфликт портов. Сделал `docker stop 26886381c2cb`, `docker rm 26886381c2cb`, `docker compose down` и `docker compose up -d`.*
-
+--------------------------------------------
 Запустим с такой конфигурацией. Помните, что у нас остались другие файлы, пока мы практиковались? Их можно удалять. Так как HDFS не умеет переносить на свежие датаноды реплики уже загруженного файла. Даже если мы сделаем команду 
 
 `hdfs dfs -setrep 3 /test1/localfile_renamed.txt`
@@ -348,15 +349,18 @@ volumes:
 
 `hdfs dfs -put /tmp/localfile.txt /test1/localfile.txt`
 
+--------------------------------------------
 *Если не ищет файл*
 
 1.Скопировать файл с хоста в контейнер. Сначала скопируй с хост-машины в контейнер namenode: `docker cp localfile.txt docker-hive-namenode-1:/tmp/localfile.txt`
 
 <img width="871" height="43" alt="image" src="https://github.com/user-attachments/assets/febe4cf1-5d40-45c1-8a14-f897064ffec2" />
 
-Затем уже в контейнере: `hdfs dfs -put /tmp/localfile.txt /test1/localfile.txt`
+2.Затем уже в контейнере: `hdfs dfs -put /tmp/localfile.txt /test1/localfile.txt`
 
 <img width="600" height="34" alt="image" src="https://github.com/user-attachments/assets/5b1a8a18-b5fc-4416-a605-2a9545912c42" />
+
+--------------------------------------------
 
 А далее смотрим где это все размазано
 
