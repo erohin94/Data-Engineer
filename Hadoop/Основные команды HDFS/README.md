@@ -331,3 +331,14 @@ volumes:
 Поднять новые сервисы: `docker compose up -d`
 
 *Были проблемы с перезапуском контейнера, клнфликт портов. Сделал `docker stop 26886381c2cb`, `docker rm 26886381c2cb`, `docker compose down` и `docker compose up -d`.*
+
+Запустим с такой конфигурацией. Помните, что у нас остались другие файлы, пока мы практиковались? Их можно удалять. Так как HDFS не умеет переносить на свежие датаноды реплики уже загруженного файла. Даже если мы сделаем команду 
+
+`hdfs dfs -setrep 3 /test1/localfile_renamed.txt`
+
+Не заработает! Проверим, введя команду
+
+`hdfs fsck /test1/localfile_renamed.txt -files -blocks -locations`
+
+<img width="1072" height="747" alt="Снимок экрана 2024-11-14 в 02 58 08" src="https://github.com/user-attachments/assets/c52dc326-f864-4900-834f-2c51b9882a24" />
+
