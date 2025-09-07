@@ -16,7 +16,7 @@
 
 Основные команды для работы с HDFS с примерами. Работа с терминалом.
 
-🔗 [Команды HDFS](https://github.com/erohin94/Data-Engineer/tree/main/Hadoop/%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D1%8B%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D1%8B%20HDFS)
+🔗 [Основные команды HDFS](https://github.com/erohin94/Data-Engineer/tree/main/Hadoop/%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D1%8B%D0%B5%20%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D1%8B%20HDFS)
 
 ### Варианты загрузки данных
 
