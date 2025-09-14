@@ -35,3 +35,12 @@ ORDER BY report_dt
 <img width="514" height="649" alt="image" src="https://github.com/user-attachments/assets/ac232544-66d2-4ca6-afac-7bb623fef741" />
 
 Если для каких то месяцев будут пропуски, то следует проверить либо сам расчет, либо источник (на основе которого был произведен расчет) на полноту данных.
+
+## Проверка длины строки - подсчет символов
+
+```
+SELECT LENGTH('Было интересно и информативно!!!')
+```
+
+<img width="411" height="200" alt="image" src="https://github.com/user-attachments/assets/8d83cb00-4eb0-41f9-b091-705eddd621bb" />
+
