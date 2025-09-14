@@ -11,14 +11,14 @@
 4. Поставить квоту на 5 файлов для этой директории.
 
 
-**1.**
+**1.Создание директории в HDFS.**
 
 Открываем терминал и вводим команды
 
 ```
 cd C:\Users\erohi\Desktop\hdfs\docker-hive
 
-docker-compose up -d
+docker-compose up -d 
 
 docker exec -it docker-hive-namenode-1 /bin/bash
 
@@ -27,7 +27,7 @@ hdfs dfs -mkdir /task1
 
 <img width="1150" height="496" alt="image" src="https://github.com/user-attachments/assets/1abd9c8a-004d-43e1-bb15-3dc8509aef8d" />
 
-**2.**
+**2.Добавдение 5 файлов в HDFS.**
 
 Т.к HDFS у нас располагается в Docker, то алгоритм создания  и добавления файлов будет выглядеть следующим образом:
 
@@ -61,12 +61,15 @@ hdfs dfs -mkdir /task1
 
 `hdfs dfs -ls /task1/`
 
+<img width="631" height="82" alt="image" src="https://github.com/user-attachments/assets/c7444666-71bf-4ec5-a3bf-e5c080b335a8" />
+
 Размер не нулевой, это уже радует. Как посмотреть содержимое файла?
 
 Используем `cat` и указываем тот файл, который хотели бы посмотреть.
 
 `hdfs dfs -cat /task1/file1.txt`
 
+<img width="436" height="32" alt="image" src="https://github.com/user-attachments/assets/df6b61cb-b9fa-4aaa-a29f-4eae9a73bde5" />
 
 
 -Перенести из файловой системы докера в HDFS
