@@ -39,8 +39,22 @@ ORDER BY report_dt
 ## Проверка длины строки - подсчет символов
 
 ```
-SELECT LENGTH('Было интересно и информативно!!!')
+SELECT
+LENGTH('Было интересно и информативно!!!') AS leng,
+LENGTH(REGEXP_REPLACE('Было интересно и информативно!!!', '.', 'X')) AS leng_reg_rep,
+REGEXP_REPLACE('Было интересно и информативно!!!', '.', 'X') AS reg_rep;
 ```
 
-<img width="411" height="200" alt="image" src="https://github.com/user-attachments/assets/8d83cb00-4eb0-41f9-b091-705eddd621bb" />
+<img width="706" height="249" alt="image" src="https://github.com/user-attachments/assets/80ed8785-2e18-4549-9070-338805ccf24c" />
+
+При подсчете количества символов с помощью `LENGTH` заметил, что не корректно считает (из за кодировки), поэтому сделал подсчет с помощью `REGEXP_REPLACE`
+
+Функция `REGEXP_REPLACE('Было интересно и информативно!!!', '.', 'X')` делает следующее:
+
+`. (точка)` в регулярных выражениях означает "любой один символ"
+
+`REGEXP_REPLACE` ищет ВСЕ совпадения с шаблоном в строке
+
+Заменяет каждый найденный символ на букву `'X'`
+
 
