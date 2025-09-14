@@ -134,3 +134,63 @@ echo "Количество файлов в директории $HDFS_DIRECTORY:
 `docker exec -it 67baa2e87e1c /tmp/calculate_hdfs_directory_size.sh`
 
 <img width="939" height="164" alt="image" src="https://github.com/user-attachments/assets/504fef5b-6c24-49af-8498-337852538696" />
+
+**4.Поставить квоту на 5 файлов для этой директории.**
+
+Переходим в терминал с HDFS
+
+Ввожу команду `hdfs dfsadmin -setQuota 5 /task1` - Поставить квоту на 5 файлов для директории /task1.
+
+`hdfs dfs -count -q /task1` - Проверить квоту.
+
+<img width="942" height="66" alt="image" src="https://github.com/user-attachments/assets/44504043-ab8a-4509-a6c7-a68f8383c103" />
+
+```
+Колонки означают:
+
+QUOTA = 5 → стоит квота на количество файлов/директорий = 5.
+
+REMAINING_QUOTA = -1 → это значит, что квота уже достигнута (больше файлов создавать нельзя).
+
+SPACE_QUOTA = none → квота по размеру не задана.
+
+REMAINING_SPACE_QUOTA = inf → ограничений по объёму нет.
+
+DIR_COUNT = 1 → в /task1 есть 1 директория (сама /task1).
+
+FILE_COUNT = 5 → внутри лежит 5 файлов.
+
+CONTENT_SIZE = 135 → общий размер файлов в байтах.
+
+PATHNAME = /task1 → путь до директории.
+```
+
+Удалить квоту (снять ограничение) - `hdfs dfsadmin -clrQuota /task1`
+
+<img width="919" height="51" alt="image" src="https://github.com/user-attachments/assets/ab4eb376-19ad-491d-abc4-2badfb433812" />
+
+Если попытаешься загрузить больше 5 файлов, HDFS выдаст ошибку: `QuotaExceededException: The NameSpace quota (directories and files) of directory /task1 is exceeded`
+
+## В HDFS на директорию можно ставить квоты – ограничения. Есть два типа:
+
+**1. Quota (по количеству файлов и папок)**
+
+- ограничивает, сколько объектов (файлов + подкаталогов) можно создать внутри директории.
+
+- если квота достигнута, новые файлы/каталоги создать уже нельзя.
+
+Например:
+
+`hdfs dfsadmin -setQuota 5 /task1`
+
+Это значит, что в каталоге /task1 можно хранить не более 5 файлов или папок.
+
+**2. Space Quota (по размеру данных)**
+
+- ограничивает суммарный объём данных (байты) в директории.
+
+- пример: `hdfs dfsadmin -setSpaceQuota 1g /task1`
+
+Это значит, что в каталоге можно хранить до 1 ГБ данных.
+
+
