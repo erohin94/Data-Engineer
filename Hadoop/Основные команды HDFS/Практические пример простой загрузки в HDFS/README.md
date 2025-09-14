@@ -52,6 +52,8 @@ hdfs dfs -mkdir /task1
 
 Откуда я взял 67baa2e87e1c? Это нейм нода Hadoop.
 
+-Перенести из файловой системы докера в HDFS
+
 Вернемся в другой терминал в котором открыт HDFS.
 
 Вводим следующую команду. Команда put копирует файл или директорию из локальной файловой системы в HDFS.
@@ -72,5 +74,63 @@ hdfs dfs -mkdir /task1
 
 <img width="436" height="32" alt="image" src="https://github.com/user-attachments/assets/df6b61cb-b9fa-4aaa-a29f-4eae9a73bde5" />
 
+Для остальных файлов проделываем тоже самое
 
--Перенести из файловой системы докера в HDFS
+<img width="632" height="210" alt="image" src="https://github.com/user-attachments/assets/25edf059-68f0-4deb-b90b-35ab54b250f1" />
+
+<img width="702" height="196" alt="image" src="https://github.com/user-attachments/assets/1f0e74d0-a800-4ec2-bf0b-a794beca97e9" />
+
+<img width="438" height="129" alt="image" src="https://github.com/user-attachments/assets/640d4c2c-de62-4b34-91a1-38dae2760ae4" />
+
+**3.Подсчет количества файлов и занимаемое пространство.**
+
+Посчитаем размер для нашей папки task1.
+
+Создадим скрипт `sh` в VsCode, назовем его `calculate_hdfs_directory_size.sh` и наполним его кодом:
+
+```
+#!/bin/bash
+
+HDFS_DIRECTORY="/task1"
+
+DIRECTORY_SIZE=$(hdfs dfs -du -s $HDFS_DIRECTORY | awk '{print $1}')
+
+HUMAN_READABLE_SIZE=$(hdfs dfs -du -s -h $HDFS_DIRECTORY | awk '{print $1}')
+
+FILE_COUNT=$(hdfs dfs -ls $HDFS_DIRECTORY | grep '^-' | wc -l)
+
+# Вывод результата
+echo "Размер директории $HDFS_DIRECTORY: $DIRECTORY_SIZE байт"
+echo "Человекочитаемый размер директории $HDFS_DIRECTORY: $HUMAN_READABLE_SIZE"
+echo "Количество файлов в директории $HDFS_DIRECTORY: $FILE_COUNT"
+```
+
+<img width="693" height="297" alt="image" src="https://github.com/user-attachments/assets/2e542552-a69b-43fa-88c9-013a1ee3fe6f" />
+
+Открываем отдельный терминал и переходим в папку с файлом .sh.
+
+<img width="360" height="22" alt="image" src="https://github.com/user-attachments/assets/6a0a363c-ca17-4d20-8d2a-8f3365b7b054" />
+
+Далее мы перенесем этот скрипт в Docker.
+
+`docker cp calculate_hdfs_directory_size.sh 67baa2e87e1c:/tmp/calculate_hdfs_directory_size.sh`
+
+<img width="1082" height="36" alt="image" src="https://github.com/user-attachments/assets/060b8629-1f64-4541-b528-786b9fd99abb" />
+
+Стоит ли его перекидывать в HDFS? Нет. Проверим его наличие в Docker.
+
+`docker exec -it 67baa2e87e1c ls /tmp/calculate_hdfs_directory_size.sh`
+
+<img width="943" height="135" alt="image" src="https://github.com/user-attachments/assets/bc2da986-3010-4d85-82a1-232dc6d648c7" />
+
+А далее остается сделать его исполняемым и запустить.
+
+`docker exec -it 67baa2e87e1c chmod +x /tmp/calculate_hdfs_directory_size.sh`
+
+<img width="946" height="121" alt="image" src="https://github.com/user-attachments/assets/3e3a59cc-a300-4017-b896-89d2b3075f7f" />
+
+И наконец, запустить скрипт
+
+`docker exec -it 67baa2e87e1c /tmp/calculate_hdfs_directory_size.sh`
+
+<img width="939" height="164" alt="image" src="https://github.com/user-attachments/assets/504fef5b-6c24-49af-8498-337852538696" />
