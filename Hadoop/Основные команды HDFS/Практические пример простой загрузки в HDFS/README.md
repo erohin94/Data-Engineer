@@ -27,6 +27,7 @@ hdfs dfs -mkdir /task1
 
 <img width="1150" height="496" alt="image" src="https://github.com/user-attachments/assets/1abd9c8a-004d-43e1-bb15-3dc8509aef8d" />
 
+
 **2.Добавдение 5 файлов в HDFS.**
 
 Т.к HDFS у нас располагается в Docker, то алгоритм создания  и добавления файлов будет выглядеть следующим образом:
