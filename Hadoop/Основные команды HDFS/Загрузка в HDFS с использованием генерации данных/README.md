@@ -78,6 +78,49 @@
 
 <img width="1016" height="259" alt="image" src="https://github.com/user-attachments/assets/769611cb-09f5-4a55-8f1e-71aaeb7d82c2" />
 
+# Схема
+
+Наглядная схема, как скрипт работает с файлами:
+
+```
+[Windows локальный диск]
+C:\Users\erohi\Desktop\hdfs\letters_20250924_185224
+      │  <- Python генерирует CSV
+      │     df.to_csv(..., encoding='utf-8')
+      ▼
+─────────────────────────────
+[Docker-контейнер: Linux FS]
+/tmp/letters_20250924_185224
+      │  <- docker cp копирует папку из Windows
+      │
+      ▼
+─────────────────────────────
+[HDFS: Hadoop Distributed File System]
+/task_20250924_185224/letters_20250924_185224
+      │  <- docker exec hdfs dfs -put загружает файлы в HDFS
+      │
+      ▼
+      Файлы доступны в HDFS, управляются NameNode и DataNode
+      Можно просматривать через:
+      hdfs dfs -ls /task_20250924_185224
+      hdfs dfs -cat /task_20250924_185224/letter_0.csv
+```
+
+**Пояснения:**
+
+Windows FS — временная рабочая директория, где создаются CSV.
+
+Docker контейнер — Linux-файловая система, через которую запускаются команды HDFS.
+
+HDFS — распределённое хранилище Hadoop, где файлы реплицируются и управляются NameNode/DataNode.
+
+**Важно:**
+
+Удаление файлов в Windows не удаляет их из контейнера и HDFS.
+
+Удаление в контейнере не удаляет их из HDFS.
+
+Чтобы полностью очистить, нужно отдельно удалять и из контейнера, и из HDFS.
 
 # Ошибки
 
