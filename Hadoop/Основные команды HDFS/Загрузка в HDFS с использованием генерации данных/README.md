@@ -36,6 +36,48 @@
 
 Удалить файлы которые добавил в контейнер `docker exec a3d9ac3c9f82 find /tmp -type d -name "letters_*" -exec rm -rf {} +`
 
+**Проверить наличие файлов в hdfs**
+
+Через терминал докера `docker exec -it docker-hive-namenode-1 hdfs dfs -ls /task_20250924_190048/letters_20250924_190048`
+
+<img width="1069" height="475" alt="image" src="https://github.com/user-attachments/assets/70b61da6-7fd1-480c-9774-c32250951b16" />
+
+Прочитать содержимое конкретного файла `docker exec -it docker-hive-namenode-1 hdfs dfs -cat /task_20250924_190048/letters_20250924_190048/letter_0.csv`
+
+<img width="1120" height="146" alt="image" src="https://github.com/user-attachments/assets/13adc8ee-19e0-4518-9fb7-5665905ea2bc" />
+
+Через терминал HDFS. Переходим в терминал с HDFS `docker exec -it docker-hive-namenode-1 /bin/bash`
+
+Вводим `hdfs dfs -ls /` - Показывает все папки в HDFS.
+
+<img width="708" height="183" alt="image" src="https://github.com/user-attachments/assets/496f7179-dc64-4136-816b-a1563f73677d" />
+
+Содержимое конкретной папки `hdfs dfs -ls /task_20250924_190048/letters_20250924_190048`
+
+<img width="1053" height="434" alt="image" src="https://github.com/user-attachments/assets/7c218623-321b-453c-a389-4dccb9b47f25" />
+
+Прочитать содержимое файла `hdfs dfs -cat /task_20250924_190048/letters_20250924_190048/letter_0.csv`
+
+<img width="759" height="67" alt="image" src="https://github.com/user-attachments/assets/233b09db-afdb-4415-9373-b6e8b0a3668b" />
+
+**Удаление файлов из контейнера и HDFS**
+
+Удаляем папки из HDFS `docker exec -it docker-hive-namenode-1 hdfs dfs -rm -r -f /task_20250924_*`
+
+`-r` — рекурсивно, чтобы удалить подпапки.
+
+`-f`— принудительно, без подтверждений.
+
+Проверяем, что HDFS пуст от папок: `docker exec -it docker-hive-namenode-1 hdfs dfs -ls /`
+
+<img width="1128" height="323" alt="image" src="https://github.com/user-attachments/assets/4b366b18-5ff5-4964-8214-9f3dbba7b337" />
+
+Удаляем временные папки внутри контейнера `docker exec -it docker-hive-namenode-1 bash -c "rm -rf /tmp/letters_*"`
+
+Проверяем: `docker exec -it docker-hive-namenode-1 ls -l /tmp`
+
+<img width="1016" height="259" alt="image" src="https://github.com/user-attachments/assets/769611cb-09f5-4a55-8f1e-71aaeb7d82c2" />
+
 
 # Ошибки
 
