@@ -163,3 +163,29 @@ subprocess.CalledProcessError: Command 'docker exec docker-hive-namenode-1 hdfs 
 put: `/tmp/letters_20250924_183635/*': No such file or directory
 То есть внутри контейнера папки /tmp/letters_20250924_183635 нет, хотя docker cp вроде отработал.
 Причина в том, что docker cp копирует в контейнер под root (в файловую систему Linux), а hdfs dfs -put выполняется уже внутри контейнера от пользователя hdfs (или hadoop), у которого может не быть доступа/видимости к /tmp.
+
+# Запуск .sh скрипта
+
+Расположение файла
+
+<img width="618" height="105" alt="image" src="https://github.com/user-attachments/assets/3b0ea9dc-1736-482d-9c32-89fee75cc944" />
+
+`C:\Users\erohi>cd Desktop`
+
+`C:\Users\erohi\Desktop>cd hdfs`
+
+`C:\Users\erohi\Desktop\hdfs>docker cp letters_to_hdfs.sh a3d9ac3c9f82:/tmp/letters_to_hdfs.sh` - перенесем этот скрипт в Docker
+
+`C:\Users\erohi\Desktop\hdfs>docker exec -it a3d9ac3c9f82 ls /tmp/letters_to_hdfs.sh` - Проверим его наличие в Docker.
+
+`C:\Users\erohi\Desktop\hdfs>docker exec -it a3d9ac3c9f82 chmod +x /tmp/letters_to_hdfs.sh` - Сделать его исполняемым
+
+`C:\Users\erohi\Desktop\hdfs>docker exec -it a3d9ac3c9f82 /tmp/letters_to_hdfs.sh` - Запустить скрипт
+
+`C:\Users\erohi\Desktop\hdfs>docker exec -it docker-hive-namenode-1 hdfs dfs -ls /` - Проверяем файл в hdfs
+
+`C:\Users\erohi\Desktop\hdfs>docker exec -it docker-hive-namenode-1 ls -l /tmp` - - Проверяем файл в контейнере
+
+<img width="967" height="949" alt="image" src="https://github.com/user-attachments/assets/6138cd5b-9567-4703-8d54-40cc7bcaaa54" />
+
+<img width="1042" height="386" alt="image" src="https://github.com/user-attachments/assets/31952c28-75ed-460e-b668-96b6dc60700c" />
