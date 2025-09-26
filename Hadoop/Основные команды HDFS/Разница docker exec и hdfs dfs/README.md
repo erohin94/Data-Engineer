@@ -57,7 +57,7 @@
 
 <img width="1044" height="278" alt="image" src="https://github.com/user-attachments/assets/2a27e510-e2ea-469f-bccc-d0bed58c1166" />
 
-**Как папки и файлы в самом hdfs(backup, backup_2) через терминал hdfs, а не докер**
+**Как посмотреть папки и файлы в самом hdfs(backup, backup_2) через терминал hdfs, а не терминал локальной файловой системы контейнера**
 
 Перейти в терминал hdfs - `docker exec -it docker-hive-namenode-1 /bin/bash` и далее работать с этим терминалом
 
