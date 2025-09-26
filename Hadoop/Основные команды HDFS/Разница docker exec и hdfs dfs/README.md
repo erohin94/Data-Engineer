@@ -30,7 +30,7 @@
 
 `hdfs dfs -ls /backup` - Смотрим, что лежит в папке `/backup` в HDFS.
 
-<img width="539" height="72" alt="image" src="https://github.com/user-attachments/assets/aca4c664-4928-49fb-8ec5-d75203cefc9c" />
+<img width="555" height="151" alt="image" src="https://github.com/user-attachments/assets/02d65b74-a64f-4084-bfcf-f7c39aa4f9cc" />
 
 ## **Как они работают вместе**
 
