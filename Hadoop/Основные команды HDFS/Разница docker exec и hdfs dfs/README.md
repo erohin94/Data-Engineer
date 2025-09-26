@@ -52,6 +52,13 @@
 
 Тоесть с hdfs я могу работать с помощью двух терминалов, через терминал докера в контейнере и непосрественно через терминал hdfs.
 
-**Выделил желтым пример того как посмотреть папки в локальной файловой системы контейнера докер и как посмотреть папки в самом hdfs.**
+**Выделил желтым пример того как посмотреть папки и файлы (data, hsperfdata_root, letters_to_hdfs.sh, move_big_files.sh) 
+в локальной файловой системы контейнера докер и как посмотреть папки и файлы в самом hdfs(backup, backup_2). Для просмотра в hdfs надо в конце дописывать hdfs dfs**
 
 <img width="1044" height="278" alt="image" src="https://github.com/user-attachments/assets/2a27e510-e2ea-469f-bccc-d0bed58c1166" />
+
+**Как папки и файлы в самом hdfs(backup, backup_2) через терминал hdfs, а не докер**
+
+Перейти в терминал hdfs - `docker exec -it docker-hive-namenode-1 /bin/bash` и далее работать с этим терминалом
+
+<img width="555" height="74" alt="image" src="https://github.com/user-attachments/assets/e553dea9-f4b6-406d-a57b-258bc6dc0a22" />
