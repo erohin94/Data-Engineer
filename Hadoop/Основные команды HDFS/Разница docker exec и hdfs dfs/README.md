@@ -32,6 +32,8 @@
 
 <img width="555" height="151" alt="image" src="https://github.com/user-attachments/assets/02d65b74-a64f-4084-bfcf-f7c39aa4f9cc" />
 
+<img width="618" height="87" alt="image" src="https://github.com/user-attachments/assets/b057e854-79a7-4164-9374-218092fc77db" />
+
 ## **Как они работают вместе**
 
 **`docker exec`** позволяет зайти в контейнер и запустить там команды.
