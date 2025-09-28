@@ -17,5 +17,6 @@ Nested Loops – это оператор вложенных циклов, кот
 
 Таким образом, у нас два цикла, внешний и внутренний, отсюда и название – вложенные циклы.
 
-![Types_of_table_joins_in_sql_server_3](https://github.com/user-attachments/assets/fc208864-15c2-484f-85fd-5745e37e11ef)
+![Types_of_table_joins_in_sql_server_3](https://github.com/user-attachments/assets/6bb0bbc6-a5e2-40c3-ab5b-93ac8d1fbbc1)
+
 
