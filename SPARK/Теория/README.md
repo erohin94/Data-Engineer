@@ -372,7 +372,56 @@ spark-submit \
   --executor-cores 2 \
   path/to/your_script.py
 ```
-                  
+
+Эквивалент в коде Python:
+
+```
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder \
+    .appName("MyApp") \
+    .config("spark.master", "yarn") \
+    .config("spark.submit.deployMode", "cluster") \
+    .config("spark.executor.instances", "10") \
+    .config("spark.executor.memory", "4g") \
+    .config("spark.executor.cores", "2") \
+    .getOrCreate()
+
+# Здесь пишем код
+df = spark.read.parquet("hdfs://path/to/data")
+df.show()
+
+spark.stop()
+```
+
+Пример полного процесса:
+Команду нужно выполнять на сервере, где установлен Hadoop/Spark, обычно это:
+
+```
+bash
+# 1. Подключиться к edge-узлу
+ssh data_engineer@hadoop-edge-01.prod.company.com
+
+# 2. Перейти в рабочую директорию
+cd /home/data_engineer/my_spark_project
+
+# 3. Проверить доступность кластера
+hdfs dfs -ls /data/input
+
+# 4. Запустить Spark-приложение
+spark-submit \
+  --master yarn \
+  --deploy-mode cluster \
+  --num-executors 10 \
+  --executor-memory 4g \
+  --executor-cores 2 \
+  --name "My Data Processing Job" \
+  data_processing.py
+
+# 5. Мониторить выполнение
+yarn application -list
+```
+              
 **Запуск исполнителей менеджером кластеров**
 
 -Кластерный менеджер распределяет ресурсы и запускает процессы исполнителей (executors) на рабочих узлах (worker nodes).
