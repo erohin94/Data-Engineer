@@ -13,7 +13,7 @@
 3) **Узнать путь до текущей дирректори в Jupyter**
 
 
-`import os`
+ `import os`
 
-`os.getcwd()`
+ `os.getcwd()`
 
