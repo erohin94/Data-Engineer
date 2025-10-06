@@ -9,3 +9,10 @@
 2) **Запуск скрипта в Jupyter**
    
    `%run data_for_model.py`
+
+3) **Узнать путь до текущей дирректори в Jupyter**
+
+```
+import os
+os.getcwd()
+```
