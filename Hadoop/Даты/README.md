@@ -91,7 +91,7 @@ TO_DATE('2025-05-27 12:00:00') → '2025-05-27'  -- тип STRING, не DATE
 
 **Документация**
 
-[ссылка](https://impala.apache.org/docs/build/html/topics/impala_datetime_functions.html#datetime_functions__trunc)
+[ссылка](https://impala.apache.org/docs/build/html/topics/impala_datetime_functions.html)
 
 **Примеры**
 
