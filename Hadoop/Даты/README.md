@@ -137,3 +137,13 @@ SELECT CAST('2025-05-27' AS timestamp) AS cast_col_timestmp,
        CURRENT_DATE() AS current_date_col
 ```
 ![image](https://github.com/user-attachments/assets/0aec2477-3dbb-4290-a311-4750c817cbc0)
+
+```
+SELECT DATE_TRUNC('WEEK', '2025-10-05 16:30:14'),
+       TRUNC('2025-10-05 16:30:14', 'WW')
+```
+
+<img width="500" height="50" alt="image" src="https://github.com/user-attachments/assets/03d2f90d-4359-4eb3-af65-137715930dd3" />
+
+<img width="340" height="176" alt="image" src="https://github.com/user-attachments/assets/c37304f8-5bff-4cfd-b47a-fcd19785b8a6" />
+
