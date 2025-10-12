@@ -85,4 +85,4 @@ INSERT INTO employees (name, position, salary, hire_date) VALUES
 
 5. Теперь все необходимо настроить в PySpark.
 
-6. 
+Добавим его внутрь нашего проекта. [postgresql-42.2.23.jar](https://github.com/erohin94/Data-Engineer/blob/main/SPARK/%D0%9A%D0%B0%D0%BA%20%D0%BF%D0%BE%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B8%D1%82%D1%8C%D1%81%D1%8F%20%D0%B8%D0%B7%20PySpark%20%D0%BA%20%D0%B1%D0%B0%D0%B7%D0%B0%D0%BC%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85%3F/postgresql-42.2.23.jar) 
