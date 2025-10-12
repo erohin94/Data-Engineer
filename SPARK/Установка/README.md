@@ -179,3 +179,6 @@ print("✅ SparkSession успешно завершена.")
 Увидим
 
 <img width="1146" height="304" alt="image" src="https://github.com/user-attachments/assets/e1dcb821-25dc-49e8-83a1-ad603166f1a0" />
+
+
+Так же могут быть ошибки из за версии JDK драйвера, и спарк прилоржение не будет запускаться, поробовать переустановить другую версию JDK.
