@@ -119,7 +119,7 @@
 
 <img width="625" height="203" alt="image" src="https://github.com/user-attachments/assets/c10f0304-c982-4353-9898-3896af7785ff" />
 
-Делаем `pip install pyspark` и пробуем запустить
+Пробуем запустить
 
 ```
 from pyspark.sql import SparkSession
@@ -133,7 +133,7 @@ spark = SparkSession.builder.master("local[1]") \
 
 <img width="1245" height="388" alt="image" src="https://github.com/user-attachments/assets/f233eded-e74c-4a99-ac8a-085999b6bf26" />
 
-Если будут ошиби, попробовать в начало добавить
+Если будут ошиби, попробовать сделать `pip install pyspark` и  в начало добавить
 
 ```
 import findspark
