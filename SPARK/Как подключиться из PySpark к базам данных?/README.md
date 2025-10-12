@@ -91,3 +91,41 @@ INSERT INTO employees (name, position, salary, hire_date) VALUES
 
 <img width="640" height="193" alt="image" src="https://github.com/user-attachments/assets/7a162bba-268a-4058-9389-c4a601c5b96f" />
 
+Далее в `main.py` введем следующий скрипт. Должен быть уже установлен PySpark.
+
+```
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.appName("PySpark PostgreSQL Connection").config("spark.jars", "postgresql-42.2.23.jar").getOrCreate()
+
+url = "jdbc:postgresql://localhost:5432/mydatabase"
+properties = {
+    "user": "myuser",
+    "password": "mypassword",
+    "driver": "org.postgresql.Driver"
+}
+
+df = spark.read.jdbc(url=url, table="employees", properties=properties)
+
+df.show()
+
+spark.stop()
+```
+
+На что здесь стоит обратить внимание? 
+
+- На путь. Если Вы его положили ровно также, как и я - то заработает. Иначе - указывайте полный путь до файла.
+
+- На порт, логин, пароль, базу данных и таблицу. Все как в примере.
+
+Если запустить этот код, то увидим готовое соединение. 
+
+<img width="1008" height="220" alt="image" src="https://github.com/user-attachments/assets/8f4515b1-97cd-474d-8e6d-79c86e3798d2" />
+
+Если появляется ошибка `java.io.IOException: Failed to delete: C:\Users\erohi\AppData\Local\Temp\`
+
+<img width="1397" height="239" alt="image" src="https://github.com/user-attachments/assets/d7b55369-9843-4c7c-97f8-4b4e44ec91a4" />
+
+Это ошибка при очистке временных файлов Spark после завершения сессии. Windows иногда блокирует файлы JAR, которые ещё заняты процессом Java (особенно, если читаешь через JDBC).
+Spark пытается удалить postgresql-42.2.23.jar, но файл всё ещё "занят" системой — отсюда IOException.
+
