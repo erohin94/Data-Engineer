@@ -133,3 +133,35 @@ Spark создаёт временные каталоги (в C:\Users\<како�
 Когда Spark останавливается, он пытается удалить эти временные файлы. Но Windows не позволяет — потому что: файл всё ещё используется JVM-процессом (Java), или антивирус/другой процесс заблокировал доступ к файлу,
 или недостаточно прав для удаления этого пути.
 
+Убедившись что все работает можно запустить код.Обработать таблицу средствами PySpark.
+
+```
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.appName("PySpark PostgreSQL Connection").config("spark.jars", "postgresql-42.2.23.jar").getOrCreate()
+
+url = "jdbc:postgresql://localhost:5432/mydatabase"
+properties = {
+    "user": "myuser",
+    "password": "mypassword",
+    "driver": "org.postgresql.Driver"
+}
+
+df = spark.read.jdbc(url=url, table="employees", properties=properties)
+df.show()
+
+df.createOrReplaceTempView("my_table_view")
+spark.sql("SELECT * FROM my_table_view WHERE salary >= 65000").show()
+
+spark.stop()
+```
+
+Получим
+
+<img width="1030" height="344" alt="image" src="https://github.com/user-attachments/assets/ba34bc01-7052-441b-8e3b-9cf10a8c9d5c" />
+
+6. Операции с чтением были выше, теперь запись или создание таблиц из PySpark, но в PostgreSQL.
+
+Представим, что у нет данных с PostgreSQL, а есть данные только в PySpark.
+
+
