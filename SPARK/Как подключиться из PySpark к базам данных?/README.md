@@ -122,10 +122,14 @@ spark.stop()
 
 <img width="1008" height="220" alt="image" src="https://github.com/user-attachments/assets/8f4515b1-97cd-474d-8e6d-79c86e3798d2" />
 
-Если появляется ошибка `java.io.IOException: Failed to delete: C:\Users\erohi\AppData\Local\Temp\`
+Может появлятся предупреждение `java.io.IOException: Failed to delete: C:\Users\erohi\AppData\Local\Temp\`
 
 <img width="1397" height="239" alt="image" src="https://github.com/user-attachments/assets/d7b55369-9843-4c7c-97f8-4b4e44ec91a4" />
 
-Это ошибка при очистке временных файлов Spark после завершения сессии. Windows иногда блокирует файлы JAR, которые ещё заняты процессом Java (особенно, если читаешь через JDBC).
-Spark пытается удалить postgresql-42.2.23.jar, но файл всё ещё "занят" системой — отсюда IOException.
+Это предупреждение появляется при очистке временных файлов Spark после завершения сессии. Можно не обращать внимание.
+
+Spark создаёт временные каталоги (в C:\Users\<какой_то_пользователь>\AppData\Local\Temp\spark-*), куда кладёт: временные JAR-файлы (например, postgresql-42.2.23.jar драйвер), промежуточные данные выполнения.
+
+Когда Spark останавливается, он пытается удалить эти временные файлы. Но Windows не позволяет — потому что: файл всё ещё используется JVM-процессом (Java), или антивирус/другой процесс заблокировал доступ к файлу,
+или недостаточно прав для удаления этого пути.
 
