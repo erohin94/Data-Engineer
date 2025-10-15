@@ -164,4 +164,181 @@ spark.stop()
 
 Представим, что у нет данных с PostgreSQL, а есть данные только в PySpark.
 
+Добавить следующие строки в скрипт, без них у меня была ошибка 
 
+```
+import os
+
+#Эта переменная PYSPARK_PYTHON говорит Spark, какой Python использовать для воркеров (то есть процессов, которые выполняют вычисления).
+os.environ["PYSPARK_PYTHON"] = r'C:/Users/erohi/AppData/Local/Programs/Python/Python311/python.exe'
+
+#Эта переменная задаёт Python для драйвера Spark, то есть для основного скрипта.
+#Драйвер — это процесс, который управляет воркерами и распределяет задачи.
+#Обычно в Windows нужно, чтобы драйвер и воркеры использовали один и тот же Python.
+os.environ["PYSPARK_DRIVER_PYTHON"] = r"C:/Users/erohi/AppData/Local/Programs/Python/Python311/python.exe"# Без этого Ошибка
+```
+
+Запускаю код
+```
+from pyspark.sql import SparkSession
+import os 
+os.environ["PYSPARK_PYTHON"] = r'C:/Users/erohi/AppData/Local/Programs/Python/Python311/python.exe'
+os.environ["PYSPARK_DRIVER_PYTHON"] = r'C:/Users/erohi/AppData/Local/Programs/Python/Python311/python.exe'
+
+
+spark = SparkSession.builder.appName("PySpark PostgreSQL Connection").config("spark.jars", "postgresql-42.2.23.jar").getOrCreate()
+
+url = "jdbc:postgresql://localhost:5432/mydatabase"
+properties = {
+    "user": "myuser",
+    "password": "mypassword",
+    "driver": "org.postgresql.Driver"
+}
+
+data = [
+    ("Alice", "Engineer", 75000, "2021-06-15"),
+    ("Bob", "Manager", 90000, "2020-05-01"),
+    ("Charlie", "HR", 60000, "2019-04-12"),
+    ("Diana", "Sales", 50000, "2018-01-25")
+]
+columns = ["name", "position", "salary", "hire_date"]
+
+df = spark.createDataFrame(data, columns)
+
+df.show()
+
+spark.stop()
+```
+
+Увижу
+
+<img width="1010" height="238" alt="image" src="https://github.com/user-attachments/assets/cad59ccc-64a4-45eb-b748-38f56bdef366" />
+
+Теперь надо залить эти данные в любую postgresql. Но, предварительно, сделаем фильтр данных. Пропадет одна строчка.
+
+```
+filtered_df = df.filter(df.salary >= 60000)
+
+filtered_df.show()
+```
+
+Как залить данные? Для начала создадим коннект и вынесем его в словарь.
+
+```
+url = "jdbc:postgresql://localhost:5432/mydatabase"
+properties = {
+    "user": "myuser",
+    "password": "mypassword",
+    "driver": "org.postgresql.Driver"
+}
+```
+
+После этого делаем запись.
+
+```
+filtered_df.write.jdbc(
+    url=url,
+    table="high_salary_employees",
+    mode="overwrite",  # "overwrite" - если таблица уже существует, она будет перезаписана
+    properties=properties
+)
+```
+
+Весь код целиком
+
+```
+from pyspark.sql import SparkSession
+import os 
+os.environ["PYSPARK_PYTHON"] = r'C:/Users/erohi/AppData/Local/Programs/Python/Python311/python.exe'
+os.environ["PYSPARK_DRIVER_PYTHON"] = r'C:/Users/erohi/AppData/Local/Programs/Python/Python311/python.exe'
+
+
+spark = SparkSession.builder.appName("PySpark PostgreSQL Connection").config("spark.jars", "postgresql-42.2.23.jar").getOrCreate()
+
+url = "jdbc:postgresql://localhost:5432/mydatabase"
+properties = {
+    "user": "myuser",
+    "password": "mypassword",
+    "driver": "org.postgresql.Driver"
+}
+
+data = [
+    ("Alice", "Engineer", 75000, "2021-06-15"),
+    ("Bob", "Manager", 90000, "2020-05-01"),
+    ("Charlie", "HR", 60000, "2019-04-12"),
+    ("Diana", "Sales", 50000, "2018-01-25")
+]
+columns = ["name", "position", "salary", "hire_date"]
+
+df = spark.createDataFrame(data, columns)
+df.show()
+
+filtered_df = df.filter(df.salary >= 60000)
+filtered_df.show()
+
+url = "jdbc:postgresql://localhost:5432/mydatabase"
+properties = {
+    "user": "myuser",
+    "password": "mypassword",
+    "driver": "org.postgresql.Driver"
+}
+
+filtered_df.write.jdbc(
+    url=url,
+    table="high_salary_employees",
+    mode="overwrite",  # "overwrite" - если таблица уже существует, она будет перезаписана
+    properties=properties
+)
+print("Данные успешно записаны в таблицу high_salary_employees")
+
+spark.stop()
+```
+
+Запускаем и увидим
+
+<img width="1017" height="358" alt="image" src="https://github.com/user-attachments/assets/a9aade77-3565-432c-a2a4-75a238b18310" />
+
+Ну и в Dbeaver будет видно таблицу которую создали в спарк
+
+<img width="484" height="141" alt="image" src="https://github.com/user-attachments/assets/6f52e5bb-2080-4ecf-b4a1-b1cf1d6d33db" />
+
+<img width="470" height="213" alt="image" src="https://github.com/user-attachments/assets/a8251426-d0c7-4c29-9eb8-a44acb3a7aad" />
+
+Запустив код вставки еще раз и повторив запрос SELECT, то увидим все те же самые данные. Потому что таблица будет перезаписана. Но, если такое не устраивает, то можно менять формат вставки.
+
+
+**`overwrite`:**
+
+- Если таблица уже существует, все данные будут перезаписаны.
+
+- Это означает, что старая таблица будет удалена, и вместо нее будет создана новая с данными, которые записываем.
+
+**`append`:**
+
+- Если таблица уже существует, новые данные будут добавлены к существующим данным.
+
+- Используется, когда хотим добавить новые записи в существующую таблицу.
+  
+**`error (или errorifexists) (по умолчанию)`:**
+
+- Если таблица уже существует, будет выброшена ошибка.
+
+- Этот режим используется для защиты данных от случайного перезаписывания.
+
+```
+# Запись данных с перезаписью таблицы (overwrite)
+df.write.mode("overwrite").jdbc(url=url, table="my_table", properties=properties)
+
+# Запись данных с добавлением новых записей (append)
+df.write.mode("append").jdbc(url=url, table="my_table", properties=properties)
+
+# Запись данных с ошибкой при существующей таблице (error)
+df.write.mode("error").jdbc(url=url, table="my_table", properties=properties)
+```
+
+Пример с error `df.write.mode("error").jdbc(url=url, table="my_table", properties=properties)`
+
+<img width="1054" height="566" alt="image" src="https://github.com/user-attachments/assets/38902a0b-5e02-4170-ae47-41ff6817728d" />
+
+
+Если что, то данные через psycopg2 также можно считать, но питоном, а далее перекинуть на PySpark, что не очень удобно и оставляет желать лучшего при оптимизации кода. При остановке и запуске Docker контейнера - данные остаются!
