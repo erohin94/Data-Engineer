@@ -57,4 +57,10 @@ REGEXP_REPLACE('Было интересно и информативно!!!', '.'
 
 Заменяет каждый найденный символ на букву `'X'`
 
+## Узнать размер таблицы в Impala
 
+`SHOW TABLE STATS database_name.table_name`
+
+<img width="1111" height="50" alt="image" src="https://github.com/user-attachments/assets/7b82aaf1-abb3-406f-a55e-0f7ac98c0e48" />
+
+Не забыть сделать `COMPUTE STATS database_name.table_name` перед сбором статистики
