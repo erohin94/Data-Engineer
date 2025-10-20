@@ -606,6 +606,8 @@ MongoDB: Поддержка транзакций на уровне нескол�
 
 <img width="1498" height="712" alt="image" src="https://github.com/user-attachments/assets/6737d1b6-2e57-47ac-a974-dd7f4d0eee8f" />
 
+<img width="1115" height="379" alt="image" src="https://github.com/user-attachments/assets/80694ab9-915b-4c8e-a97a-9177f70fbe75" />
+
 <img width="1381" height="583" alt="image" src="https://github.com/user-attachments/assets/9fc80daf-d69e-4a8c-87e9-dfe7ebced433" />
 
 **Архитектура DWH**
