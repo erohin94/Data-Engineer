@@ -741,6 +741,9 @@ Data Vault состоит из трех основных элементов: х�
 
 <img width="1684" height="1190" alt="image" src="https://github.com/user-attachments/assets/00e437ff-9298-469a-b553-c85d6e74ab98" />
 
+<img width="1156" height="540" alt="image" src="https://github.com/user-attachments/assets/e55b1183-1dea-4a86-a1b6-2b3b7328d115" />
+
+<img width="1410" height="600" alt="lakehouse" src="https://github.com/user-attachments/assets/77c74100-d804-445e-ada6-9677bd02e0f8" />
 
 **Основные особенности использования подхода:**
 
