@@ -126,8 +126,21 @@ FROM t3
 ORDER BY user_id, object_id, report_dt;
  ```     
 
+Примеры промежуточных результатов
 
+t1
 
+<img width="847" height="227" alt="image" src="https://github.com/user-attachments/assets/be3f3fd8-c8fe-4824-8d05-c9b883a39b6f" />
 
+t2
 
+<img width="506" height="235" alt="image" src="https://github.com/user-attachments/assets/6e42768d-c404-47fd-8087-67d96db00a87" />
+
+t3
+
+<img width="418" height="231" alt="image" src="https://github.com/user-attachments/assets/b6399172-6389-448a-a778-28745d3e0f57" />
+
+Итог
+
+<img width="565" height="248" alt="image" src="https://github.com/user-attachments/assets/7b450120-6cff-4fe2-82db-f1bec76d38b4" />
 
