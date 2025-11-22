@@ -1,6 +1,7 @@
 # Пример: создание таблицы и загрузка данных из CSV в PostgreSQL (Docker)
 
-
+   Например, у нас есть CSV файл с таблицей и мы хотим на основе него создать таблицу в БД Postgre.
+   
    ⚠ Важно понимать:
    COPY ... FROM 'path' выполняется **на стороне PostgreSQL-сервера**,
    а сервер находится **внутри Docker-контейнера**, а НЕ на Windows.
@@ -21,6 +22,7 @@
    Итоговый путь на хосте:
        C:\Users\erohi\Desktop\spark_data_mart\notebooks\data\costs_postgres.csv
 
+<img width="625" height="181" alt="image" src="https://github.com/user-attachments/assets/caf0cdc9-7241-469a-81ec-344542fbaefd" />
 
    ---------------------------------------------------------------------
    ШАГ 2. Прописать volume в docker-compose.yml
@@ -31,6 +33,8 @@
          - ./notebooks/data:/data
 
    Теперь папка notebooks/data → смонтирована как /data в контейнере.
+
+<img width="730" height="695" alt="image" src="https://github.com/user-attachments/assets/0c8ee46b-9901-407c-9b69-932f77f1565e" />
 
 
    ---------------------------------------------------------------------
@@ -52,8 +56,7 @@
    Ожидаемый вывод:
        costs_postgres.csv
 
-
-
+<img width="776" height="329" alt="image" src="https://github.com/user-attachments/assets/4d6df412-ea35-4d22-910d-fbf8faf4e44b" />
 
 ```
 /* Создание таблицы (если отсутствует) */
