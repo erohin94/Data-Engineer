@@ -4,6 +4,8 @@
 
 Полный набор можно скачать по [ссылке](https://huggingface.co/datasets/halltape/customs_data/resolve/main/customs_data.csv?download=true)
 
+Настройка Spark, можно посмотреть [здесь](https://github.com/erohin94/Spark-Data-mart/blob/main/SETUP_V2.md) и [здесь](https://github.com/erohin94/Data-Engineer/tree/main/SPARK/%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0)
+
 ## Apache Spark
 
 Spark - фреймворк для работы с большими данными. Если данные не вмещаются на один компьютер. То можем посчитать их на кластере - на нескольких серверах, распределенно и паралельно. 
@@ -41,3 +43,9 @@ Spark разбивает данные на кусочки (партиции) и 
 Внутри это происходит след образом. В Hadooop есть ресурс менеджер Yarn. Тоесть запускаем Spark, запускается Driver, который обращается к Hadoop Yarn. И говорит ему, мне нужно 3 executor и дай им по одному ядру и 1GB оперативки. Yarn это делает и создает 3 executor и выделяет им необходимые ресурсы. Можно задать ресурсы статически, то есть сказал 3 ядра и 3 гига так и будет. Но можно и динамически, то есть например если ты не пользуешься спарк, то он убирает количество экзекуторов. А когда пользуюсь увеличивать.
 
 <img width="562" height="674" alt="image" src="https://github.com/user-attachments/assets/d7721c84-e653-4af9-b7bb-1218623e710b" />
+
+## Практика
+
+Когда запустили спарк, в UI можно посмотреть executor. Сейчас всего один executor - driver.
+
+<img width="1927" height="556" alt="image" src="https://github.com/user-attachments/assets/d978357a-a314-4696-a431-02b402a1bc5b" />
