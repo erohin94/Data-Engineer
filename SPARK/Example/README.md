@@ -1,3 +1,9 @@
+## Описание
+
+Пример тестовых данных [customs_data.csv](https://github.com/erohin94/Data-Engineer/blob/main/SPARK/Example/customs_data.csv)
+
+Полный набор можно скачать по [ссылке](https://huggingface.co/datasets/halltape/customs_data/resolve/main/customs_data.csv?download=true)
+
 ## Apache Spark
 
 Spark - фреймворк для работы с большими данными. Если данные не вмещаются на один компьютер. То можем посчитать их на кластере - на нескольких серверах, распределенно и паралельно. 
