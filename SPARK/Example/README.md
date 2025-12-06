@@ -240,7 +240,9 @@ path/load_date=2025-01-02/
 
 ## Чтение данных
 
-1) Читаю файл который сохранился безконтрольно
+1) **Читаю файл который сохранился безконтрольно**
+
+Хочу прочитать файл с фильтрацией где столбец `load_date = "2024-01-01"`
 
 ```
 reader_no_control = (
@@ -249,4 +251,69 @@ reader_no_control = (
     .csv('data/final_no_control/', header=True, sep=';')
     .where(''' load_date = "2024-01-01" ''')
 )
+
+reader_no_control.count() # number of files read: 16 | size of files read: 88.4 MiB | 4 s (132 ms, 289 ms, 362 ms)
 ```
+
+Говорим посчитай количество строк `reader_no_control.count()`. Он не сможет посчитать количество строк не прочтя датафрейм. Получим 350 998 строк. Далее переходим в Spark UI -> SQL/DataFrame. И открываем последний запрос.
+
+<img width="1892" height="423" alt="image" src="https://github.com/user-attachments/assets/0174a967-2a90-41d3-8024-9ce4c7492dc8" />
+
+Видим что прочитано 16 файлов, размер 88.4 MiB, 350 998 строк. `WholeStageCodegen (1) duration: total (min, med, max ) 4.0 s (132 ms, 289 ms, 362 ms )` - как долго это происходило (мин, средне, макс).
+
+<img width="468" height="838" alt="image" src="https://github.com/user-attachments/assets/707cd0ac-9d53-4109-ab42-cbac84079571" />
+
+<img width="366" height="866" alt="image" src="https://github.com/user-attachments/assets/62b764ff-7096-4fc0-8376-101a111ef1b5" />
+
+2) **Читаю файл который сохранился один**
+
+```
+reader_final_one_file = (
+    spark
+    .read
+    .csv('data/final_one_file/', header=True, sep=';')
+    .where(''' load_date = "2024-01-01" ''')
+)
+
+reader_final_one_file.count() # number of files read: 1 | size of files read: 88.4 MiB | 4.2 s (202 ms, 361 ms, 380 ms )
+```
+
+Видим что прочитан действительно один файл. Так же видно что увеличилось время. Это так же долго как и предыдущий вариант, так как считываем весь набор данных для того чтобы получить `load_date = "2024-01-01"`.
+
+<img width="452" height="228" alt="image" src="https://github.com/user-attachments/assets/6975941a-a9dc-4fa6-a18a-21ba22f74418" />
+
+3) **Читаю файл который сохранился партицированно**
+
+Это файл в котором есть разбивка по пакам с датами, скорее всего спарк должен идти в определенную папку и считывать только те данные которые в этой папке. Тоесть прочитай `read` датафрейм где `load_date = "2024-01-01"`. Тоесть должен зайти в папку `data/final_partitioned/load_date=2024-01-01/` и прочитать из нее все 16 файлов. И эти файлы должны весить намного меньше, так как всего 16 файлов из 88.4 мегабайт.
+
+```
+reader_partitioned = (
+    spark
+    .read
+    .csv('data/final_partitioned', header=True, sep=';')
+    .where(''' load_date = "2024-01-01" ''')
+)
+
+reader_partitioned.count() # number of files read: 16 | size of files read: 16.4 MiB | 1.5 s (65 ms, 175 ms, 200 ms )
+```
+
+Видим что прочитано действительно 16 файлов и размер уже 16.4 MiB и это заняло 1.5 s
+
+<img width="462" height="270" alt="image" src="https://github.com/user-attachments/assets/f3dbc5ac-85ef-49c4-95cd-9f078aace0ce" />
+
+4) **Читаю файл который сохранился партицированно и мы его еще склеили в один файл**
+
+```
+reader_partitioned_repart = (
+    spark
+    .read
+    .csv('data/final_partitioned_repart', header=True, sep=';')
+    .where(''' load_date = "2024-01-01" ''')
+)
+
+reader_partitioned_repart.count() # number of files read: 1 | size of files read: 16.4 MiB | 199 ms (8 ms, 38 ms, 77 ms )
+```
+
+<img width="468" height="274" alt="image" src="https://github.com/user-attachments/assets/ac628b13-d27d-4b2a-992f-c6f6024694ea" />
+
+На таких данных малого размера для этих 4 подходов, разница не особо видна, но на больших данных это все вылезит в минуты, часы. Поэтому важно понимать как сохраняем. Например если читаем таблицу за 10 лет, мы не должны ее читать за 10 лет, мы должны ее читать по партициям.
