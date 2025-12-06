@@ -422,3 +422,7 @@ persist(level) — сохраняет DataFrame/RDD в памяти и/или н
 <img width="529" height="792" alt="image" src="https://github.com/user-attachments/assets/1cb17294-9a50-4019-ba0b-a455106f646a" />
 
 `mix.rdd.glom().collect()` - позволяет собрать со всех экзекуторов и вывести на драйвер результат. Если данные большие, collect() на драйвере делать не надо.
+
+Видим есть пустые партици, сделаем 4.
+
+<img width="606" height="181" alt="image" src="https://github.com/user-attachments/assets/f428c02c-3e3d-4b9b-88e7-fc6c2d84b0a8" />
