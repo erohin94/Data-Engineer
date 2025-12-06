@@ -10,7 +10,7 @@
 - [Чтение данных](#Чтение-данных)
 - [JOIN в Spark](#JOIN-в-Spark)
 - [Кеширование](#Кеширование)
-- [Repartition & Coalesce](#Repartition-&-Coalesce)
+- [Repartition Coalesce](#Repartition-Coalesce)
 - [Падение по памяти](#Падение-по-памяти)
 - [Shuffle](#Shuffle)
   
@@ -421,7 +421,7 @@ persist(level) — сохраняет DataFrame/RDD в памяти и/или н
 Уровни: MEMORY_ONLY, MEMORY_AND_DISK, DISK_ONLY, MEMORY_ONLY_SER, MEMORY_AND_DISK_SER, OFF_HEAP.
 Более гибкий, чем cache, подходит при больших данных или недостатке памяти.
 
-### Repartition & Coalesce
+### Repartition Coalesce
 
 **В чем разница между coalesce(n) и repartition(n) при сохранении файлов?**
 
