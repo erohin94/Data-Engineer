@@ -423,8 +423,6 @@ persist(level) — сохраняет DataFrame/RDD в памяти и/или н
 
 ### Repartition Coalesce
 
-**В чем разница между coalesce(n) и repartition(n) при сохранении файлов?**
-
 <img width="529" height="792" alt="image" src="https://github.com/user-attachments/assets/1cb17294-9a50-4019-ba0b-a455106f646a" />
 
 `mix.rdd.glom().collect()` - позволяет собрать со всех экзекуторов и вывести на драйвер результат. Если данные большие, collect() на драйвере делать не надо.
