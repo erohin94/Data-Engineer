@@ -48,3 +48,7 @@ Spark Job создается всякий раз, когда на `DataFrame` и
 Если нажать на любой из синих квадратиков можно получить полную информацию о выполнении.
 
 <img width="392" height="685" alt="image" src="https://github.com/user-attachments/assets/b5ff408c-3916-49fc-973c-8fd2cc6a9129" />
+
+## Catalyst Optimizer 
+
+**Catalyst Optimizer** — это встроенный механизм оптимизации запросов в Apache Spark, используемый для обработки и оптимизации запросов SQL и DataFrame. Catalyst Optimizer является одной из ключевых частей Spark SQL и отвечает за создание, оптимизацию и выполнение логического и физического планов запросов.
