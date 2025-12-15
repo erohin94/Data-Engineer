@@ -89,6 +89,23 @@ TO_DATE('2025-05-27 12:00:00') → '2025-05-27'  -- тип STRING, не DATE
 
 --------------------------------------------------------
 
+`MONTHS_BETWEEN(end_date, start_date)` - Возвращает число месяцев между `end_date` и `start_date`.
+
+С помощью этой функции можно посчитать возраст сотрудника на отчетную дату.
+
+```
+SELECT user_id,
+       report_dt,
+       date_birth,
+       CAST(MONTHS_BETWEEN(report_dt, date_birth) as DECIMAL(28,6)) AS months_between_res, --число месяцев между датами
+       CAST(MONTHS_BETWEEN(report_dt, date_birth)/12 as DECIMAL(28, 6)) AS age_nval --подсчет возраста, для этого делим на 12
+FROM table
+```
+
+<img width="603" height="147" alt="image" src="https://github.com/user-attachments/assets/e4f7edaf-690c-4c27-804b-26dea1fee921" />
+
+--------------------------------------------------------
+
 **Документация**
 
 [ссылка](https://impala.apache.org/docs/build/html/topics/impala_datetime_functions.html)
