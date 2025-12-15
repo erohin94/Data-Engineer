@@ -106,6 +106,12 @@ FROM table
 
 --------------------------------------------------------
 
+`DATEDIFF(TIMESTAMP/DATE enddate, TIMESTAMP/DATE startdate)` - Возвращает разницу в днях, между двумя датами.
+
+<img width="272" height="35" alt="image" src="https://github.com/user-attachments/assets/871a2890-859b-40ce-b702-bad9694fc5bd" />
+
+--------------------------------------------------------
+
 **Документация**
 
 [ссылка](https://impala.apache.org/docs/build/html/topics/impala_datetime_functions.html)
