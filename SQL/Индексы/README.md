@@ -206,13 +206,6 @@ user_id   hash
 48        bucket_2
 ```
 
-```
-CREATE TABLE users (
-    user_id SERIAL PRIMARY KEY,
-    name VARCHAR(100)
-);
-```
-
 **Поиск** 
 
 Запрос: `WHERE user_id = 23`
@@ -222,6 +215,15 @@ CREATE TABLE users (
 2. сразу идём в нужный `bucket`.
 
 Скорость практически: `O(1)`, очень быстро.
+
+Создадим таблицу
+
+```
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    name VARCHAR(100)
+);
+```
 
 ```
 INSERT INTO users (name) VALUES
