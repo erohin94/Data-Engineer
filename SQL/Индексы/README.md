@@ -5,12 +5,14 @@
 
 Представим есть таблица `users` и нам надо найти какую то запись.
 
+```
 user_id | name | city
 ----------------------
 1       | Anna | Warsaw
 2       | Ivan | Berlin
 3       | Olga | Paris
 ...
+```
 
 ```
 SELECT * 
