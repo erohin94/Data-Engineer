@@ -70,7 +70,7 @@ ORDER BY customer_id, sales_id;
 SELECT sales_id, customer_id, cnt, 
 SUM(cnt) OVER (ORDER BY customer_id, sales_id) AS cum_uniq,
 SUM(cnt) OVER (ORDER BY customer_id, sales_id ROWS UNBOUNDED PRECEDING) AS current_and_all_before,
-SUM(cnt) OVER (ORDER BY customer_id, sales_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS current_and_all_before2
+SUM(cnt) OVER (ORDER BY customer_id, sales_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS current_and_all_before2 --Текущая строка + ВСЕ предыдущие строки
 FROM sales
 ORDER BY customer_id, sales_id;
 ```
@@ -105,7 +105,7 @@ ORDER BY customer_id, sales_id;
 
 ```
 SELECT sales_id, customer_id, cnt, 
-SUM(cnt) OVER (ORDER BY customer_id, sales_id ROWS BETWEEN 1 PRECEDING AND CURRENT ROW) AS before_and_current,
+SUM(cnt) OVER (ORDER BY customer_id, sales_id ROWS BETWEEN 1 PRECEDING AND CURRENT ROW) AS before_and_current, --текущая строка + 1 предыдущая строка
 cnt,
 SUM(cnt) OVER (ORDER BY customer_id, sales_id ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING) AS current_and_1_next,
 cnt,
