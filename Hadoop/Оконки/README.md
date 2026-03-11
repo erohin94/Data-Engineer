@@ -28,7 +28,7 @@ insert into sales values(
                         )
 ```
 
-Разницы функции SUM() с указанием сортировки и без нее:
+Разница функции `SUM()` с указанием сортировки и без нее:
 
 ```
 SELECT sales_id, customer_id, count, 
