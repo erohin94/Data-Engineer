@@ -141,6 +141,57 @@ COUNT(DISTINCT id1) = 2. COUNT(DISTINCT id1) подсчитывает уника
 
 **10)Какие join есть, чем отличаются?**
 
+```
+INNER JOIN
+
+SELECT A.id as id,
+       A.city as city,
+       B.country as country
+FROM table_A as A
+     JOIN table_B as B
+     ON A.id = B.id
+```
+
+<img width="440" height="171" alt="image" src="https://github.com/user-attachments/assets/f6757550-989e-44cf-a7d9-a015d2efc269" />
+
+```
+LEFT JOIN
+
+SELECT A.id as id,
+       A.city as city,
+       B.country as country
+FROM table_A as A
+     LEFT JOIN table_B as B
+     ON A.id = B.id
+```
+
+<img width="504" height="220" alt="image" src="https://github.com/user-attachments/assets/a0d019bc-d6b3-4d2c-910a-16b1c75ae997" />
+
+```
+FULL JOIN
+
+SELECT A.id as id,
+       A.city as city,
+       B.country as country
+FROM table_A as A
+     FULL JOIN table_B as B
+     ON A.id = B.id 
+```
+
+<img width="516" height="236" alt="image" src="https://github.com/user-attachments/assets/5463610f-03ed-40ce-8fbd-09711d535387" />
+
+```
+CROSS JOIN
+
+SELECT
+    A.city as city,
+    B.country as country
+FROM table_A as A
+     CROSS JOIN table_B as B
+```
+
+<img width="452" height="343" alt="image" src="https://github.com/user-attachments/assets/7e387b7c-acbc-4873-a004-b3184bf5ce02" />
+
 **11) Назовите логические виды JOIN и для чего они нужны?**
 
 Что именно мы хотим получить из таблиц, без привязки к способу выполнения. 
