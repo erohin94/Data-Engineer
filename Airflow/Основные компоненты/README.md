@@ -244,8 +244,9 @@ Operator это звено в цепочке задач, которое обра
 ## Объявление DAG
 
 Объявление DAG можно выполнять несколькими способами:
+
 <details>
-<summary>Пример DAG Airflow</summary>
+<summary>1 способ</summary>
 
 ```python
 import airflow
@@ -265,4 +266,28 @@ with dag:
 
 </details>
 
+<details>
+<summary>Пример</summary>
 
+```python
+import airflow
+from airflow.operators.bash import BashOperator
+from airflow.utils.dates import days_ago
+ 
+dag = airflow.DAG(
+    dag_id="first_dag_1",
+    start_date=days_ago(2),
+    schedule_interval=None,
+    tag='roadmappers'
+)
+ 
+with dag:
+    hello_rm = BashOperator(
+        task_id="hello_rm", 
+        bash_command='echo "Hello Roadmappers.ru"'
+    )
+ 
+    hello_rm
+```
+
+</details>
