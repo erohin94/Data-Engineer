@@ -424,6 +424,7 @@ with DAG(
 | `email_on_failure` | bool | `False` | При значении `True` включает отправку уведомлений при ошибке выполнения задачи |
 | `email_on_retry` | bool | `False` | При значении `True` включает уведомления при повторном запуске задачи после сбоя |
 | `tags` | list | `[]` | Теги для фильтрации DAG'ов в UI (User Interface) |
+
 <details>
   
 ### Макросы для schedule_interval
