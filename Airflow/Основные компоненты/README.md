@@ -278,13 +278,105 @@ dag = airflow.DAG(
     dag_id="first_dag_1",
     start_date=days_ago(2),
     schedule_interval=None,
-    tag='roadmappers'
+    tag='test_tag'
 )
  
 with dag:
     hello_rm = BashOperator(
         task_id="hello_rm", 
-        bash_command='echo "Hello Roadmappers.ru"'
+        bash_command='echo "Hello test"'
+    )
+ 
+    hello_rm
+```
+
+</details>
+
+
+<details>
+<summary>2 способ</summary>
+
+```python
+from airflow.operators.python import PythonOperator
+ 
+dag = airflow.DAG(
+    dag_id = 'uniq_name',
+    ## ПАРАМЕТРЫ 
+)
+ 
+task_1 = Operator(
+    ## Параметры оператора
+    dag=dag ## отношение к дагу передаётся в таске
+)
+ 
+task_1
+```
+
+</details>
+
+<details>
+<summary>Пример</summary>
+
+```python
+from airflow import DAG
+from airflow.operators.bash import BashOperator
+from airflow.utils.dates import days_ago
+ 
+dag = DAG(
+    dag_id="first_dag_2",
+    start_date=days_ago(2),
+    schedule_interval=None,
+    tag='roadmappers'
+)
+ 
+hello_rm = BashOperator(
+    task_id="hello_rm", 
+    bash_command='echo "Hello test"', 
+    dag=dag
+)
+ 
+hello_rm
+```
+
+</details>
+
+<details>
+<summary>3 способ</summary>
+
+```python
+from airflow import DAG
+ 
+with DAG(
+    dag_id = 'uniq_name',
+    ## ПАРАМЕТРЫ 
+) as dag:
+    task_1 = Operator(
+        ## Параметры оператора
+    )
+ 
+    task_1
+```
+
+</details>
+
+
+<details>
+<summary>Пример</summary>
+
+```python
+from airflow import DAG
+from airflow.operators.bash import BashOperator
+from airflow.utils.dates import days_ago
+ 
+with DAG(
+    dag_id="first_dag_3",
+    start_date=days_ago(2),
+    schedule_interval=None,
+    tag='roadmappers'
+) as dag:
+    hello_rm = BashOperator(
+        task_id="hello_rm", 
+        bash_command='echo "Hello test"'
     )
  
     hello_rm
