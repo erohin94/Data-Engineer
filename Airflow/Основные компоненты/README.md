@@ -326,7 +326,7 @@ dag = DAG(
     dag_id="first_dag_2",
     start_date=days_ago(2),
     schedule_interval=None,
-    tag='roadmappers'
+    tag='test_tag'
 )
  
 hello_rm = BashOperator(
@@ -372,7 +372,7 @@ with DAG(
     dag_id="first_dag_3",
     start_date=days_ago(2),
     schedule_interval=None,
-    tag='roadmappers'
+    tag='test_tag'
 ) as dag:
     hello_rm = BashOperator(
         task_id="hello_rm", 
