@@ -432,7 +432,7 @@ select *
 from tab1 where 1 = 1	
 ```
 
-```
+
 **tab1**
 
 | id | name  |
@@ -446,7 +446,7 @@ from tab1 where 1 = 1
 |----|-------|
 | 1  | Name1 |
 | 2  | null  |
-```
+
 
 Разбор условий 1 запрос:
 
