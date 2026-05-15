@@ -418,7 +418,39 @@ FROM (
 
 ![image](https://github.com/user-attachments/assets/6a767ed5-302d-4f4e-b452-a2639b604948)
 
+# Задача 13 
 
+**Задача — какой результат вернут запросы ниже**
+
+```
+select * 
+from table1 
+where null = null or null <> null or 123 <> null or null is null
+```
+```
+select *
+from table1 where 1 = 1	
+```
+```
+tab1                                 tab2    
+
+|-------|-------|                   |-------|-------|
+| id	| name  |                     | id	| name  |
+|-------|-------|                   |-------|-------|
+| 1	| Name1 |                     | 1	| Name1 |
+|-------|-------|                   |-------|-------|
+| 2 	| Name2 |                     | 2 	| [null]|
+```
+
+
+tab2
+
+|-------|-------|
+| id	| name  |
+|-------|-------|
+| 1	| Name1 |
+|-------|-------|
+| 2 	| [null]|
 
 
 
